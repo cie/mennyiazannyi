@@ -2,25 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 
 <title>Mennyi az annyi?</title>
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
 <script src="js/lib/Ractive.js"></script>
 <script src="js/lib/underscore.js"></script>
 <script src="js/lib/backbone-min.js"></script>
 <script src="js/lib/Ractive-Backbone.js"></script>
 <script src='https://cdn.firebase.com/v0/firebase.js'></script>
 <script src="https://cdn.firebase.com/libs/backfire/0.3.0/backbone-firebase.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<script src="js/bootstrap.min.js"></script>
 
 
 </head>
 <body>
 
-<div class="content"></div>
+<div id="page-container"></div>
 				
 				
 <script type="text/ractive" id="page">
-<div>
+<div class="container-fluid">
 	Hello {{who}}!
 </div>
 </script>
@@ -29,7 +38,7 @@
 	
 <script>
 	page = new Ractive.components.page({
-		el: ".content"
+		el: "#page-container"
 	});
 </script>
 
