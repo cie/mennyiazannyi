@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Mar 4, 2014 11:01:33 AM                                                        
+
+     Pénzügyi program    
+     Ez a fájl összerakja a fájlokat, ami kell, és kiteszi a szerverre.
+                   
+     cie                                                                
+     ====================================================================== -->
+<project name="penzugyi" default="compile" xmlns:fl="antlib:it.haefelinger.flaka">
+	<description>
+
+	</description>
+
+	<!-- make standard ant tasks understand EL expressions -->
+	<fl:install-property-handler />
+
+	<target name="compile" depends="index.html,style.css,page.js">
+	</target>
+	
+
+
+	<target name="index.html" description="A fő html fájl">
+
+		<concat destfile="public/index.html">
+			<fileset dir=".">
+				<include name="structure/index.begin.html" />
+			</fileset>
+		</concat>
+
+		<!-- template-ek. http://stackoverflow.com/questions/7260448/apache-ant-add-header-footer-to-every-file-in-concat-job -->
+		<path id="html_files">
+			<fileset dir="components" includes="**/*.html" />
+		</path>
+		<fl:for var="file" in="split('${toString:html_files}', ':')">
+			<!-- unset property for next loop -->
+			<fl:unset>content</fl:unset>
+			<!-- load file contents to property -->
+			<loadfile property="content" srcFile="#{file}" />
+
+			<echo file="public/index.html" append="true">
+				<!-- the id attribute gets filled with the basename of the current fileitem -->
+				<![CDATA[
+<script type="text/ractive" id="#{replace(file, '$1' , '.+?(\w+)\..+' )}">
+#{trim('${content}')}
+</script>
+]]></echo>
+	</fl:for>
+
+	<concat destfile="public/index.html" append="true">
+		<fileset dir=".">
+			<include name="structure/index.end.html" />
+		</fileset>
+	</concat>
+</target>
+
+<target name="page.js" description="az összes javascript egybe">
+	<concat destfile="public/js/app.js">
+		<header trimleading="yes">
+		    			/**
+		    			 * app.js
+		    			 */
+		    		</header>
+		<fileset dir=".">
+			<include name="structure/component.js" />
+		</fileset>
+		<fileset dir="components">
+			<include name="**/*.js" />
+		</fileset>
+	</concat>
+
+</target>
+<target name="style.css" description="az összes css egybe">
+	<concat destfile="public/css/style.css">
+		<header trimleading="yes">
+	    			/**
+	    			 * style.css
+	    			 */
+	    		</header>
+		<fileset dir="components">
+			<include name="**/*.css" />
+		</fileset>
+	</concat>
+
+</target>
+
+	
+
+<target name="deploy" depends="compile" description="Felteszi a szerverre">
+
+</target>
+
+</project>
