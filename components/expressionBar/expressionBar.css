@@ -4,3 +4,10 @@
 		width: 320px;
 	}
 }
+
+.expressionHelpButton {
+	color: #777777;
+}
+.expressionHelpButton:hover {
+	color: #333333;
+}

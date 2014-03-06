@@ -7,7 +7,15 @@
 	.expressionBar > .form-group > input {
 		width: 320px;
 	}
-}.flag {
+}
+
+.expressionHelpButton {
+	color: #777777;
+}
+.expressionHelpButton:hover {
+	color: #333333;
+}
+.flag {
 	width: 15px;
 	vertical-align: baseline;
 }
