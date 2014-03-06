@@ -1,0 +1,16 @@
+table > tbody > tr > td, 
+table > tbody > tr > th {
+	background-color: #ffffff;
+}
+
+.popover-title {
+	color: white;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.navbar {
+	border-radius: 0px;
+}

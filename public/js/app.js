@@ -39,7 +39,7 @@ Ractive.components.page = Ractive.extend({
 	init: function() {
 		
 	}
-});Ractive.components.user = Component.extend({
+});Ractive.components.userAccount = Component.extend({
 	template: "#userAccount",
 	init: function() {
 		auth = new FirebaseSimpleLogin(db$, function(error, user) {
