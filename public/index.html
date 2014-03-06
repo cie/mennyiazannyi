@@ -32,6 +32,14 @@
 <div id="page-container"></div>
 				
 				
+<script type="text/ractive" id="languageSelector">
+<li class="dropdown">
+	<img class="flag" src="img/flags/{{lang}}.svg"> <span class="caret"></span>
+</li>
+</script>
+
+				
+				
 <script type="text/ractive" id="navbar">
 <nav class="navbar navbar-default">
 
@@ -47,34 +55,22 @@
 			<a class="navbar-brand" href="#">Mennyi a Zannyi?</a>
 		</div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link</a></li>
-				<li><a href="#">Link</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
+				<li class="active"><a href="#">Transactions</a></li>
+				<li><a href="#">Budget</a></li>
+				<li><a href="#">Flow</a></li>
 			</ul>
 			
-			<form class="navbar-form navbar-left" role="search">
+			<form class="navbar-form navbar-left expression-form">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="search" class="form-control" placeholder="Search" value="{{expression}}" size=100>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
+			
 			<ul class="nav navbar-nav navbar-right">
 				<userAccount />
-				
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -96,16 +92,26 @@
 				
 				
 <script type="text/ractive" id="userAccount">
-<li><a href="#">Hello</a></li>
+{{^user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
-	data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <b class="caret"></b></a>
+	data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
+		Log in with<b class="caret"></b></a>
 	<ul class="dropdown-menu">
-		<li><a href="#">Action</a></li>
-		<li><a href="#">Another action</a></li>
-		<li><a href="#">Something else here</a></li>
-		<li class="divider"></li>
-		<li><a href="#">Separated link</a></li>
+		<li><a href="#">Facebook</a></li>
+		<li><a href="#">Persona</a></li>
 	</ul></li>
+{{/user}}
+
+{{#user}}
+<li class="dropdown"><a href="#" class="dropdown-toggle"
+	data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
+		{{name}} <b class="caret"></b></a>
+	<ul class="dropdown-menu">
+		<li class="disabled"><a href="#">Settings</a></li>
+		<li class="divider"></li>
+		<li><a href="#">Log out</a></li>
+	</ul></li>
+{{/user}}
 </script>
  	
 <script src="js/app.js"></script>

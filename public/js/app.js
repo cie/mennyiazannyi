@@ -29,6 +29,14 @@ Ractive.defaults.debug = true;
  * The root of all components
  */
 Component = Ractive.extend({
+});Ractive.components.languageSelector = Component.extend({
+	template: "#languageSelector",
+	data: {
+		'lang': 'hu'
+	},
+	init: function() {
+		
+	}
 });
 Ractive.components.page = Ractive.extend({
 	template: "#page",

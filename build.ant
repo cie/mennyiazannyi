@@ -71,10 +71,10 @@
 
 </target>
 <target name="style.css" description="az összes css egybe">
-	<concat destfile="public/css/style.css">
+	<concat destfile="public/css/app.css">
 		<header trimleading="yes">
 	    			/**
-	    			 * style.css
+	    			 * app.css
 	    			 */
 	    		</header>
 		<fileset dir="components">
