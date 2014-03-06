@@ -1,3 +1,0 @@
-Component = Ractive.extend({
-	
-});

@@ -6,6 +6,6 @@ Ractive.components.page = Ractive.extend({
 	},
 	adaptors: [ 'Backbone' ],
 	init: function() {
-		this._super();
+		
 	}
 });

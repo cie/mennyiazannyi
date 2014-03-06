@@ -62,7 +62,7 @@
 		    			 */
 		    		</header>
 		<fileset dir=".">
-			<include name="structure/component.js" />
+			<include name="structure/base.js" />
 		</fileset>
 		<fileset dir="components">
 			<include name="**/*.js" />

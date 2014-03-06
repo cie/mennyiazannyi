@@ -1,0 +1,5 @@
+{
+  "firebase": "mennyiazannyi",
+  "public": "public",
+  "rules": "structure/rules.json"
+}

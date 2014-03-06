@@ -2,8 +2,33 @@
 /**
 * app.js
 */
+
+
+/**
+ * Firebase connections
+ */
+FIREBASE = "https://mennyiazannyi.firebaseio.com/";
+
+db$ = new Firebase(FIREBASE);
+
+
+
+/**
+ * Models
+ */
+
+
+
+/**
+ * Ractive settings
+ */
+Ractive.defaults.debug = true;
+
+
+/**
+ * The root of all components
+ */
 Component = Ractive.extend({
-	
 });
 Ractive.components.page = Ractive.extend({
 	template: "#page",
@@ -12,6 +37,17 @@ Ractive.components.page = Ractive.extend({
 	},
 	adaptors: [ 'Backbone' ],
 	init: function() {
-		this._super();
+		
+	}
+});Ractive.components.user = Component.extend({
+	template: "#userAccount",
+	init: function() {
+		auth = new FirebaseSimpleLogin(db$, function(error, user) {
+			if (!error) {
+				page.set("user", user);
+			} else {	
+				
+			}
+		});
 	}
 });
