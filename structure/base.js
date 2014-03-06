@@ -11,7 +11,7 @@ FIREBASE = "https://mennyiazannyi.firebaseio.com/";
  * Globally accessible variables
  */
 GLOBALS = [
-           "lang"
+           't'
            ];
 
 
@@ -47,7 +47,7 @@ Component = Ractive.extend({
 	
 	init: function() {
 		var _this = this; 
-		setTimeout(function() {
+		afterwards(function() {
 	        var pullerObserver, pullers, pushers, variable, _i, _len;
 	        
 	        // introduce these only if not the top level component 
@@ -56,7 +56,7 @@ Component = Ractive.extend({
 	          pushers = {};
 	          _this.pushDisabled = true;
 	          
-	          for (_i = 0, _len = GLOBAL_VARS.length; _i < _len; _i++) {
+	          for (_i = 0, _len = GLOBALS.length; _i < _len; _i++) {
 	            variable = GLOBALS[_i];
 	            pullers[variable] = (function(variable) {
 	              return function(newValue) {
@@ -68,18 +68,29 @@ Component = Ractive.extend({
 	            pushers[variable] = (function(variable) {
 	              return function(newValue) {
 	                if (!_this.pushDisabled) {
-	                  Page.set(variable, newValue);
+	                  page.set(variable, newValue);
 	                }
 	              };
 	            })(variable);
 	          }
-	          pullerObserver = Page.observe(pullers);
+	          pullerObserver = page.observe(pullers);
 	          _this.observe(pushers);
 	          _this.pushDisabled = false;
 	          return _this.on("teardown", function() {
 	            return pullerObserver.cancel();
 	          });
 	        }
-	      }, 0);
+	      });
 	}
 });
+
+/*
+ * Helpers
+ */
+
+/**
+ * Schedules a function
+ */
+function afterwards(fn) {
+	setTimeout(fn, 0);
+}

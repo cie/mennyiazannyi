@@ -36,8 +36,25 @@
 <form class="navbar-form navbar-left expressionBar">
 	<div class="form-group">
 		<input class="form-control" value="{{expression}}">
+		
+		<a href="#"><small>
+			<span class="inline"><span class="hidden-xs">
+				<span class="glyphicon glyphicon-question-sign"></span>
+			</span></span>
+			<span class="visible-xs">
+				<span class="glyphicon glyphicon-question-sign"></span>
+				{{t("Query help")}}
+			</span>
+			</small>
+		</a>
 	</div>
 </form>
+
+<ul class="nav navbar-nav navbar-left">
+	<li><a href="#">
+		
+	</a></li>
+</ul>
 </script>
 
 				
@@ -45,11 +62,13 @@
 <script type="text/ractive" id="languageSelector">
 <li class="dropdown languageSelector">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<img class="flag" src="img/flags/{{flag}}.svg"> <span class="inline"><span class="visible-xs">Language</span></span> <span class="caret"></span>
+		<img class="flag" src="img/flags/{{langs[lang].flag}}.svg">
+		<span class="inline"><span class="visible-xs">{{t("Language")}}</span></span>
+		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
 		{{#langs:id}}
-			<li><a href="#"><img class="flag" src="img/flags/{{flag}}.svg"> {{name}}</a></li>
+			<li><a href="#" on-click="changeLanguage:{{id}}"><img class="flag" src="img/flags/{{flag}}.svg"> {{name}}</a></li>
 		{{/langs}}
 	</ul>
 </li>
@@ -71,13 +90,21 @@
 			</button>
 			<a class="navbar-brand" href="#"><img alt="Mennyi a Zannyi?" src="img/logo.svg" class="logo"></a>
 		</div>
+		
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
+			
+			<!-- move userAccont to first place in mobile -->
+			<ul class="nav navbar-nav navbar-right">
+				<userAccount />
+			</ul>
+			
+			
 			<ul class="nav navbar-nav">
 				{{#pages:id}}
 					<li class="{{#page == id}}active{{/selected}}"><a href="#"><span class="glyphicon glyphicon-{{icon}}"></span>
-					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{id}}</span></span>
+					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{t(id)}}</span></span>
 					</a></li>
 				{{/pages}}
 			</ul>
@@ -86,7 +113,6 @@
 			
 			<ul class="nav navbar-nav navbar-right">
 				<languageSelector />
-				<userAccount />
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -110,8 +136,10 @@
 <script type="text/ractive" id="userAccount">
 {{^user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
-	data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-		Log in with<b class="caret"></b></a>
+	data-toggle="dropdown">
+		<span class="glyphicon glyphicon-user"></span>
+		{{t("Log in with")}}
+		<b class="caret"></b></a>
 	<ul class="dropdown-menu">
 		<li><a href="#">Facebook</a></li>
 		<li><a href="#">Persona</a></li>

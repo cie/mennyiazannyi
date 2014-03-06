@@ -1,5 +1,5 @@
 
-Ractive.components.navbar = Ractive.extend({
+Ractive.components.navbar = Component.extend({
 	template: "#navbar",
 	data: {
 		pages: {
@@ -11,6 +11,7 @@ Ractive.components.navbar = Ractive.extend({
 		page: "transactions"
 	},
 	init: function() {
-		
+		this._super();
+		window.navbar = this;
 	}
 });

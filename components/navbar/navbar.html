@@ -11,13 +11,21 @@
 			</button>
 			<a class="navbar-brand" href="#"><img alt="Mennyi a Zannyi?" src="img/logo.svg" class="logo"></a>
 		</div>
+		
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
+			
+			<!-- move userAccont to first place in mobile -->
+			<ul class="nav navbar-nav navbar-right">
+				<userAccount />
+			</ul>
+			
+			
 			<ul class="nav navbar-nav">
 				{{#pages:id}}
 					<li class="{{#page == id}}active{{/selected}}"><a href="#"><span class="glyphicon glyphicon-{{icon}}"></span>
-					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{id}}</span></span>
+					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{t(id)}}</span></span>
 					</a></li>
 				{{/pages}}
 			</ul>
@@ -26,7 +34,6 @@
 			
 			<ul class="nav navbar-nav navbar-right">
 				<languageSelector />
-				<userAccount />
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
