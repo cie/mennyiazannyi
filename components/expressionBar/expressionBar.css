@@ -1,0 +1,6 @@
+
+@media (min-width: 768px) {
+	.expressionBar > .form-group > input {
+		width: 320px;
+	}
+}

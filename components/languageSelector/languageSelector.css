@@ -1,0 +1,9 @@
+.flag {
+	width: 15px;
+	vertical-align: baseline;
+}
+@media (max-width: 767px) {
+	.languageSelector .hidden-xs {
+		display: inline ! important;
+	}
+}

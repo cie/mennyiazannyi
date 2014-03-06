@@ -1,3 +1,10 @@
-<li class="dropdown">
-	<img class="flag" src="img/flags/{{lang}}.svg"> <span class="caret"></span>
+<li class="dropdown languageSelector">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<img class="flag" src="img/flags/{{flag}}.svg"> <span class="inline"><span class="visible-xs">Language</span></span> <span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu">
+		{{#langs:id}}
+			<li><a href="#"><img class="flag" src="img/flags/{{flag}}.svg"> {{name}}</a></li>
+		{{/langs}}
+	</ul>
 </li>

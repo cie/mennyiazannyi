@@ -9,24 +9,23 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Mennyi a Zannyi?</a>
+			<a class="navbar-brand" href="#"><img alt="Mennyi a Zannyi?" src="img/logo.svg" class="logo"></a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Transactions</a></li>
-				<li><a href="#">Budget</a></li>
-				<li><a href="#">Flow</a></li>
+				{{#pages:id}}
+					<li class="{{#page == id}}active{{/selected}}"><a href="#"><span class="glyphicon glyphicon-{{icon}}"></span>
+					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{id}}</span></span>
+					</a></li>
+				{{/pages}}
 			</ul>
 			
-			<form class="navbar-form navbar-left expression-form">
-				<div class="form-group">
-					<input type="search" class="form-control" placeholder="Search" value="{{expression}}" size=100>
-				</div>
-			</form>
+			<expressionBar />
 			
 			<ul class="nav navbar-nav navbar-right">
+				<languageSelector />
 				<userAccount />
 			</ul>
 		</div>

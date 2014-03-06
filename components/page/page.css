@@ -10,3 +10,7 @@ table > tbody > tr > th {
 body {
 	font-family: sans-serif;
 }
+
+.inline {
+	display: inline-block;
+}

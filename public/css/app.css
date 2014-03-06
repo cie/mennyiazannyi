@@ -1,4 +1,21 @@
 
+/**
+* app.css
+*/
+
+@media (min-width: 768px) {
+	.expressionBar > .form-group > input {
+		width: 320px;
+	}
+}.flag {
+	width: 15px;
+	vertical-align: baseline;
+}
+@media (max-width: 767px) {
+	.languageSelector .hidden-xs {
+		display: inline ! important;
+	}
+}
 .navbar {
 	border-radius: 0px;
 	border-bottom: none;
@@ -35,4 +52,19 @@
 		border-bottom-right-radius: 0;
 		border-bottom: none;
 	}
+}table > tbody > tr > td, 
+table > tbody > tr > th {
+	background-color: #ffffff;
+}
+
+.popover-title {
+	color: white;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.inline {
+	display: inline-block;
 }
