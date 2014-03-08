@@ -1,21 +1,53 @@
+
+
+Transactions = Backbone.Firebase.Collection.extend({
+});
+
 Ractive.components.transactions = Component.extend({
+	adapt: ['Backbone'],
 	template: "#transactions",
 	data: {
-		newTransaction: {}
+		newTransaction: {},
+		filter: function(transaction) {
+			return transaction;
+		}
 	},
 	init: function() {
 		this._super();
 		
-		page.observe("user", function(user, oldValue) {
-			this.set("transactions", new Backbone.Firebase.Connection({
-				firebase: users$.child(user.uid).child("transactions")
-			}));
+		this.userObserver = page.observe("user", function(user, oldValue) {
+			if (user && user.uid) {
+				this.data.transactions = new Transactions([], {
+					firebase: users$.child(user.uid).child("transactions")
+				});
+			} else {
+				this.data.transactions = [];
+			}
+			this.update();
+			
 		});
 		
 		this.on({
-			
-			
-			teardown: function() {
+			'moveDown': function(event, direction) {
+				console.log(event);
+			},
+			'addTransaction': function() {
+				var t = this.data.newTransaction;
+				this.data.transactions.push({
+					date:t.date,
+					from:t.from,
+					to:t.to,
+					sum:t.sum,
+					currency: t.currency,
+					text: t.text,
+					categories: t.categories
+				});
+				this.set('newTransaction.sum', "");
+				this.set('newTransaction.text', "");
+			},
+			'teardown': function() {
+				this.userObserver.cancel();
+				
 				window.transactions = null;
 			} 
 		});

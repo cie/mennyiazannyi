@@ -9,6 +9,13 @@ TRANSLATIONS = {
 			"Query help": "Segítség a lekérdezésekhez",
 			"Log out": "Kijelentkezés",
 			"Settings": "Beállítások",
+			"Date": "Dátum",
+			"From": "Kitől",
+			"To": "Kinek",
+			"Sum": "Összeg",
+			"Currency": "Pénznem",
+			"Text": "Szöveg",
+			"Categories": "Kategóriák",
 			
 			"LAST":""
 		},

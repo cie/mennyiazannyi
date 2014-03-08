@@ -1,11 +1,11 @@
 {{#value}}
 <tr>
-  <td><input type="date" value="{{date}}"></td>
-  <td><input value="{{from}}"></td>
-  <td><input value="{{to}}"></td>
-  <td><input value="{{sum}}"></td>
-  <td><input value="{{currency}}"></td>
-  <td><input value="{{text}}"></td>
-  <td><input value="{{categories}}"></td>
+  <td><input class="form-control" on-enter="moveRight" type="date" value="{{.date}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{.from}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{.to}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{.sum}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{.currency}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{.text}}"></td>
+  <td><input class="form-control" on-enter="newline" value="{{.categories}}"></td>
 </tr>
 {{/value}}

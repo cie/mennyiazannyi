@@ -7,15 +7,19 @@
                    
      cie                                                                
      ====================================================================== -->
-<project name="penzugyi" default="compile" xmlns:fl="antlib:it.haefelinger.flaka">
+<project name="penzugyi" default="compile" xmlns:fl="antlib:it.haefelinger.flaka"  xmlns:prop="antlib:it.haefelinger.flaka.prop">
 	<description>
 
 	</description>
 	
 	<property name="deploydir" value="/home/cie/Dropbox/Apps/Brace/mennyiazannyi.brace.io" />
 
-	<!-- make standard ant tasks understand EL expressions -->
-	<fl:install-property-handler />
+	<!-- make standard ant tasks understand EL expressions 
+	<fl:install-property-handler />-->
+	<propertyhelper>
+	    <prop:elevaluator />
+	</propertyhelper>
+	
 
 	<target name="compile" depends="index.html,style.css,page.js">
 	</target>
@@ -34,15 +38,15 @@
 		<path id="html_files">
 			<fileset dir="components" includes="**/*.html" />
 		</path>
-		<fl:for var="file" in="split('${toString:html_files}', ':')">
+		<fl:for var="file" in="split('${html_files}', ':')">
 			<!-- unset property for next loop -->
 			<fl:unset>content</fl:unset>
 			<!-- load file contents to property -->
-			<loadfile property="content" srcFile="#{file}" />
+			<loadfile property="content" srcFile="${file}" />
 
 			<echo file="public/index.html" append="true">
 				<!-- the id attribute gets filled with the basename of the current fileitem -->
-				<![CDATA[<script type="text/ractive" id="#{replace(file, '$1' , '.+?(\w+)\..+' )}">]]></echo>
+				<![CDATA[<script type="text/ractive" id="${replace(file, '$1' , '.+?(\w+)\..+' )}">]]></echo>
 			<echo file="public/index.html" message="${content}" append="true" />
 			<echo file="public/index.html" append="true">
 				<![CDATA[</script>]]></echo>

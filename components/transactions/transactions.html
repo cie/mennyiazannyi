@@ -11,11 +11,9 @@
     </tr>
   </thead>
   <tbody>
-  	{{#transactions}}
-  		{{#matches(expr,.)}}
-  			<transaction value="{{.}}" />
-		 {{/}}
+  	{{#transactions:i}}
+		<transaction value="{{.}}" on-newline="moveDown" />
   	{{/transactions}}
-    <transaction value="{{newTransaction}}" />
+    <transaction value="{{newTransaction}}" on-newline="addTransaction" />
   </tbody>
 </table> 

@@ -49,8 +49,6 @@ Ractive.defaults.debug = true;
  */
 Component = Ractive.extend({
 	
-	adaptors: [ 'Backbone' ],
-	
 	init: function() {
 		var _this = this; 
 		afterwards(function() {
