@@ -32,6 +32,21 @@
 
 <div id="page-container"></div>
 				
+				<script type="text/ractive" id="currencyChooser"><li class="dropdown languageSelector">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		{{currencies[currency].sign}}
+		<span class="inline"><span class="visible-xs">{{t("Currency")}}</span></span>
+		<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu">
+		{{#currencies:id}}
+			<li><a href="#" on-click="changeCurrency:{{id}}">{{t(name)}} ({{sign}})</a></li>
+		{{/currencies}}
+	</ul>
+</li>
+
+				</script>
+				
 				<script type="text/ractive" id="expressionBar">
 <form class="navbar-form navbar-left expressionBar">
 	<div class="form-group">
@@ -107,6 +122,7 @@
 			<expressionBar />
 			
 			<ul class="nav navbar-nav navbar-right">
+				<currencyChooser />
 				<languageSelector />
 			</ul>
 		</div>
@@ -132,8 +148,7 @@
   <td><input class="form-control" on-enter="moveRight" type="date" value="{{.date}}"></td>
   <td><input class="form-control" on-enter="moveRight" value="{{.from}}"></td>
   <td><input class="form-control" on-enter="moveRight" value="{{.to}}"></td>
-  <td><input class="form-control" on-enter="moveRight" value="{{.sum}}"></td>
-  <td><input class="form-control" on-enter="moveRight" value="{{.currency}}"></td>
+  <td><input class="form-control" on-enter="moveRight" value="{{amt(.sum,.currency)}}"></td>
   <td><input class="form-control" on-enter="moveRight" value="{{.text}}"></td>
   <td><input class="form-control" on-enter="newline" value="{{.categories}}"></td>
 </tr>

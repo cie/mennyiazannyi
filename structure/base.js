@@ -11,7 +11,8 @@ FIREBASE = "https://mennyiazannyi.firebaseio.com/";
  * Globally accessible variables
  */
 GLOBALS = [
-           't'
+           't',
+           'amt'
            ];
 
 

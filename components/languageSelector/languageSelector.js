@@ -16,6 +16,8 @@ TRANSLATIONS = {
 			"Currency": "Pénznem",
 			"Text": "Szöveg",
 			"Categories": "Kategóriák",
+			"Hungarian Forint": "Forint",
+			"Euro": "Euró",
 			
 			"LAST":""
 		},
