@@ -42,11 +42,10 @@
 
 			<echo file="public/index.html" append="true">
 				<!-- the id attribute gets filled with the basename of the current fileitem -->
-				<![CDATA[
-<script type="text/ractive" id="#{replace(file, '$1' , '.+?(\w+)\..+' )}">
-#{trim('${content}')}
-</script>
-]]></echo>
+				<![CDATA[<script type="text/ractive" id="#{replace(file, '$1' , '.+?(\w+)\..+' )}">]]></echo>
+			<echo file="public/index.html" message="${content}" append="true" />
+			<echo file="public/index.html" append="true">
+				<![CDATA[</script>]]></echo>
 	</fl:for>
 
 	<concat destfile="public/index.html" append="true">

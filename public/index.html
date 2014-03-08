@@ -31,8 +31,7 @@
 
 <div id="page-container"></div>
 				
-				
-<script type="text/ractive" id="expressionBar">
+				<script type="text/ractive" id="expressionBar">
 <form class="navbar-form navbar-left expressionBar">
 	<div class="form-group">
 		<input class="form-control" value="{{expression}}">
@@ -55,12 +54,9 @@
 		
 	</a></li>
 </ul>
-</script>
-
+				</script>
 				
-				
-<script type="text/ractive" id="languageSelector">
-<li class="dropdown languageSelector">
+				<script type="text/ractive" id="languageSelector"><li class="dropdown languageSelector">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<img class="flag" src="img/flags/{{langs[lang].flag}}.svg">
 		<span class="inline"><span class="visible-xs">{{t("Language")}}</span></span>
@@ -72,12 +68,10 @@
 		{{/langs}}
 	</ul>
 </li>
-</script>
 
+				</script>
 				
-				
-<script type="text/ractive" id="navbar">
-<nav class="navbar navbar-default">
+				<script type="text/ractive" id="navbar"><nav class="navbar navbar-default">
 
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -103,38 +97,21 @@
 			
 			<ul class="nav navbar-nav pageTabs">
 				{{#tabs:id}}
-					<li class="{{#tab == id}}active{{/selected}}" title="{{t(id)}}"><a href="#{{id}}"><span class="glyphicon glyphicon-{{icon}}"></span>
-					<span class="inline"><span class="{{#tab != id}}visible-xs{{/not selected}}">{{t(id)}}</span></span>
-					</a></li>
-				{{/tabs}}
-			</ul>
-			
-			<expressionBar />
-			
-			<ul class="nav navbar-nav navbar-right">
-				<languageSelector />
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid -->
-</nav>
-</script>
-
+					<li class="{{#tab == id}}active{{/selected}}" title="{{t(id)}}"><a href="
+				</script>
 				
-				
-<script type="text/ractive" id="page">
-<navbar />
+				<script type="text/ractive" id="page"><navbar />
 
-<div class="container-fluid">
-	Hello
+<div class="container">
+	{{#tab == "transactions"}}
+		<transactions />
+	{{/tab}}
 </div>
-</script>
 
+
+				</script>
 				
-				
-<script type="text/ractive" id="transaction">
-{{#value}}
+				<script type="text/ractive" id="transaction">{{#value}}
 <tr>
   <td><input type="date" value="{{date}}"></td>
   <td><input value="{{from}}"></td>
@@ -145,12 +122,12 @@
   <td><input value="{{categories}}"></td>
 </tr>
 {{/value}}
-</script>
-
+				</script>
 				
-				
-<script type="text/ractive" id="transactions">
-}</th>
+				<script type="text/ractive" id="transactions"><table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      <th>{{t('Date')}}</th>
       <th>{{t('From')}}</th>
       <th>{{t('To')}}</th>
       <th>{{t('Sum')}}</th>
@@ -167,13 +144,10 @@
   	{{/transactions}}
     <transaction value="{{newTransaction}}" />
   </tbody>
-</table> ')}
-</script>
-
+</table> 
+				</script>
 				
-				
-<script type="text/ractive" id="userAccount">
-{{^user}}
+				<script type="text/ractive" id="userAccount">{{^user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
 	data-toggle="dropdown">
 		<span class="glyphicon glyphicon-user"></span>
@@ -194,9 +168,8 @@
 		<li class="divider"></li>
 		<li><a href="#" on-click="logout">Log out</a></li>
 	</ul></li>
-{{/user}}
-</script>
- 	
+{{/user}} 
+				</script> 	
 <script src="js/app.js"></script>
 	
 <script>
