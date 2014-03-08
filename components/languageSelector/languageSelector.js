@@ -7,6 +7,8 @@ TRANSLATIONS = {
 			"love": "Szeretet",
 			"Language": "Nyelv",
 			"Query help": "Segítség a lekérdezésekhez",
+			"Log out": "Kijelentkezés",
+			"Settings": "Beállítások",
 			
 			"LAST":""
 		},
@@ -22,10 +24,13 @@ TRANSLATIONS = {
 }
 
 function getLang() {
-	lang = navigator.language || navigator.userLanguage;
-	m = lang.match(/([a-z]+)-[A-Z]+/);
-	if (TRANSLATIONS[m[1]]) {
-		return m[1];
+	// try to find out the user's language
+	var lang = navigator.language || navigator.userLanguage;
+	var m = lang.match(/([a-z]+)(-[A-Z]+)?/);
+	if (m) {
+		if (TRANSLATIONS[m[1]]) {
+			return m[1];
+		}	
 	}
 	// default to English
 	return 'en';

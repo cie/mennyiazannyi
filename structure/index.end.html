@@ -5,6 +5,9 @@
 	page = new Ractive.components.page({
 		el: "#page-container"
 	});
+	
+	// start routing
+	Backbone.history.start({hashChange: true});
 </script>
 
 </body>

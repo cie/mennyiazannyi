@@ -1,4 +1,8 @@
 
+router.route(":tab(/*others)", null, function(tab) {
+	page.set("tab", tab);
+});
+
 Ractive.components.page = Component.extend({
 	template: "#page",
 	data: {
@@ -8,3 +12,4 @@ Ractive.components.page = Component.extend({
 		window.page = this;
 	}
 });
+

@@ -9,8 +9,9 @@
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<title>Mennyi az annyi?</title>
+<title>Mennyi a Zannyi?</title>
 
+<script src="js/lib/jquery-2.1.0.min.js"></script>
 <script src="js/lib/Ractive.js"></script>
 <script src="js/lib/underscore.js"></script>
 <script src="js/lib/backbone-min.js"></script>
@@ -20,11 +21,10 @@
 <script type='text/javascript'
         src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'>
 </script>
-<script src="js/lib/jquery-2.1.0.min.js"></script>
 <link rel="stylesheet" href="css/magic-bootstrap.css">
 <link rel="stylesheet" href="css/app.css">
 <script src="js/lib/bootstrap.min.js"></script>
-
+<script type='text/javascript' src='https://login.persona.org/include.js'></script>
 
 </head>
 <body>
@@ -88,7 +88,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#"><img alt="Mennyi a Zannyi?" src="img/logo.svg" class="logo"></a>
+			<a class="navbar-brand" href="#" on-tap=""><img alt="Mennyi a Zannyi?" src="img/logo.svg" class="logo"></a>
 		</div>
 		
 
@@ -101,12 +101,12 @@
 			</ul>
 			
 			
-			<ul class="nav navbar-nav">
-				{{#pages:id}}
-					<li class="{{#page == id}}active{{/selected}}"><a href="#"><span class="glyphicon glyphicon-{{icon}}"></span>
-					<span class="inline"><span class="{{#page != id}}visible-xs{{/selected}}">{{t(id)}}</span></span>
+			<ul class="nav navbar-nav pageTabs">
+				{{#tabs:id}}
+					<li class="{{#tab == id}}active{{/selected}}" title="{{t(id)}}"><a href="#{{id}}"><span class="glyphicon glyphicon-{{icon}}"></span>
+					<span class="inline"><span class="{{#tab != id}}visible-xs{{/not selected}}">{{t(id)}}</span></span>
 					</a></li>
-				{{/pages}}
+				{{/tabs}}
 			</ul>
 			
 			<expressionBar />
@@ -133,6 +133,45 @@
 
 				
 				
+<script type="text/ractive" id="transaction">
+{{#value}}
+<tr>
+  <td><input type="date" value="{{date}}"></td>
+  <td><input value="{{from}}"></td>
+  <td><input value="{{to}}"></td>
+  <td><input value="{{sum}}"></td>
+  <td><input value="{{currency}}"></td>
+  <td><input value="{{text}}"></td>
+  <td><input value="{{categories}}"></td>
+</tr>
+{{/value}}
+</script>
+
+				
+				
+<script type="text/ractive" id="transactions">
+}</th>
+      <th>{{t('From')}}</th>
+      <th>{{t('To')}}</th>
+      <th>{{t('Sum')}}</th>
+      <th>{{t('Currency')}}</th>
+      <th>{{t('Text')}}</th>
+      <th>{{t('Categories')}}</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{{#transactions}}
+  		{{#matches(expr,.)}}
+  			<transaction value="{{.}}" />
+		 {{/}}
+  	{{/transactions}}
+    <transaction value="{{newTransaction}}" />
+  </tbody>
+</table> ')}
+</script>
+
+				
+				
 <script type="text/ractive" id="userAccount">
 {{^user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -141,19 +180,19 @@
 		{{t("Log in with")}}
 		<b class="caret"></b></a>
 	<ul class="dropdown-menu">
-		<li><a href="#">Facebook</a></li>
-		<li><a href="#">Persona</a></li>
+		<li><a href="#" on-click="login:facebook">Facebook</a></li>
+		<li><a href="#" on-click="login:persona">Persona</a></li>
 	</ul></li>
 {{/user}}
 
 {{#user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
 	data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-		{{name}} <b class="caret"></b></a>
+		{{name||email}} <b class="caret"></b></a>
 	<ul class="dropdown-menu">
 		<li class="disabled"><a href="#">Settings</a></li>
 		<li class="divider"></li>
-		<li><a href="#">Log out</a></li>
+		<li><a href="#" on-click="logout">Log out</a></li>
 	</ul></li>
 {{/user}}
 </script>
@@ -164,6 +203,9 @@
 	page = new Ractive.components.page({
 		el: "#page-container"
 	});
+	
+	// start routing
+	Backbone.history.start({hashChange: true});
 </script>
 
 </body>

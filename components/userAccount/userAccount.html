@@ -5,18 +5,18 @@
 		{{t("Log in with")}}
 		<b class="caret"></b></a>
 	<ul class="dropdown-menu">
-		<li><a href="#">Facebook</a></li>
-		<li><a href="#">Persona</a></li>
+		<li><a href="#" on-click="login:facebook">Facebook</a></li>
+		<li><a href="#" on-click="login:persona">Persona</a></li>
 	</ul></li>
 {{/user}}
 
 {{#user}}
 <li class="dropdown"><a href="#" class="dropdown-toggle"
 	data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-		{{name}} <b class="caret"></b></a>
+		{{name||email}} <b class="caret"></b></a>
 	<ul class="dropdown-menu">
 		<li class="disabled"><a href="#">Settings</a></li>
 		<li class="divider"></li>
-		<li><a href="#">Log out</a></li>
+		<li><a href="#" on-click="logout">Log out</a></li>
 	</ul></li>
-{{/user}}
+{{/user}} 

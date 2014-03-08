@@ -27,13 +27,19 @@ GLOBALS = [
  */
 
 db$ = new Firebase(FIREBASE);
+users$ = db$.child("users");
 
 
 
 /**
- * Models
+ * Router
  */
 
+Router = Backbone.Router.extend({
+	routes: {
+	}
+});
+router = new Router();
 
 
 /**
@@ -54,14 +60,20 @@ Component = Ractive.extend({
 		afterwards(function() {
 	        var pullerObserver, pullers, pushers, variable, _i, _len;
 	        
+	        // calculate globals from global and local list of globals
+	        var globals = GLOBALS.slice(0);
+	        if (this.globals) {
+	        	globals = globals.concat(this.globals);
+	        }
+	        
 	        // introduce these only if not the top level component 
 	        if (_this !== page) {
 	          pullers = {};
 	          pushers = {};
 	          _this.pushDisabled = true;
 	          
-	          for (_i = 0, _len = GLOBALS.length; _i < _len; _i++) {
-	            variable = GLOBALS[_i];
+	          for (_i = 0, _len = globals.length; _i < _len; _i++) {
+	            variable = globals[_i];
 	            pullers[variable] = (function(variable) {
 	              return function(newValue) {
 	                _this.pushDisabled = true;
@@ -114,6 +126,8 @@ function afterwards(fn) {
 			"love": "Szeretet",
 			"Language": "Nyelv",
 			"Query help": "Segítség a lekérdezésekhez",
+			"Log out": "Kijelentkezés",
+			"Settings": "Beállítások",
 			
 			"LAST":""
 		},
@@ -129,10 +143,13 @@ function afterwards(fn) {
 }
 
 function getLang() {
-	lang = navigator.language || navigator.userLanguage;
-	m = lang.match(/([a-z]+)-[A-Z]+/);
-	if (TRANSLATIONS[m[1]]) {
-		return m[1];
+	// try to find out the user's language
+	var lang = navigator.language || navigator.userLanguage;
+	var m = lang.match(/([a-z]+)(-[A-Z]+)?/);
+	if (m) {
+		if (TRANSLATIONS[m[1]]) {
+			return m[1];
+		}	
 	}
 	// default to English
 	return 'en';
@@ -169,19 +186,24 @@ Ractive.components.languageSelector = Component.extend({
 Ractive.components.navbar = Component.extend({
 	template: "#navbar",
 	data: {
-		pages: {
+		tabs: {
 			transactions: {icon:"transfer"},
 			budget: {icon:"briefcase"},
 			flow: {icon:"stats"},
 			love: {icon:"heart-empty"}
-		},
-		page: "transactions"
+		}
 	},
+	globals: ['tab'],
 	init: function() {
 		this._super();
+		
 		window.navbar = this;
 	}
 });
+router.route(":tab(/*others)", null, function(tab) {
+	page.set("tab", tab);
+});
+
 Ractive.components.page = Component.extend({
 	template: "#page",
 	data: {
@@ -190,16 +212,61 @@ Ractive.components.page = Component.extend({
 	init: function() {
 		window.page = this;
 	}
+});
+
+Ractive.components.transaction = Component.extend({
+	template: "#transaction",
+	data: {
+	},
+	init: function() {
+		this._super();
+		
+		this.on({
+		});
+	}
+});Ractive.components.transactions = Component.extend({
+	template: "#transactions",
+	data: {
+		newTransaction: {}
+	},
+	init: function() {
+		this._super();
+		
+		page.observe("user", function(user, oldValue) {
+			this.set("transactions", new Backbone.Firebase.Connection({
+				firebase: users$.child(user.uid).child("transactions")
+			}));
+		});
+		
+		this.on({
+			
+			
+			teardown: function() {
+				window.transactions = null;
+			} 
+		});
+		
+		window.transactions = this;
+	}
 });Ractive.components.userAccount = Component.extend({
 	template: "#userAccount",
 	init: function() {
 		this._super();
 		
-		auth = new FirebaseSimpleLogin(db$, function(error, user) {
+		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
 			if (!error) {
 				page.set("user", user);
 			} else {	
 				
+			}
+		});
+		
+		this.on({
+			"login": function(event, provider) {
+				this.auth.login(provider);
+			},
+			"logout": function(event, provider) {
+				this.auth.logout();
 			}
 		});
 		

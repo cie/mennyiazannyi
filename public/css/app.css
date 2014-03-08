@@ -3,12 +3,6 @@
 * app.css
 */
 
-@media (min-width: 768px) {
-	.expressionBar > .form-group > input {
-		width: 320px;
-	}
-}
-
 .expressionHelpButton {
 	color: #777777;
 }
@@ -60,6 +54,25 @@
 		border-bottom-right-radius: 0;
 		border-bottom: none;
 	}
+	
+}
+	
+/* widths for navbar elements */
+@media (min-width: 768px) {
+	.pageTabs {	min-width: 300px }
+	.expressionBar > .form-group > input  { width: 500px }
+}
+@media (min-width: 982px) { 
+	.pageTabs {	min-width: 300px }
+	.expressionBar > .form-group > input { width: 288px }
+}
+@media (min-width: 1100px) { 
+	.pageTabs {	min-width: 300px }
+	.expressionBar > .form-group > input { width: 400px }
+}
+@media (min-width: 1200px) { 
+	.pageTabs {	min-width: 300px }
+	.expressionBar > .form-group > input  { width: 500px }
 }table > tbody > tr > td, 
 table > tbody > tr > th {
 	background-color: #ffffff;

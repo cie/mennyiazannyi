@@ -23,13 +23,19 @@ GLOBALS = [
  */
 
 db$ = new Firebase(FIREBASE);
+users$ = db$.child("users");
 
 
 
 /**
- * Models
+ * Router
  */
 
+Router = Backbone.Router.extend({
+	routes: {
+	}
+});
+router = new Router();
 
 
 /**
@@ -50,14 +56,20 @@ Component = Ractive.extend({
 		afterwards(function() {
 	        var pullerObserver, pullers, pushers, variable, _i, _len;
 	        
+	        // calculate globals from global and local list of globals
+	        var globals = GLOBALS.slice(0);
+	        if (this.globals) {
+	        	globals = globals.concat(this.globals);
+	        }
+	        
 	        // introduce these only if not the top level component 
 	        if (_this !== page) {
 	          pullers = {};
 	          pushers = {};
 	          _this.pushDisabled = true;
 	          
-	          for (_i = 0, _len = GLOBALS.length; _i < _len; _i++) {
-	            variable = GLOBALS[_i];
+	          for (_i = 0, _len = globals.length; _i < _len; _i++) {
+	            variable = globals[_i];
 	            pullers[variable] = (function(variable) {
 	              return function(newValue) {
 	                _this.pushDisabled = true;

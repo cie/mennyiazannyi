@@ -11,6 +11,8 @@
 	<description>
 
 	</description>
+	
+	<property name="deploydir" value="/home/cie/Dropbox/Apps/Brace/mennyiazannyi.brace.io" />
 
 	<!-- make standard ant tasks understand EL expressions -->
 	<fl:install-property-handler />
@@ -87,7 +89,11 @@
 	
 
 <target name="deploy" depends="compile" description="Felteszi a szerverre">
-
+	<copy todir="${deploydir}">
+		<fileset dir="public">
+			<include name="**/*" />
+		</fileset>
+	</copy>
 </target>
 
 </project>
