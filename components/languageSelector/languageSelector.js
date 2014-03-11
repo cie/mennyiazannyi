@@ -24,6 +24,7 @@ TRANSLATIONS = {
 			
 			"Settings": "Beállítások",
 			"Log out": "Kijelentkezés",
+			"Me": "Én",
 			
 			"LAST":""
 		},

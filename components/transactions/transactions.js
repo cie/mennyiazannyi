@@ -3,6 +3,21 @@
 Transactions = Backbone.Firebase.Collection.extend({
 });
 
+MY_ACCOUNT = "Me";
+
+/**
+ * Tell if an account is owned by the user.
+ */
+myAccount = function(acctName) {
+	acctName = acctName.toLowerCase();
+	if (acctName == MY_ACCOUNT.toLowerCase()) return true;
+	for (lang in TRANSLATIONS) {
+		var translation = TRANSLATIONS[lang][MY_ACCOUNT];
+		if (translation && translation.toLowerCase() === acctName) return true;
+	}
+	return false;
+}
+
 Ractive.components.transactions = Component.extend({
 	adapt: ['Backbone'],
 	template: "#transactions",
@@ -60,13 +75,16 @@ Ractive.components.transactions = Component.extend({
 					text: t.text,
 					categories: t.categories
 				});
-				this.set('newTransaction.date', ""+new Date());
-				this.set('newTransaction.from', "");
-				this.set('newTransaction.to',   "");
+				this.set('newTransaction.date', new Date().toDateString);
+				if (!myAccount(t.from)) this.set('newTransaction.from', "");
+				if (!myAccount(t.to))   this.set('newTransaction.to',   "");
 				this.set('newTransaction.sum',  "");
 				this.set('newTransaction.currency',  currencyChooser.data.currency);
 				this.set('newTransaction.text', "");
 				this.set('newTransaction.categories', "");
+				
+				// focus first item in new row
+				$("table>tfoot>tr input",this.el).first().focus()
 			},
 			'teardown': function() {
 				this.userObserver.cancel();

@@ -226,10 +226,16 @@ Ractive.components.currencyChooser = Component.extend({
 			"Sum": "Összeg",
 			"Currency": "Pénznem",
 			"Text": "Szöveg",
+			"Comment": "Megjegyzés",
 			"Categories": "Kategóriák",
+			
 			"Hungarian Forint": "Forint",
 			"Euro": "Euró",
 			"U.S. Dollar": "USA Dollár",
+			
+			"Settings": "Beállítások",
+			"Log out": "Kijelentkezés",
+			"Me": "Én",
 			
 			"LAST":""
 		},
@@ -336,6 +342,21 @@ Ractive.components.transaction = Component.extend({
 Transactions = Backbone.Firebase.Collection.extend({
 });
 
+MY_ACCOUNT = "Me";
+
+/**
+ * Tell if an account is owned by the user.
+ */
+myAccount = function(acctName) {
+	acctName = acctName.toLowerCase();
+	if (acctName == MY_ACCOUNT.toLowerCase()) return true;
+	for (lang in TRANSLATIONS) {
+		var translation = TRANSLATIONS[lang][MY_ACCOUNT];
+		if (translation && translation.toLowerCase() === acctName) return true;
+	}
+	return false;
+}
+
 Ractive.components.transactions = Component.extend({
 	adapt: ['Backbone'],
 	template: "#transactions",
@@ -387,15 +408,22 @@ Ractive.components.transactions = Component.extend({
 					date:t.date,
 					from:t.from,
 					to:t.to,
-					amount: {
-						sum: t.amount.sum,
-						currency: t.amount.currency
-					},
+					 // enable decimal comma, avoid NaNs
+					sum: +(""+t.sum).replace(",", ".") || 0,
+					currency: t.currency,
 					text: t.text,
 					categories: t.categories
 				});
-				this.set('newTransaction.amount.sum', 0);
+				this.set('newTransaction.date', new Date().toDateString);
+				if (!myAccount(t.from)) this.set('newTransaction.from', "");
+				if (!myAccount(t.to))   this.set('newTransaction.to',   "");
+				this.set('newTransaction.sum',  "");
+				this.set('newTransaction.currency',  currencyChooser.data.currency);
 				this.set('newTransaction.text', "");
+				this.set('newTransaction.categories', "");
+				
+				// focus first item in new row
+				$("table>tfoot>tr input",this.el).first().focus()
 			},
 			'teardown': function() {
 				this.userObserver.cancel();

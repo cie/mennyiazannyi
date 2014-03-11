@@ -14,6 +14,8 @@
   	{{#transactions:i}}
 		<transaction value="{{.}}" on-newline="moveDown" />
   	{{/transactions}}
-    <transaction value="{{newTransaction}}" on-newline="addTransaction" class="active" />
   </tbody>
+  <tfoot>
+    <transaction value="{{newTransaction}}" on-newline="addTransaction" class="active" />
+  </tfoot>
 </table>  
