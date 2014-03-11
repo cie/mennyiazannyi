@@ -362,7 +362,7 @@ Ractive.components.transactions = Component.extend({
 	template: "#transactions",
 	data: {
 		newTransaction: {
-			date: new Date(),
+			date:  new Date().toISOString().substring(0,10),
 			from: "",
 			to: "",
 			amount: {
@@ -414,7 +414,8 @@ Ractive.components.transactions = Component.extend({
 					text: t.text,
 					categories: t.categories
 				});
-				this.set('newTransaction.date', new Date().toDateString);
+				// keep date as it is
+				//this.set('newTransaction.date', new Date().toDateString());
 				if (!myAccount(t.from)) this.set('newTransaction.from', "");
 				if (!myAccount(t.to))   this.set('newTransaction.to',   "");
 				this.set('newTransaction.sum',  "");

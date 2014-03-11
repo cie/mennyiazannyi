@@ -173,7 +173,7 @@
     </tr>
   </thead>
   <tbody>
-  	{{#transactions:i}}
+  	{{#transactions.sortBy("date"):i}}
 		<transaction value="{{.}}" on-newline="moveDown" />
   	{{/transactions}}
   </tbody>
