@@ -15,9 +15,15 @@ TRANSLATIONS = {
 			"Sum": "Összeg",
 			"Currency": "Pénznem",
 			"Text": "Szöveg",
+			"Comment": "Megjegyzés",
 			"Categories": "Kategóriák",
+			
 			"Hungarian Forint": "Forint",
 			"Euro": "Euró",
+			"U.S. Dollar": "USA Dollár",
+			
+			"Settings": "Beállítások",
+			"Log out": "Kijelentkezés",
 			
 			"LAST":""
 		},
@@ -55,7 +61,7 @@ Ractive.components.languageSelector = Component.extend({
 		}
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.on("changeLanguage", function(event, value){
 			this.set("lang", value);

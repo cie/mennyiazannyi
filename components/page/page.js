@@ -9,6 +9,7 @@ Ractive.components.page = Component.extend({
 		who: "World"
 	},
 	init: function() {
+		if (this._super) this._super();
 		window.page = this;
 	}
 });

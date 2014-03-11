@@ -6,7 +6,7 @@
       <th>{{t('To')}}</th>
       <th>{{t('Sum')}}</th>
       <th>{{t('Currency')}}</th>
-      <th>{{t('Text')}}</th>
+      <th>{{t('Comment')}}</th>
       <th>{{t('Categories')}}</th>
     </tr>
   </thead>
@@ -14,6 +14,6 @@
   	{{#transactions:i}}
 		<transaction value="{{.}}" on-newline="moveDown" />
   	{{/transactions}}
-    <transaction value="{{newTransaction}}" on-newline="addTransaction" />
+    <transaction value="{{newTransaction}}" on-newline="addTransaction" class="active" />
   </tbody>
-</table> 
+</table>  

@@ -50,14 +50,14 @@ Ractive.defaults.debug = true;
  */
 Component = Ractive.extend({
 	
-	init: function() {
+	beforeInit: function() {
 		var _this = this; 
 		afterwards(function() {
 	        var pullerObserver, pullers, pushers, variable, _i, _len;
 	        
 	        // calculate globals from global and local list of globals
 	        var globals = GLOBALS.slice(0);
-	        if (this.globals) {
+	        if (_this.globals) {
 	        	globals = globals.concat(this.globals);
 	        }
 	        

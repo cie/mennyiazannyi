@@ -1,7 +1,7 @@
 Ractive.components.userAccount = Component.extend({
 	template: "#userAccount",
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
 			if (!error) {

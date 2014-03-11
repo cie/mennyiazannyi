@@ -54,14 +54,14 @@ Ractive.defaults.debug = true;
  */
 Component = Ractive.extend({
 	
-	init: function() {
+	beforeInit: function() {
 		var _this = this; 
 		afterwards(function() {
 	        var pullerObserver, pullers, pushers, variable, _i, _len;
 	        
 	        // calculate globals from global and local list of globals
 	        var globals = GLOBALS.slice(0);
-	        if (this.globals) {
+	        if (_this.globals) {
 	        	globals = globals.concat(this.globals);
 	        }
 	        
@@ -108,9 +108,49 @@ Component = Ractive.extend({
  */
 function afterwards(fn) {
 	setTimeout(fn, 0);
-}CURRENCIES= {
+}Ractive.components.amount = Component.extend({
+	template: "#amount",
+	data: {
+		value: {
+			sum: 0,
+			currency: "EUR"
+		},
+		currency: "EUR",
+		formattedValue : "0 €"
+	},
+	lazy: true,
+	init: function() {
+		if (this._super) this._super();
+		
+		var updating = false;
+		
+		this.observe("value", function(value) {
+			updating = true;
+			
+			this.set("formattedValue", page.data.amt(value));			
+			
+			updating = false;
+		});
+		
+		// don't parse formattedValue now
+		updating = true;
+		this.observe("formattedValue", function(formattedValue) {
+			if (updating) return;
+			
+			var newValue = page.data.invAmt(formattedValue);
+			this.set({
+				"value.sum": newValue.sum,
+				"value.currency": newValue.currency
+			});
+			console.log(this.data.value);
+		});
+		updating = false;
+
+	}
+});CURRENCIES= {
 	EUR: {sign: "€", value: 1, name: "Euro", format: function(x){return "€ "+x.toFixed(2);}},
-	HUF: {sign: "Ft", value: 1/309, name: "Hungarian Forint", format:  function(x){return x.toFixed(0)+" Ft";}}
+	HUF: {sign: "Ft", value: 1/309, name: "Hungarian Forint", format:  function(x){return x.toFixed(0)+" Ft";}},
+	USD: {sign: "$", value: 1/1.39, name: "U.S. Dollar", format:  function(x){return "$ "+x.toFixed(2);}}
 };
 
 Ractive.components.currencyChooser = Component.extend({
@@ -120,7 +160,7 @@ Ractive.components.currencyChooser = Component.extend({
 		currency: "HUF"
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.on("changeCurrency", function(event, value){
 			this.set("currency", value);
@@ -130,14 +170,35 @@ Ractive.components.currencyChooser = Component.extend({
 		this.observe("currency", function(newValue, oldValue) {
 			var translations = TRANSLATIONS[newValue];
 			afterwards(function(){
-				page.set('amt', function(sum, currency) {
-					if (typeof(sum) === 'undefined' || sum === null || !currency) return;
-					var original = CURRENCIES[currency];
-					var current = CURRENCIES[self.data.currency];
-					return current.format(sum * (original.value / current.value));
+				page.set('amt', function(a) {
+					if (!a || typeof(a.sum) === 'undefined' || a.sum === null || !a.currency) return;
+					var result = CURRENCIES[a.currency].format(a.sum);
+					if (self.data.currency !== a.currency) {
+						var current = CURRENCIES[self.data.currency];
+						var original = CURRENCIES[a.currency];
+						result = result + " (" + current.format(a.sum * (original.value / current.value)) + ")";
+					}
+					return result;
+				});
+				page.set('invAmt', function(s) {
+					if (!s) return;
+					s = s.replace(/\([^)]*\)/, "")
+					var m = s.match(/[0-9]*([,.][0-9]*)/);
+					if (!m) return null;
+					var sum = +m[0].replace(/,/g, ".");
+					var sign = s.replace(m[0], "").trim();
+					for (var id in CURRENCIES) {
+						if (CURRENCIES[id].sign == sign) {
+							return {sum: sum, currency: id};
+						}
+					}
+					// fall back to current currency. XXX not sure if good
+					return {sum: sum, currency: currencyChooser.data.currency};
 				});
 			});
 		});
+		
+		window.currencyChooser = this;
 		
 	}
 });Ractive.components.expressionBar = Component.extend({
@@ -146,7 +207,7 @@ Ractive.components.currencyChooser = Component.extend({
 		
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 	}
 });TRANSLATIONS = {
 		hu: {
@@ -168,6 +229,7 @@ Ractive.components.currencyChooser = Component.extend({
 			"Categories": "Kategóriák",
 			"Hungarian Forint": "Forint",
 			"Euro": "Euró",
+			"U.S. Dollar": "USA Dollár",
 			
 			"LAST":""
 		},
@@ -205,7 +267,7 @@ Ractive.components.languageSelector = Component.extend({
 		}
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.on("changeLanguage", function(event, value){
 			this.set("lang", value);
@@ -235,7 +297,7 @@ Ractive.components.navbar = Component.extend({
 	},
 	globals: ['tab'],
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		window.navbar = this;
 	}
@@ -250,6 +312,7 @@ Ractive.components.page = Component.extend({
 		who: "World"
 	},
 	init: function() {
+		if (this._super) this._super();
 		window.page = this;
 	}
 });
@@ -260,7 +323,7 @@ Ractive.components.transaction = Component.extend({
 	data: {
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.on({
 			'moveRight': function(event) {
@@ -277,13 +340,23 @@ Ractive.components.transactions = Component.extend({
 	adapt: ['Backbone'],
 	template: "#transactions",
 	data: {
-		newTransaction: {},
+		newTransaction: {
+			date: new Date(),
+			from: "",
+			to: "",
+			amount: {
+				sum: 0,
+				currency: "EUR"
+			},
+			text: "",
+			categories: ""
+		},
 		filter: function(transaction) {
 			return transaction;
 		}
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.userObserver = page.observe("user", function(user, oldValue) {
 			if (user && user.uid) {
@@ -297,6 +370,13 @@ Ractive.components.transactions = Component.extend({
 			
 		});
 		
+		var self = this;
+		this.currencyObserver = currencyChooser.observe("currency", function(currency) {
+			if (! self.get("newTransaction.sum")) {
+				self.set("newTransaction.currency", currency);
+			}
+		});
+		
 		this.on({
 			'moveDown': function(event, direction) {
 				console.log(event);
@@ -307,16 +387,19 @@ Ractive.components.transactions = Component.extend({
 					date:t.date,
 					from:t.from,
 					to:t.to,
-					sum:t.sum,
-					currency: t.currency,
+					amount: {
+						sum: t.amount.sum,
+						currency: t.amount.currency
+					},
 					text: t.text,
 					categories: t.categories
 				});
-				this.set('newTransaction.sum', "");
+				this.set('newTransaction.amount.sum', 0);
 				this.set('newTransaction.text', "");
 			},
 			'teardown': function() {
 				this.userObserver.cancel();
+				this.currencyObserver.cancel();
 				
 				window.transactions = null;
 			} 
@@ -327,7 +410,7 @@ Ractive.components.transactions = Component.extend({
 });Ractive.components.userAccount = Component.extend({
 	template: "#userAccount",
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
 			if (!error) {

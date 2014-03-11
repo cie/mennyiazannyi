@@ -11,7 +11,7 @@ Ractive.components.navbar = Component.extend({
 	},
 	globals: ['tab'],
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		window.navbar = this;
 	}

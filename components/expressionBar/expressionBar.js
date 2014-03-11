@@ -4,6 +4,6 @@ Ractive.components.expressionBar = Component.extend({
 		
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 	}
 });

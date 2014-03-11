@@ -4,7 +4,7 @@ Ractive.components.transaction = Component.extend({
 	data: {
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.on({
 			'moveRight': function(event) {

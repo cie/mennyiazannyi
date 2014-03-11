@@ -7,13 +7,23 @@ Ractive.components.transactions = Component.extend({
 	adapt: ['Backbone'],
 	template: "#transactions",
 	data: {
-		newTransaction: {},
+		newTransaction: {
+			date: new Date(),
+			from: "",
+			to: "",
+			amount: {
+				sum: 0,
+				currency: "EUR"
+			},
+			text: "",
+			categories: ""
+		},
 		filter: function(transaction) {
 			return transaction;
 		}
 	},
 	init: function() {
-		this._super();
+		if (this._super) this._super();
 		
 		this.userObserver = page.observe("user", function(user, oldValue) {
 			if (user && user.uid) {
@@ -27,6 +37,13 @@ Ractive.components.transactions = Component.extend({
 			
 		});
 		
+		var self = this;
+		this.currencyObserver = currencyChooser.observe("currency", function(currency) {
+			if (! self.get("newTransaction.sum")) {
+				self.set("newTransaction.currency", currency);
+			}
+		});
+		
 		this.on({
 			'moveDown': function(event, direction) {
 				console.log(event);
@@ -37,16 +54,23 @@ Ractive.components.transactions = Component.extend({
 					date:t.date,
 					from:t.from,
 					to:t.to,
-					sum:t.sum,
+					 // enable decimal comma, avoid NaNs
+					sum: +(""+t.sum).replace(",", ".") || 0,
 					currency: t.currency,
 					text: t.text,
 					categories: t.categories
 				});
-				this.set('newTransaction.sum', "");
+				this.set('newTransaction.date', ""+new Date());
+				this.set('newTransaction.from', "");
+				this.set('newTransaction.to',   "");
+				this.set('newTransaction.sum',  "");
+				this.set('newTransaction.currency',  currencyChooser.data.currency);
 				this.set('newTransaction.text', "");
+				this.set('newTransaction.categories', "");
 			},
 			'teardown': function() {
 				this.userObserver.cancel();
+				this.currencyObserver.cancel();
 				
 				window.transactions = null;
 			} 
