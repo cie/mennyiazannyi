@@ -4,15 +4,14 @@ CURRENCIES= {
 	USD: {sign: "$", value: 1/1.39, name: "U.S. Dollar", format:  function(x){return "$ "+x.toFixed(2);}}
 };
 
-Ractive.components.currencyChooser = Component.extend({
-	template: "#currencyChooser",
-	data: {
-		currencies: CURRENCIES,
-		currency: "HUF"
-	},
-	init: function() {
-		if (this._super) this._super();
-		
+
+app.directive("currencyChooser", function(){
+	return {
+		restrict: "E",
+		scope: {},
+		templateUrl: tmpl("currencyChooser"),
+		controller: function($scope) {
+		/*
 		this.on("changeCurrency", function(event, value){
 			this.set("currency", value);
 		});
@@ -50,6 +49,8 @@ Ractive.components.currencyChooser = Component.extend({
 		});
 		
 		window.currencyChooser = this;
-		
+		*/
+		}
 	}
+		
 });

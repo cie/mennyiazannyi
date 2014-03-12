@@ -49,21 +49,22 @@ function getLang() {
 		}	
 	}
 	// default to English
-	return 'en';
+	return 'en'; 
 }
 
-Ractive.components.languageSelector = Component.extend({
-	template: "#languageSelector",
-	data: {
-		lang: getLang(),
-		langs: {
-			hu: {flag:'hu', name:'Magyar'}
-		    ,en: {flag:'gb', name:'English'}
+app.directive("languageSelector", function() {
+	return {
+		templateUrl: tmpl("languageSelector"),
+		scope: {
+			lang: "&getLang()",
+		},
+		controller: function($scope) {
+			$scope.langs = {
+					hu: {flag:'hu', name:'Magyar'}
+			    ,en: {flag:'gb', name:'English'}
+			};
 		}
-	},
-	init: function() {
-		if (this._super) this._super();
-		
+		/*
 		this.on("changeLanguage", function(event, value){
 			this.set("lang", value);
 		});
@@ -76,7 +77,6 @@ Ractive.components.languageSelector = Component.extend({
 				});
 			});
 		});
-		
-		window.languageSelector = this;
+		*/
 	}
 });

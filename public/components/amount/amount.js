@@ -1,4 +1,4 @@
-Ractive.components.amount = Component.extend({
+/*Ractive.components.amount = Component.extend({
 	template: "#amount",
 	data: {
 		value: {
@@ -37,4 +37,4 @@ Ractive.components.amount = Component.extend({
 		updating = false;
 
 	}
-});
+});*/

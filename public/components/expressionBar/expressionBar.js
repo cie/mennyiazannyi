@@ -1,4 +1,4 @@
-Ractive.components.expressionBar = Component.extend({
+/*Ractive.components.expressionBar = Component.extend({
 	template: "#expressionBar",
 	data: {
 		
@@ -6,4 +6,4 @@ Ractive.components.expressionBar = Component.extend({
 	init: function() {
 		if (this._super) this._super();
 	}
-});
+});*/

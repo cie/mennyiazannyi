@@ -30,85 +30,17 @@ GLOBALS = [
 db$ = new Firebase(FIREBASE);
 users$ = db$.child("users");
 
+var app = angular.module("app", ["firebase"]);
 
 
 /**
- * Router
+ * template url
  */
+function tmpl(name) {
+	return "components/"+name+"/"+name+".html";
+}
 
-Router = Backbone.Router.extend({
-	routes: {
-	}
-});
-router = new Router();
-
-
-/**
- * Ractive settings
- */
-Ractive.defaults.debug = true;
-
-
-/**
- * The root of all components
- */
-Component = Ractive.extend({
-	
-	beforeInit: function() {
-		var _this = this; 
-		afterwards(function() {
-	        var pullerObserver, pullers, pushers, variable, _i, _len;
-	        
-	        // calculate globals from global and local list of globals
-	        var globals = GLOBALS.slice(0);
-	        if (_this.globals) {
-	        	globals = globals.concat(this.globals);
-	        }
-	        
-	        // introduce these only if not the top level component 
-	        if (_this !== page) {
-	          pullers = {};
-	          pushers = {};
-	          _this.pushDisabled = true;
-	          
-	          for (_i = 0, _len = globals.length; _i < _len; _i++) {
-	            variable = globals[_i];
-	            pullers[variable] = (function(variable) {
-	              return function(newValue) {
-	                _this.pushDisabled = true;
-	                _this.set(variable, newValue);
-	                _this.pushDisabled = false;
-	              };
-	            })(variable);
-	            pushers[variable] = (function(variable) {
-	              return function(newValue) {
-	                if (!_this.pushDisabled) {
-	                  page.set(variable, newValue);
-	                }
-	              };
-	            })(variable);
-	          }
-	          pullerObserver = page.observe(pullers);
-	          _this.observe(pushers);
-	          _this.pushDisabled = false;
-	          return _this.on("teardown", function() {
-	            return pullerObserver.cancel();
-	          });
-	        }
-	      });
-	}
-});
-
-/*
- * Helpers
- */
-
-/**
- * Schedules a function
- */
-function afterwards(fn) {
-	setTimeout(fn, 0);
-}Ractive.components.amount = Component.extend({
+/*Ractive.components.amount = Component.extend({
 	template: "#amount",
 	data: {
 		value: {
@@ -147,21 +79,20 @@ function afterwards(fn) {
 		updating = false;
 
 	}
-});CURRENCIES= {
+});*/CURRENCIES= {
 	EUR: {sign: "€", value: 1, name: "Euro", format: function(x){return "€ "+x.toFixed(2);}},
 	HUF: {sign: "Ft", value: 1/309, name: "Hungarian Forint", format:  function(x){return x.toFixed(0)+" Ft";}},
 	USD: {sign: "$", value: 1/1.39, name: "U.S. Dollar", format:  function(x){return "$ "+x.toFixed(2);}}
 };
 
-Ractive.components.currencyChooser = Component.extend({
-	template: "#currencyChooser",
-	data: {
-		currencies: CURRENCIES,
-		currency: "HUF"
-	},
-	init: function() {
-		if (this._super) this._super();
-		
+
+app.directive("currencyChooser", function(){
+	return {
+		restrict: "E",
+		scope: {},
+		templateUrl: tmpl("currencyChooser"),
+		controller: function($scope) {
+		/*
 		this.on("changeCurrency", function(event, value){
 			this.set("currency", value);
 		});
@@ -199,9 +130,11 @@ Ractive.components.currencyChooser = Component.extend({
 		});
 		
 		window.currencyChooser = this;
-		
+		*/
+		}
 	}
-});Ractive.components.expressionBar = Component.extend({
+		
+});/*Ractive.components.expressionBar = Component.extend({
 	template: "#expressionBar",
 	data: {
 		
@@ -209,7 +142,7 @@ Ractive.components.currencyChooser = Component.extend({
 	init: function() {
 		if (this._super) this._super();
 	}
-});TRANSLATIONS = {
+});*/TRANSLATIONS = {
 		hu: {
 			"Log in with": "Bejelentkezés",
 			"transactions": "Tranzakciók",
@@ -260,21 +193,22 @@ function getLang() {
 		}	
 	}
 	// default to English
-	return 'en';
+	return 'en'; 
 }
 
-Ractive.components.languageSelector = Component.extend({
-	template: "#languageSelector",
-	data: {
-		lang: getLang(),
-		langs: {
-			hu: {flag:'hu', name:'Magyar'}
-		    ,en: {flag:'gb', name:'English'}
+app.directive("languageSelector", function() {
+	return {
+		templateUrl: tmpl("languageSelector"),
+		scope: {
+			lang: "&getLang()",
+		},
+		controller: function($scope) {
+			$scope.langs = {
+					hu: {flag:'hu', name:'Magyar'}
+			    ,en: {flag:'gb', name:'English'}
+			};
 		}
-	},
-	init: function() {
-		if (this._super) this._super();
-		
+		/*
 		this.on("changeLanguage", function(event, value){
 			this.set("lang", value);
 		});
@@ -287,59 +221,48 @@ Ractive.components.languageSelector = Component.extend({
 				});
 			});
 		});
-		
-		window.languageSelector = this;
+		*/
 	}
 });
-Ractive.components.navbar = Component.extend({
-	template: "#navbar",
-	data: {
-		tabs: {
-			transactions: {icon:"transfer"},
-			budget: {icon:"briefcase"},
-			flow: {icon:"stats"},
-			love: {icon:"heart-empty"}
+app.directive("navbar", function(){
+	return {
+		restrict: "E",
+		scope: {},
+		templateUrl: tmpl("navbar"),
+		controller: function($scope) {
+			$scope.tabs = {
+				transactions: {icon:"transfer"},
+				budget: {icon:"briefcase"},
+				flow: {icon:"stats"},
+				love: {icon:"heart-empty"}
+			};
 		}
-	},
-	globals: ['tab'],
-	init: function() {
-		if (this._super) this._super();
-		
-		window.navbar = this;
 	}
 });
-router.route(":tab(/*others)", null, function(tab) {
-	page.set("tab", tab);
+app.directive("page", function(){
+	return {
+		restrict: "E",
+		scope: {},
+		templateUrl: tmpl("page"),
+		controller: function($scope) {
+			$scope.tab = "transactions";
+		}
+	};
 });
 
-Ractive.components.page = Component.extend({
-	template: "#page",
-	data: {
-		who: "World"
-	},
-	init: function() {
-		if (this._super) this._super();
-		window.page = this;
+
+app.directive("transaction", function() {
+	return {
+		restrict: "E",
+		scope: {
+			'value': '=value',
+			'class': '=class'
+		},
+		templateUrl: tmpl("transaction"),
+		controller: function() {
+			
+		}
 	}
-});
-
-
-Ractive.components.transaction = Component.extend({
-	template: "#transaction",
-	data: {
-	},
-	init: function() {
-		if (this._super) this._super();
-		
-		this.on({
-			'moveRight': function(event) {
-				$(event.node).parent().next().children("input").focus();
-			}
-		});
-	}
-});
-
-Transactions = Backbone.Firebase.Collection.extend({
 });
 
 MY_ACCOUNT = "Me";
@@ -357,89 +280,82 @@ myAccount = function(acctName) {
 	return false;
 }
 
-Ractive.components.transactions = Component.extend({
-	adapt: ['Backbone'],
-	template: "#transactions",
-	data: {
-		newTransaction: {
-			date:  new Date().toISOString().substring(0,10),
-			from: "",
-			to: "",
-			amount: {
-				sum: 0,
-				currency: "EUR"
-			},
-			text: "",
-			categories: ""
-		},
-		filter: function(transaction) {
-			return transaction;
-		}
-	},
-	init: function() {
-		if (this._super) this._super();
-		
-		this.userObserver = page.observe("user", function(user, oldValue) {
-			if (user && user.uid) {
-				this.data.transactions = new Transactions([], {
-					firebase: users$.child(user.uid).child("transactions")
-				});
-			} else {
-				this.data.transactions = [];
-			}
-			this.update();
+app.directive("transactions", function(){
+	return {
+		restrict: "E",
+		scope: {},
+		templateUrl: tmpl("transactions"),
+		controller: function($scope) {
+			$scope.newTransaction = {
+				date:  new Date().toISOString().substring(0,10),
+				from: "",
+				to: "",
+				amount: {
+					sum: 0,
+					currency: "EUR"
+				},
+				text: "",
+				categories: ""
+			};
+	
+			/*
+			this.userObserver = page.observe("user", function(user, oldValue) {
+				if (user && user.uid) {
+					this.data.transactions = new Transactions([], {
+						firebase: users$.child(user.uid).child("transactions")
+					});
+				} else {
+					this.data.transactions = [];
+				}
+				this.update();
+				
+			});
 			
-		});
-		
-		var self = this;
-		this.currencyObserver = currencyChooser.observe("currency", function(currency) {
-			if (! self.get("newTransaction.sum")) {
-				self.set("newTransaction.currency", currency);
-			}
-		});
-		
-		this.on({
-			'moveDown': function(event, direction) {
-				console.log(event);
-			},
-			'addTransaction': function() {
-				var t = this.data.newTransaction;
-				this.data.transactions.push({
-					date:t.date,
-					from:t.from,
-					to:t.to,
-					 // enable decimal comma, avoid NaNs
-					sum: +(""+t.sum).replace(",", ".") || 0,
-					currency: t.currency,
-					text: t.text,
-					categories: t.categories
-				});
-				// keep date as it is
-				//this.set('newTransaction.date', new Date().toDateString());
-				if (!myAccount(t.from)) this.set('newTransaction.from', "");
-				if (!myAccount(t.to))   this.set('newTransaction.to',   "");
-				this.set('newTransaction.sum',  "");
-				this.set('newTransaction.currency',  currencyChooser.data.currency);
-				this.set('newTransaction.text', "");
-				this.set('newTransaction.categories', "");
-				
-				// focus first item in new row
-				$("table>tfoot>tr input",this.el).first().focus()
-			},
-			'teardown': function() {
-				this.userObserver.cancel();
-				this.currencyObserver.cancel();
-				
-				window.transactions = null;
-			} 
-		});
-		
-		window.transactions = this;
+			var self = this;
+			this.currencyObserver = currencyChooser.observe("currency", function(currency) {
+				if (! self.get("newTransaction.sum")) {
+					self.set("newTransaction.currency", currency);
+				}
+			});
+			
+			this.on({
+				'moveDown': function(event, direction) {
+					console.log(event);
+				},
+				'addTransaction': function() {
+					var t = this.data.newTransaction;
+					this.data.transactions.push({
+						date:t.date,
+						from:t.from,
+						to:t.to,
+						 // enable decimal comma, avoid NaNs
+						sum: +(""+t.sum).replace(",", ".") || 0,
+						currency: t.currency,
+						text: t.text,
+						categories: t.categories
+					});
+					// keep date as it is
+					//this.set('newTransaction.date', new Date().toDateString());
+					if (!myAccount(t.from)) this.set('newTransaction.from', "");
+					if (!myAccount(t.to))   this.set('newTransaction.to',   "");
+					this.set('newTransaction.sum',  "");
+					this.set('newTransaction.currency',  currencyChooser.data.currency);
+					this.set('newTransaction.text', "");
+					this.set('newTransaction.categories', "");
+					
+					// focus first item in new row
+					$("table>tfoot>tr input",this.el).first().focus()
+				},
+				'teardown': function() {
+					this.userObserver.cancel();
+					this.currencyObserver.cancel();
+					
+					window.transactions = null;
+				} 
+			});*/
+		}
 	}
-});Ractive.components.userAccount = Component.extend({
-	template: "#userAccount",
-	init: function() {
-		if (this._super) this._super();
+});/*
 		
 		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
 			if (!error) {
@@ -460,4 +376,4 @@ Ractive.components.transactions = Component.extend({
 		
 		window.userAccount = this;
 	}
-});
+}); */

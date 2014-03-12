@@ -21,43 +21,12 @@
 	</propertyhelper>
 	
 
-	<target name="compile" depends="index.html,style.css,page.js">
+	<target name="compile" depends="style.css,page.js">
 	</target>
 	
 
 
-	<target name="index.html" description="A fő html fájl">
-
-		<concat destfile="public/index.html">
-			<fileset dir=".">
-				<include name="structure/index.begin.html" />
-			</fileset>
-		</concat>
-
-		<!-- template-ek. http://stackoverflow.com/questions/7260448/apache-ant-add-header-footer-to-every-file-in-concat-job -->
-		<path id="html_files">
-			<fileset dir="components" includes="**/*.html" />
-		</path>
-		<fl:for var="file" in="split('${html_files}', ':')">
-			<!-- unset property for next loop -->
-			<fl:unset>content</fl:unset>
-			<!-- load file contents to property -->
-			<loadfile property="content" srcFile="${file}" />
-
-			<echo file="public/index.html" append="true">
-				<!-- the id attribute gets filled with the basename of the current fileitem -->
-				<![CDATA[<script type="text/ractive" id="${replace(file, '$1' , '.+?(\w+)\..+' )}">]]></echo>
-			<echo file="public/index.html" message="${content}" append="true" />
-			<echo file="public/index.html" append="true">
-				<![CDATA[</script>]]></echo>
-	</fl:for>
-
-	<concat destfile="public/index.html" append="true">
-		<fileset dir=".">
-			<include name="structure/index.end.html" />
-		</fileset>
-	</concat>
-</target>
+	
 
 <target name="page.js" description="az összes javascript egybe">
 	<concat destfile="public/js/app.js">
@@ -69,7 +38,7 @@
 		<fileset dir=".">
 			<include name="structure/base.js" />
 		</fileset>
-		<fileset dir="components">
+		<fileset dir="public/components">
 			<include name="**/*.js" />
 		</fileset>
 	</concat>
@@ -82,7 +51,7 @@
 	    			 * app.css
 	    			 */
 	    		</header>
-		<fileset dir="components">
+		<fileset dir="public/components">
 			<include name="**/*.css" />
 		</fileset>
 	</concat>

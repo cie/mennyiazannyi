@@ -1,7 +1,4 @@
-Ractive.components.userAccount = Component.extend({
-	template: "#userAccount",
-	init: function() {
-		if (this._super) this._super();
+/*
 		
 		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
 			if (!error) {
@@ -22,4 +19,4 @@ Ractive.components.userAccount = Component.extend({
 		
 		window.userAccount = this;
 	}
-});
+}); */
