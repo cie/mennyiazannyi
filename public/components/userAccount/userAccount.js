@@ -1,22 +1,9 @@
-/*
-		
-		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
-			if (!error) {
-				page.set("user", user);
-			} else {	
-				
-			}
-		});
-		
-		this.on({
-			"login": function(event, provider) {
-				this.auth.login(provider);
-			},
-			"logout": function(event, provider) {
-				this.auth.logout();
-			}
-		});
-		
-		window.userAccount = this;
+app.directive("userAccount", function() {
+	return {
+		restrict: "E",
+		templateUrl: tmpl("userAccount"),
+		controller: function($scope, $firebase, $firebaseSimpleLogin) {
+			$scope.auth = $firebaseSimpleLogin(dbRef);
+		}
 	}
-}); */
+});

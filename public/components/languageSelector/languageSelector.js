@@ -37,7 +37,7 @@ TRANSLATIONS = {
 			
 			"LAST":""
 		}
-}
+};
 
 function getLang() {
 	// try to find out the user's language
@@ -54,14 +54,14 @@ function getLang() {
 
 app.directive("languageSelector", function() {
 	return {
+		restrict: "EA",
 		templateUrl: tmpl("languageSelector"),
 		scope: {
-			lang: "&getLang()",
 		},
 		controller: function($scope) {
 			$scope.langs = {
 					hu: {flag:'hu', name:'Magyar'}
-			    ,en: {flag:'gb', name:'English'}
+			       ,en: {flag:'gb', name:'English'}
 			};
 		}
 		/*

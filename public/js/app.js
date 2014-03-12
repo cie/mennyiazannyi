@@ -27,8 +27,8 @@ GLOBALS = [
  * Firebase connections
  */
 
-db$ = new Firebase(FIREBASE);
-users$ = db$.child("users");
+dbRef = new Firebase(FIREBASE);
+usersRef = dbRef.child("users");
 
 var app = angular.module("app", ["firebase"]);
 
@@ -181,7 +181,7 @@ app.directive("currencyChooser", function(){
 			
 			"LAST":""
 		}
-}
+};
 
 function getLang() {
 	// try to find out the user's language
@@ -198,14 +198,14 @@ function getLang() {
 
 app.directive("languageSelector", function() {
 	return {
+		restrict: "EA",
 		templateUrl: tmpl("languageSelector"),
 		scope: {
-			lang: "&getLang()",
 		},
 		controller: function($scope) {
 			$scope.langs = {
 					hu: {flag:'hu', name:'Magyar'}
-			    ,en: {flag:'gb', name:'English'}
+			       ,en: {flag:'gb', name:'English'}
 			};
 		}
 		/*
@@ -355,25 +355,12 @@ app.directive("transactions", function(){
 			});*/
 		}
 	}
-});/*
-		
-		this.auth = new FirebaseSimpleLogin(db$, function(error, user) {
-			if (!error) {
-				page.set("user", user);
-			} else {	
-				
-			}
-		});
-		
-		this.on({
-			"login": function(event, provider) {
-				this.auth.login(provider);
-			},
-			"logout": function(event, provider) {
-				this.auth.logout();
-			}
-		});
-		
-		window.userAccount = this;
+});app.directive("userAccount", function() {
+	return {
+		restrict: "E",
+		templateUrl: tmpl("userAccount"),
+		controller: function($scope, $firebase, $firebaseSimpleLogin) {
+			$scope.auth = $firebaseSimpleLogin(dbRef);
+		}
 	}
-}); */
+});

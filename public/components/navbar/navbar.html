@@ -18,23 +18,14 @@
 			
 			<!-- move userAccont to first place in mobile -->
 			<ul class="nav navbar-nav navbar-right">
-				<userAccount />
+				<user-account></user-account>
 			</ul>
 			
-			
-			<ul class="nav navbar-nav pageTabs">
-				
-					<li ng-repeat="tab in tabs" class="{{#tab == id}}active{{/selected}}" title="{{t(id)}}"><a href="#{{id}}"><span class="glyphicon glyphicon-{{icon}}"></span>
-					<span class="inline"><span class="{{#tab != id}}visible-xs{{/not selected}}">{{t(id)}}</span></span>
-					</a></li>
-				
-			</ul>
-			
-			<expressionBar />
+			<expression-bar></expression-bar>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<currencyChooser />
-				<languageSelector />
+				<currency-chooser></currency-chooser>
+				<language-selector></language-selector>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->

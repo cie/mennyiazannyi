@@ -23,8 +23,8 @@ GLOBALS = [
  * Firebase connections
  */
 
-db$ = new Firebase(FIREBASE);
-users$ = db$.child("users");
+dbRef = new Firebase(FIREBASE);
+usersRef = dbRef.child("users");
 
 var app = angular.module("app", ["firebase"]);
 
