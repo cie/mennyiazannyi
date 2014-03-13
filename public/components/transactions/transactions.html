@@ -1,3 +1,4 @@
+
 <table class="table table-striped table-hover ">
 	<thead>
 		<tr>
@@ -12,8 +13,10 @@
 	</thead>
 	<tbody>
 		<tr transaction 
-			ng-repeat="tr in user.transactions | orderBy: date"
-			value="tr"			   
+			ng-repeat="(id,tr) in user.transactions | orderBy: date"
+			value="tr"
+			ng-class="{active: id == activeTransaction}"
+			on-focus="selectTransaction(id)"
 		></tr>
 	</tbody>
 	<tfoot>
@@ -26,6 +29,6 @@
 			<th>{{t('Comment')}}</th>
 			<th>{{t('Categories')}}</th>
 		</tr>
-		<tr transaction value="newTransaction" class="active"></tr>
+		<tr transaction value="newTransaction" class="newTransaction"></tr>
 	</tfoot>
 </table>

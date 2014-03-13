@@ -106,7 +106,11 @@ body {
 .table-hover > tbody > tr > td.income:hover,
 .table-hover > tbody > tr > th.income:hover,
 .table-hover > tbody > tr.income:hover > td,
-.table-hover > tbody > tr.income:hover > th {
+.table-hover > tbody > tr.income:hover > th, 
+.table-hover > tbody > tr > td.income.active,
+.table-hover > tbody > tr > th.income.active,
+.table-hover > tbody > tr.income.active > td,
+.table-hover > tbody > tr.income.active > th {
   background-color: #d0e9c6;
 }
 .table > thead > tr > td.income.expense,
@@ -126,7 +130,11 @@ body {
 .table-hover > tbody > tr > td.income.expense:hover,
 .table-hover > tbody > tr > th.income.expense:hover,
 .table-hover > tbody > tr.income.expense:hover > td,
-.table-hover > tbody > tr.income.expense:hover > th {
+.table-hover > tbody > tr.income.expense:hover > th,
+.table-hover > tbody > tr > td.income.expense.active,
+.table-hover > tbody > tr > th.income.expense.active,
+.table-hover > tbody > tr.income.expense.active > td,
+.table-hover > tbody > tr.income.expense.active > th  {
   background-color: #c4e3f3;
 }
 .table > thead > tr > td.expense,
@@ -146,6 +154,30 @@ body {
 .table-hover > tbody > tr > td.expense:hover,
 .table-hover > tbody > tr > th.expense:hover,
 .table-hover > tbody > tr.expense:hover > td,
-.table-hover > tbody > tr.expense:hover > th {
+.table-hover > tbody > tr.expense:hover > th,
+.table-hover > tbody > tr > td.expense.active,
+.table-hover > tbody > tr > th.expense.active,
+.table-hover > tbody > tr.expense.active > td,
+.table-hover > tbody > tr.expense.active > th{
   background-color: #faf2cc;
+}
+
+/* hidden inputs in the table */
+.table > tbody > tr > td .form-control {
+	background-color: rgba(255,255,255,0);
+	border-color: rgba(204,204,204,0);
+	box-shadow: none;
+}
+.table > tbody > tr > td .form-control:hover {
+	border-color: rgba(204,204,204,1);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.table > tbody > tr > td .form-control:focus {
+	background-color: rgba(255,255,255,1);
+	border-color: #66afe9;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.table > tfoot > tr.newTransaction > td {
+  background-color: #eeeeee;
 }

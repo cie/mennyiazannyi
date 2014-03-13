@@ -25,6 +25,10 @@ app.directive("transactions", function(){
 			element.children().first().unwrap();
 		},
 		controller: function($scope, $firebase) {
+			
+			$scope.selectTransaction = function(tr) {
+				$scope.activeTransaction = tr;
+			};
 		
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),

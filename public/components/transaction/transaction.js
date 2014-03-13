@@ -3,11 +3,17 @@ app.directive("transaction", function() {
 	return {
 		restrict: "A",
 		scope: {
-			'value': '=?value'
+			'value': '=?value',
+			'onFocus': '&onFocus'
 		},
 		templateUrl: tmpl("transaction"),
 		link: function(scope, element, attr) {
 			scope.element = element;
+			if (scope.onFocus) {
+				element.children("td").children("input").on("focus", function() {
+					scope.$apply(scope.onFocus);
+				});
+			}
 		},
 		controller: function($scope, myAccount) {
 			$scope.myAccount = myAccount;
