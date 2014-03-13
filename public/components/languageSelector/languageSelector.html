@@ -5,8 +5,11 @@
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		{{#langs:id}}
-			<li><a href="#" on-click="changeLanguage:{{id}}"><img class="flag" src="img/flags/{{flag}}.svg"> {{name}}</a></li>
-		{{/langs}}
+		<li ng-repeat="(id, l) in langs">
+			<a href="#" ng-click="selectLanguage(id)">
+				<img class="flag" ng-src="img/flags/{{l.flag}}.svg">
+				{{l.name}}
+			</a>
+		</li>
 	</ul>
 </li>

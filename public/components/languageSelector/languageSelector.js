@@ -1,5 +1,6 @@
 TRANSLATIONS = {
 		hu: {
+			"Hello": "Helló",
 			"Log in with": "Bejelentkezés",
 			"transactions": "Tranzakciók",
 			"budget": "Büdzsé",
@@ -39,6 +40,11 @@ TRANSLATIONS = {
 		}
 };
 
+LANGS = {
+		hu: {flag:'hu', name:'Magyar'}
+		,en: {flag:'gb', name:'English'}
+};
+
 function getLang() {
 	// try to find out the user's language
 	var lang = navigator.language || navigator.userLanguage;
@@ -52,31 +58,23 @@ function getLang() {
 	return 'en'; 
 }
 
+app.run(function($rootScope) {
+	$rootScope.lang = getLang();
+	$rootScope.t = function(term) {
+		return TRANSLATIONS[$rootScope.lang][term] || term;
+	}
+});
+
 app.directive("languageSelector", function() {
 	return {
-		restrict: "EA",
+		restrict: "E",
 		templateUrl: tmpl("languageSelector"),
-		scope: {
-		},
-		controller: function($scope) {
-			$scope.langs = {
-					hu: {flag:'hu', name:'Magyar'}
-			       ,en: {flag:'gb', name:'English'}
+		controller: function($scope, $rootScope) {
+			$scope.langs = LANGS;
+			
+			$scope.selectLanguage = function(lang) {
+				$rootScope.lang = lang;
 			};
 		}
-		/*
-		this.on("changeLanguage", function(event, value){
-			this.set("lang", value);
-		});
-		
-		this.observe("lang", function(newValue, oldValue) {
-			var translations = TRANSLATIONS[newValue];
-			afterwards(function(){
-				page.set('t', function(term) {
-					return translations[term] || term;
-				});
-			});
-		});
-		*/
 	}
 });

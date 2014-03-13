@@ -2,7 +2,6 @@
 app.directive("navbar", function(){
 	return {
 		restrict: "E",
-		scope: {},
 		templateUrl: tmpl("navbar"),
 		controller: function($scope) {
 			$scope.tabs = {
