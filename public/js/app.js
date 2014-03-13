@@ -265,13 +265,13 @@ app.directive("page", function(){
 
 app.directive("transaction", function() {
 	return {
-		restrict: "E",
+		restrict: "A",
 		scope: {
-			'value': '=value',
-			'class': '=class'
+			'value': '=?value',
+			'class': '@class'
 		},
 		templateUrl: tmpl("transaction"),
-		controller: function() {
+		controller: function($scope) {
 			
 		}
 	}
@@ -295,8 +295,10 @@ myAccount = function(acctName) {
 app.directive("transactions", function(){
 	return {
 		restrict: "E",
-		scope: {},
 		templateUrl: tmpl("transactions"),
+		link: function(scope, element, attrs) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope) {
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),
@@ -309,6 +311,9 @@ app.directive("transactions", function(){
 				text: "",
 				categories: ""
 			};
+		}
+	}
+});
 	
 			/*
 			this.userObserver = page.observe("user", function(user, oldValue) {
@@ -365,9 +370,7 @@ app.directive("transactions", function(){
 					window.transactions = null;
 				} 
 			});*/
-		}
-	}
-});app.directive("userAccount", function() {
+app.directive("userAccount", function() {
 	return {
 		restrict: "EA",
 		templateUrl: tmpl("userAccount"),

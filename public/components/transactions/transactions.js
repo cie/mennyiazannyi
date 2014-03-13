@@ -18,8 +18,10 @@ myAccount = function(acctName) {
 app.directive("transactions", function(){
 	return {
 		restrict: "E",
-		scope: {},
 		templateUrl: tmpl("transactions"),
+		link: function(scope, element, attrs) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope) {
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),
@@ -32,6 +34,9 @@ app.directive("transactions", function(){
 				text: "",
 				categories: ""
 			};
+		}
+	}
+});
 	
 			/*
 			this.userObserver = page.observe("user", function(user, oldValue) {
@@ -88,6 +93,3 @@ app.directive("transactions", function(){
 					window.transactions = null;
 				} 
 			});*/
-		}
-	}
-});

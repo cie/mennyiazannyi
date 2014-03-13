@@ -10,11 +10,10 @@
 			<th>{{t('Categories')}}</th>
 		</tr>
 	</thead>
-	<tbody ng-repeat="transaction in transactions | orderBy:'date'">
-		<transaction value="transaction" on-newline="moveDown" />
+	<tbody>
+		<tr transaction ng-repeat="tr in transactions | orderBy: date" value="tr"></tr>
 	</tbody>
 	<tfoot>
-		<transaction value="{{newTransaction}}" on-newline="addTransaction"
-			class="active" />
+		<tr transaction value="newTransaction" class="active"></tr>
 	</tfoot>
 </table>

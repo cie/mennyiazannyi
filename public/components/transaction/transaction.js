@@ -1,13 +1,13 @@
 
 app.directive("transaction", function() {
 	return {
-		restrict: "E",
+		restrict: "A",
 		scope: {
-			'value': '=value',
-			'class': '=class'
+			'value': '=?value',
+			'class': '@class'
 		},
 		templateUrl: tmpl("transaction"),
-		controller: function() {
+		controller: function($scope) {
 			
 		}
 	}
