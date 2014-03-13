@@ -6,6 +6,7 @@ app.directive("transaction", function() {
 			'value': '=?value',
 			'onFocus': '&onFocus'
 		},
+		transclude: true,
 		templateUrl: tmpl("transaction"),
 		link: function(scope, element, attr) {
 			scope.element = element;

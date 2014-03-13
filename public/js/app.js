@@ -29,7 +29,15 @@ usersRef = dbRef.child("users");
 var app = angular.module("app", ["firebase"]);
 
 
-
+/**
+ * filters
+ */
+app.filter("map", function() {
+	return function(collection, mapping) {
+		if (!mapping) mapping = function(x) {return x}
+		return _.map(collection, mapping);
+	}
+});
 
 /**
  * template url
@@ -275,6 +283,7 @@ app.directive("transaction", function() {
 			'value': '=?value',
 			'onFocus': '&onFocus'
 		},
+		transclude: true,
 		templateUrl: tmpl("transaction"),
 		link: function(scope, element, attr) {
 			scope.element = element;

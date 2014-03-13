@@ -13,11 +13,15 @@
 	</thead>
 	<tbody>
 		<tr transaction 
-			ng-repeat="(id,tr) in user.transactions | orderBy: date"
+			ng-repeat="(id,tr) in user.transactions | map | orderBy:'date'"
 			value="tr"
 			ng-class="{active: id == activeTransaction}"
 			on-focus="selectTransaction(id)"
-		></tr>
+		>
+			<td class="actions">
+				<a href="#">X</a>
+			</td>
+		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
@@ -29,6 +33,10 @@
 			<th>{{t('Comment')}}</th>
 			<th>{{t('Categories')}}</th>
 		</tr>
-		<tr transaction value="newTransaction" class="newTransaction"></tr>
+		<tr transaction value="newTransaction" class="newTransaction">
+			<td class="actions">
+				<a href="#">+</a>
+			</td>
+		</tr>
 	</tfoot>
 </table>

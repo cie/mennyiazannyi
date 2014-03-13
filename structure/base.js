@@ -25,7 +25,15 @@ usersRef = dbRef.child("users");
 var app = angular.module("app", ["firebase"]);
 
 
-
+/**
+ * filters
+ */
+app.filter("map", function() {
+	return function(collection, mapping) {
+		if (!mapping) mapping = function(x) {return x}
+		return _.map(collection, mapping);
+	}
+});
 
 /**
  * template url
