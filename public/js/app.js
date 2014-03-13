@@ -78,17 +78,32 @@ function tmpl(name) {
 	USD: {sign: "$", value: 1/1.39, name: "U.S. Dollar", format:  function(x){return "$ "+x.toFixed(2);}}
 };
 
+// redefine currency filter
+app.filter("currency", function($rootScope) {
+	return function(amount) {
+		return "<currency> " + $rootScope.currency;
+	};
+});
+
+app.run(function($rootScope) {
+	$rootScope.currency = "EUR";
+})
+
 
 app.directive("currencyChooser", function(){
 	return {
 		restrict: "E",
-		scope: {},
 		templateUrl: tmpl("currencyChooser"),
-		controller: function($scope) {
+		controller: function($scope, $rootScope) {
+			$scope.currencies = CURRENCIES;
+			$scope.chooseCurrency = function(currency) {
+				$rootScope.currency = currency;
+			};
+		}
+	}		
+});
+			
 		/*
-		this.on("changeCurrency", function(event, value){
-			this.set("currency", value);
-		});
 		
 		var self = this;
 		this.observe("currency", function(newValue, oldValue) {
@@ -123,11 +138,7 @@ app.directive("currencyChooser", function(){
 		});
 		
 		window.currencyChooser = this;
-		*/
-		}
-	}
-		
-});/*Ractive.components.expressionBar = Component.extend({
+		*//*Ractive.components.expressionBar = Component.extend({
 	template: "#expressionBar",
 	data: {
 		

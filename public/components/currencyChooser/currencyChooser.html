@@ -5,8 +5,10 @@
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		{{#currencies:id}}
-			<li><a href="#" on-click="changeCurrency:{{id}}">{{t(name)}} ({{sign}})</a></li>
-		{{/currencies}}
+		<li ng-repeat="(id,c) in currencies">
+			<a href="#" ng-click="chooseCurrency(id)">
+				{{t(c.name)}} ({{c.sign}})
+			</a>
+		</li>
 	</ul>
 </li>
