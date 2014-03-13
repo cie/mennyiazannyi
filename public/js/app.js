@@ -392,7 +392,7 @@ app.directive("userAccount", function() {
 					$firebase(usersRef.child(user.uid))
 					  .$bind($rootScope, "user");
 				} else {
-					$rootScope.user = null;
+					$rootScope.user = undefined;
 				}
 			});
 			
