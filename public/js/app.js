@@ -23,7 +23,12 @@ FIREBASE = "https://mennyiazannyi.firebaseio.com/";
 dbRef = new Firebase(FIREBASE);
 usersRef = dbRef.child("users");
 
+/**
+ * the app
+ */
 var app = angular.module("app", ["firebase"]);
+
+
 
 
 /**
@@ -299,7 +304,8 @@ app.directive("transactions", function(){
 		link: function(scope, element, attrs) {
 			element.children().first().unwrap();
 		},
-		controller: function($scope) {
+		controller: function($scope, $firebase) {
+		
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),
 				from: "",
@@ -370,6 +376,7 @@ app.directive("transactions", function(){
 					window.transactions = null;
 				} 
 			});*/
+
 app.directive("userAccount", function() {
 	return {
 		restrict: "EA",
@@ -377,14 +384,24 @@ app.directive("userAccount", function() {
 		link: function(scope, element, attr) {
 			element.children().first().unwrap();
 		},
-		controller: function($scope, $firebase, $firebaseSimpleLogin) {
-			$scope.auth = $firebaseSimpleLogin(dbRef);
+		controller: function($scope, $rootScope, $firebase, $firebaseSimpleLogin) {
+			$rootScope.auth = $firebaseSimpleLogin(dbRef);
+			
+			$rootScope.$watch("auth.user", function(user, oldValue) {
+				if (user) {
+					$firebase(usersRef.child(user.uid))
+					  .$bind($rootScope, "user");
+				} else {
+					$rootScope.user = null;
+				}
+			});
 			
 			$scope.login = function(provider) {
-				$scope.auth.$login(provider);
+				$rootScope.auth.$login(provider);
 			};
+			
 			$scope.logout = function() {
-				$scope.auth.$logout();
+				$rootScope.auth.$logout();
 			};
 		}
 	}

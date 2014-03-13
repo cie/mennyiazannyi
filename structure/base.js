@@ -19,7 +19,12 @@ FIREBASE = "https://mennyiazannyi.firebaseio.com/";
 dbRef = new Firebase(FIREBASE);
 usersRef = dbRef.child("users");
 
+/**
+ * the app
+ */
 var app = angular.module("app", ["firebase"]);
+
+
 
 
 /**

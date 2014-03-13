@@ -22,7 +22,8 @@ app.directive("transactions", function(){
 		link: function(scope, element, attrs) {
 			element.children().first().unwrap();
 		},
-		controller: function($scope) {
+		controller: function($scope, $firebase) {
+		
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),
 				from: "",
