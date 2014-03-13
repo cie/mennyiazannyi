@@ -11,9 +11,21 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr transaction ng-repeat="tr in user.transactions | orderBy: date" value="tr"></tr>
+		<tr transaction 
+			ng-repeat="tr in user.transactions | orderBy: date"
+			value="tr"			   
+		></tr>
 	</tbody>
 	<tfoot>
+		<tr>
+			<th>{{t('Date')}}</th>
+			<th>{{t('From')}}</th>
+			<th>{{t('To')}}</th>
+			<th>{{t('Sum')}}</th>
+			<th>{{t('Currency')}}</th>
+			<th>{{t('Comment')}}</th>
+			<th>{{t('Categories')}}</th>
+		</tr>
 		<tr transaction value="newTransaction" class="active"></tr>
 	</tfoot>
 </table>

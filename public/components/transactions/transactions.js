@@ -5,15 +5,17 @@ MY_ACCOUNT = "Me";
 /**
  * Tell if an account is owned by the user.
  */
-myAccount = function(acctName) {
-	acctName = acctName.toLowerCase();
-	if (acctName == MY_ACCOUNT.toLowerCase()) return true;
-	for (lang in TRANSLATIONS) {
-		var translation = TRANSLATIONS[lang][MY_ACCOUNT];
-		if (translation && translation.toLowerCase() === acctName) return true;
+app.factory("myAccount", function() {
+	return function(acctName) {
+		acctName = acctName.toLowerCase();
+		if (acctName == MY_ACCOUNT.toLowerCase()) return true;
+		for (lang in TRANSLATIONS) {
+			var translation = TRANSLATIONS[lang][MY_ACCOUNT];
+			if (translation && translation.toLowerCase() === acctName) return true;
+		}
+		return false;
 	}
-	return false;
-}
+});
 
 app.directive("transactions", function(){
 	return {
