@@ -19,6 +19,9 @@ app.run(function($rootScope) {
 app.directive("currencyChooser", function(){
 	return {
 		restrict: "E",
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		templateUrl: tmpl("currencyChooser"),
 		controller: function($scope, $rootScope) {
 			$scope.currencies = CURRENCIES;

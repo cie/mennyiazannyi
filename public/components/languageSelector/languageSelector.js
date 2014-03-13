@@ -69,6 +69,9 @@ app.directive("languageSelector", function() {
 	return {
 		restrict: "E",
 		templateUrl: tmpl("languageSelector"),
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope, $rootScope) {
 			$scope.langs = LANGS;
 			

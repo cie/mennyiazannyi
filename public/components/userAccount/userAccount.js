@@ -1,7 +1,10 @@
 app.directive("userAccount", function() {
 	return {
-		restrict: "E",
+		restrict: "EA",
 		templateUrl: tmpl("userAccount"),
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope, $firebase, $firebaseSimpleLogin) {
 			$scope.auth = $firebaseSimpleLogin(dbRef);
 			
@@ -10,7 +13,7 @@ app.directive("userAccount", function() {
 			};
 			$scope.logout = function() {
 				$scope.auth.$logout();
-			} 
+			};
 		}
 	}
 });

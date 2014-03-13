@@ -93,6 +93,9 @@ app.run(function($rootScope) {
 app.directive("currencyChooser", function(){
 	return {
 		restrict: "E",
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		templateUrl: tmpl("currencyChooser"),
 		controller: function($scope, $rootScope) {
 			$scope.currencies = CURRENCIES;
@@ -217,6 +220,9 @@ app.directive("languageSelector", function() {
 	return {
 		restrict: "E",
 		templateUrl: tmpl("languageSelector"),
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope, $rootScope) {
 			$scope.langs = LANGS;
 			
@@ -357,8 +363,11 @@ app.directive("transactions", function(){
 	}
 });app.directive("userAccount", function() {
 	return {
-		restrict: "E",
+		restrict: "EA",
 		templateUrl: tmpl("userAccount"),
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
 		controller: function($scope, $firebase, $firebaseSimpleLogin) {
 			$scope.auth = $firebaseSimpleLogin(dbRef);
 			
@@ -367,7 +376,7 @@ app.directive("transactions", function(){
 			};
 			$scope.logout = function() {
 				$scope.auth.$logout();
-			} 
+			};
 		}
 	}
 });
