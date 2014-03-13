@@ -141,15 +141,21 @@ app.directive("currencyChooser", function(){
 		});
 		
 		window.currencyChooser = this;
-		*//*Ractive.components.expressionBar = Component.extend({
-	template: "#expressionBar",
-	data: {
-		
-	},
-	init: function() {
-		if (this._super) this._super();
+		*/app.run(function($rootScope){
+	$rootScope.expression = "all";
+});
+
+app.directive("expressionBar", function(){
+	return {
+		restrict: "E",
+		templateUrl: tmpl("expressionBar"),
+		link: function(scope, element, attrs) {
+			element.children().first().unwrap();
+		},
+		controller: function($scope) {
+		}
 	}
-});*/TRANSLATIONS = {
+});TRANSLATIONS = {
 		hu: {
 			"Hello": "Helló",
 			"Log in with": "Bejelentkezés",
