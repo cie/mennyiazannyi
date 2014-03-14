@@ -1,13 +1,41 @@
-<div class="panel">
+
+<div class="jumbotron" ng-show="!user">
+	<div ng-if="lang=='en'">
+		<h1>Welcome!</h1>
+		<p>
+			Great that you are interested in the &nbsp;<img src="img/logo.svg"
+				width=110 />&nbsp; personal finances program.
+		</p>
+		<p>
+			First, <a class="btn btn-primary btn-lg" href="#"
+				ng-click="auth.$login('persona')">Log in</a> with your e-mail
+			address.
+		</p>
+	</div>
+	<div ng-if="lang=='hu'">
+		<h1>Helló!</h1>
+		<p>
+			Örülök, hogy érdeklődsz a &nbsp;<img src="img/logo.svg" width=110 />&nbsp;
+			személyes pénzügyi program iránt!
+		</p>
+		<p>
+			Először is, <a class="btn btn-primary btn-lg" href="#"
+				ng-click="auth.$login('persona')">Jelentkezz be</a> az e-mail
+			címeddel!
+		</p>
+	</div>
+</div>
+
+<div class="panel" ng-show="user">
 	<div class="panel-body">
 
 		<div ng-if="lang=='en'">
-			<h1>Welcome!</h1>
+			<h1>Hi!</h1>
 
-			<p>Great that you try out this personal finances program! Some
-				tips to get started:</p>
+			<p>Here are some tips to get started:</p>
 
 			<ul>
+
 				<li>You can add a new transaction with the <span
 					class="glyphicon glyphicon-ok"></span> button.
 				</li>
@@ -20,17 +48,20 @@
 					class="glyphicon glyphicon-remove"></span> button. It will not
 					delete it permanently, you can recover it afterwards.
 				</li>
+				<li>In the Categories column, you can write multiple categories
+					separated by commas, e.g. `food, family, very cheap´. Later you can
+					select transactions based on the categories.</li>
 			</ul>
 
 		</div>
 
 		<div ng-if="lang=='hu'">
-			<h1>Helló!</h1>
+			<h1>Üdv!</h1>
 
-			<p>Örülök, hogy kipróbálod a Mennyi a Zannyi programot! Néhány
-				javaslat:</p>
+			<p>Itt van néhány javaslat a kezdéshez:</p>
 
 			<ul>
+
 				<li>A pipa (<span class="glyphicon glyphicon-ok"></span>)
 					gombbal tudsz egy új tranzakciót felvenni.
 				</li>
@@ -43,6 +74,9 @@
 					class="glyphicon glyphicon-remove"></span> gombbal tudsz, de nem
 					véglegesen. Utána vissza tudod állítani.
 				</li>
+				<li>Több kategóriát is megadhatsz a Kategóriák oszlopban,
+					vesszővel elválasztva, pl. „kaja, család, nagyon olcsó”. Később
+					ezek alapján tudod kiválasztani a tranzakciókat.</li>
 			</ul>
 
 		</div>
