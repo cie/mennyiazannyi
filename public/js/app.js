@@ -202,6 +202,17 @@ app.directive("footer", function(){
 			$scope.verse = verses[_.random(0, verses.length-1)];
 		}
 	}
+});app.directive("intro", function() {
+	return {
+		restrict: "EA",
+		templateUrl: tmpl("intro"),
+		link: function(scope, element, attr) {
+			element.children().first().unwrap();
+		},
+		controller: function($scope) {
+			
+		}
+	}
 });TRANSLATIONS = {
 		hu: {
 			"Hello": "Helló",
