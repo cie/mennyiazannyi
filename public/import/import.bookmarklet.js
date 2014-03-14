@@ -152,7 +152,7 @@ javascript:(function() {
 			commentSelector = createSelector($comment, $trans, true);
 			
 			if (!(myAccount = prompt(
-					"What is the name of your account (to write in the From/To field) (write 'me' in your language if unsure)",
+					"What is the name of your account (to write in the From/To field) (e.g. 'me' or 'bank account')",
 					"Me")))
 				return;
 			
