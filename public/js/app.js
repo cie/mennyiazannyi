@@ -303,6 +303,9 @@ app.directive("transaction", function() {
 			$scope.$watch("myAccount(value.to)", function(income) {
 				$scope.element.toggleClass("income", income);
 			});
+			$scope.$watch("value.deleted", function(deleted) {
+				$scope.element.toggleClass("deleted", !!deleted);
+			});
 		}
 	}
 });
@@ -330,24 +333,68 @@ app.directive("transactions", function(){
 		templateUrl: tmpl("transactions"),
 		link: function(scope, element, attrs) {
 			element.children().first().unwrap();
+			scope.element = element;
 		},
-		controller: function($scope, $firebase) {
+		controller: function($scope, $firebase, $rootScope, myAccount, $timeout) {
 			
-			$scope.selectTransaction = function(tr) {
-				$scope.activeTransaction = tr;
+			$scope.selectTransaction = function(id) {
+				$scope.activeTransaction = id;
 			};
 		
 			$scope.newTransaction = {
 				date:  new Date().toISOString().substring(0,10),
 				from: "",
 				to: "",
-				amount: {
-					sum: 0,
-					currency: "EUR"
-				},
+				sum: "", 
+				currency: $rootScope.currency,
 				text: "",
 				categories: ""
 			};
+			
+			$rootScope.$watch("currency", function(currency) {
+				// if no sum entered
+				if (!+$scope.newTransaction.sum) {
+					$scope.newTransaction.currency = currency;
+				}
+			});
+			
+			$scope.addTransaction = function() {
+				var t = $scope.newTransaction;
+				$scope.user.$child("transactions").$add({
+					date:t.date,
+					from:t.from,
+					to:t.to,
+					 // enable decimal comma, avoid NaNs
+					sum: +(""+t.sum).replace(",", ".") || 0,
+					currency: t.currency,
+					text: t.text,
+					categories: t.categories
+				}).then(function(id){
+					// select new transaction
+					$timeout(function() {
+						$scope.activeTransaction = id.name();
+					},0);
+				});
+				// keep date as it is
+				//this.set('newTransaction.date', new Date().toDateString());
+				if (!myAccount(t.from)) $scope.newTransaction.from = "";
+				if (!myAccount(t.to))   $scope.newTransaction.to = "";
+				$scope.newTransaction.sum = "";
+				$scope.newTransaction.currency = $rootScope.currency;
+				$scope.newTransaction.text = "";
+				$scope.newTransaction.categories = "";
+				
+				// focus first item in new row
+				$("table>tfoot>tr input",$scope.element).first().focus()
+				
+			};
+			 
+			$scope.deleteTransaction = function(tr) {
+				tr.deleted = true;
+			}
+			$scope.restoreTransaction = function(tr) {
+				tr.deleted = false;
+			}
 		}
 	}
 });
@@ -365,40 +412,14 @@ app.directive("transactions", function(){
 				
 			});
 			
-			var self = this;
-			this.currencyObserver = currencyChooser.observe("currency", function(currency) {
-				if (! self.get("newTransaction.sum")) {
-					self.set("newTransaction.currency", currency);
-				}
-			});
+			
 			
 			this.on({
 				'moveDown': function(event, direction) {
 					console.log(event);
 				},
 				'addTransaction': function() {
-					var t = this.data.newTransaction;
-					this.data.transactions.push({
-						date:t.date,
-						from:t.from,
-						to:t.to,
-						 // enable decimal comma, avoid NaNs
-						sum: +(""+t.sum).replace(",", ".") || 0,
-						currency: t.currency,
-						text: t.text,
-						categories: t.categories
-					});
-					// keep date as it is
-					//this.set('newTransaction.date', new Date().toDateString());
-					if (!myAccount(t.from)) this.set('newTransaction.from', "");
-					if (!myAccount(t.to))   this.set('newTransaction.to',   "");
-					this.set('newTransaction.sum',  "");
-					this.set('newTransaction.currency',  currencyChooser.data.currency);
-					this.set('newTransaction.text', "");
-					this.set('newTransaction.categories', "");
 					
-					// focus first item in new row
-					$("table>tfoot>tr input",this.el).first().focus()
 				},
 				'teardown': function() {
 					this.userObserver.cancel();

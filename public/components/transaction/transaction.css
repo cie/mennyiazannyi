@@ -1,3 +1,12 @@
+.deleted {
+	text-decoration: line-through;
+}
+.table > tbody > tr > td > .btn {
+	visibility: hidden;
+}
+.table > tbody > tr:hover > td > .btn {
+	visibility: visible;
+}
 
 .table > tfoot > tr.newTransaction > td {
   background-color: #eeeeee;
@@ -18,6 +27,22 @@
 .table > tfoot > tr.income > th {
   background-color: #dff0d8;
 }
+.table-striped > thead > tr > td.income:nth-child(odd),
+.table-striped > tbody > tr > td.income:nth-child(odd),
+.table-striped > tfoot > tr > td.income:nth-child(odd),
+.table-striped > thead > tr > th.income:nth-child(odd),
+.table-striped > tbody > tr > th.income:nth-child(odd),
+.table-striped > tfoot > tr > th.income:nth-child(odd),
+.table-striped > thead > tr.income:nth-child(odd) > td,
+.table-striped > tbody > tr.income:nth-child(odd) > td,
+.table-striped > tfoot > tr.income:nth-child(odd) > td,
+.table-striped > thead > tr.income:nth-child(odd) > th,
+.table-striped > tbody > tr.income:nth-child(odd) > th,
+.table-striped > tfoot > tr.income:nth-child(odd) > th {
+  background-color: #dbeed3;
+}
+
+
 .table-hover > tbody > tr > td.income:hover,
 .table-hover > tbody > tr > th.income:hover,
 .table-hover > tbody > tr.income:hover > td,
@@ -28,6 +53,7 @@
 .table-hover > tbody > tr.income.active > th {
   background-color: #d0e9c6;
 }
+
 .table > thead > tr > td.income.expense,
 .table > tbody > tr > td.income.expense,
 .table > tfoot > tr > td.income.expense,
@@ -42,6 +68,7 @@
 .table > tfoot > tr.income.expense > th {
   background-color: #d9edf7;
 }
+
 .table-hover > tbody > tr > td.income.expense:hover,
 .table-hover > tbody > tr > th.income.expense:hover,
 .table-hover > tbody > tr.income.expense:hover > td,
@@ -65,6 +92,20 @@
 .table > tbody > tr.expense > th,
 .table > tfoot > tr.expense > th {
   background-color: #fcf8e3;
+}
+.table-striped > thead > tr > td.expense:nth-child(odd),
+.table-striped > tbody > tr > td.expense:nth-child(odd),
+.table-striped > tfoot > tr > td.expense:nth-child(odd),
+.table-striped > thead > tr > th.expense:nth-child(odd),
+.table-striped > tbody > tr > th.expense:nth-child(odd),
+.table-striped > tfoot > tr > th.expense:nth-child(odd),
+.table-striped > thead > tr.expense:nth-child(odd) > td,
+.table-striped > tbody > tr.expense:nth-child(odd) > td,
+.table-striped > tfoot > tr.expense:nth-child(odd) > td,
+.table-striped > thead > tr.expense:nth-child(odd) > th,
+.table-striped > tbody > tr.expense:nth-child(odd) > th,
+.table-striped > tfoot > tr.expense:nth-child(odd) > th {
+  background-color: #FCF7DD;
 }
 .table-hover > tbody > tr > td.expense:hover,
 .table-hover > tbody > tr > th.expense:hover,

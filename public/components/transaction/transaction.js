@@ -26,6 +26,9 @@ app.directive("transaction", function() {
 			$scope.$watch("myAccount(value.to)", function(income) {
 				$scope.element.toggleClass("income", income);
 			});
+			$scope.$watch("value.deleted", function(deleted) {
+				$scope.element.toggleClass("deleted", !!deleted);
+			});
 		}
 	}
 });
