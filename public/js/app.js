@@ -99,7 +99,8 @@ app.filter("currency", function($rootScope) {
 });
 
 app.run(function($rootScope) {
-	$rootScope.currency = "EUR";
+	// default to HUF
+	$rootScope.currency = "HUF";
 })
 
 
@@ -204,6 +205,7 @@ app.directive("footer", function(){
 });TRANSLATIONS = {
 		hu: {
 			"Hello": "Helló",
+			"Log in": "Bejelentkezés",
 			"Log in with": "Bejelentkezés",
 			"transactions": "Tranzakciók",
 			"budget": "Büdzsé",
@@ -213,6 +215,7 @@ app.directive("footer", function(){
 			"Query help": "Segítség a lekérdezésekhez",
 			"Log out": "Kijelentkezés",
 			"Settings": "Beállítások",
+			"Nothing special here yet :)": "Még nincs itt semmi érdekes :)",
 			"Date": "Dátum",
 			"From": "Kitől",
 			"To": "Kinek",
@@ -474,8 +477,10 @@ app.directive("userAccount", function() {
 			
 			$rootScope.$watch("auth.user", function(user, oldValue) {
 				if (user) {
-					$firebase(usersRef.child(user.uid))
-					  .$bind($rootScope, "user");
+					var userNode = $firebase(usersRef.child(user.uid))
+					userNode.$update({registered: true});
+					
+					userNode.$bind($rootScope, "user");
 				} else {
 					$rootScope.user = undefined;
 				}

@@ -12,7 +12,8 @@ app.filter("currency", function($rootScope) {
 });
 
 app.run(function($rootScope) {
-	$rootScope.currency = "EUR";
+	// default to HUF
+	$rootScope.currency = "HUF";
 })
 
 

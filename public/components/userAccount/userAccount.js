@@ -11,8 +11,10 @@ app.directive("userAccount", function() {
 			
 			$rootScope.$watch("auth.user", function(user, oldValue) {
 				if (user) {
-					$firebase(usersRef.child(user.uid))
-					  .$bind($rootScope, "user");
+					var userNode = $firebase(usersRef.child(user.uid))
+					userNode.$update({registered: true});
+					
+					userNode.$bind($rootScope, "user");
 				} else {
 					$rootScope.user = undefined;
 				}

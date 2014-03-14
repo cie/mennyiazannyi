@@ -1,6 +1,7 @@
 TRANSLATIONS = {
 		hu: {
 			"Hello": "Helló",
+			"Log in": "Bejelentkezés",
 			"Log in with": "Bejelentkezés",
 			"transactions": "Tranzakciók",
 			"budget": "Büdzsé",
@@ -10,6 +11,7 @@ TRANSLATIONS = {
 			"Query help": "Segítség a lekérdezésekhez",
 			"Log out": "Kijelentkezés",
 			"Settings": "Beállítások",
+			"Nothing special here yet :)": "Még nincs itt semmi érdekes :)",
 			"Date": "Dátum",
 			"From": "Kitől",
 			"To": "Kinek",
