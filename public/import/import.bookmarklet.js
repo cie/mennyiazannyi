@@ -1,4 +1,4 @@
-javascript: (function() {
+javascript:(function() {
 	var amount, date, comment, party, $amount, $date, $comment, $party, dateFormat,
 		currency, myAccount;
 	function start() {
@@ -158,7 +158,7 @@ javascript: (function() {
 			
 			var sumFormat = function(sum) {
 				// XXX dirty hacking
-				if (sum.match(/,[0-9]{2}/)) {
+				if (sum.match(/,[0-9]{2}$/)) {
 					sum = sum.replace(/\./, '');
 					sum = sum.replace(/,/, '.');
 				} else {
@@ -223,16 +223,16 @@ javascript: (function() {
 			transactions = transactions.filter(function(tr){
 				return tr.date && tr.sum;
 			});
-			alert(fields.join(",") + "\n"+
-					$.map(transactions, function() {
-						return [this.date.toISOString(),
-						        this.from,
-						        this.to,
-						        this.sum,
-						        this.currency,
-						        this.comment,
+			alert("OK, we are done. Copy and paste this text to Excel or whatever program you like:\n\n" +fields.join(",") + "\n"+
+					transactions.map(function(tr) {
+						return [(tr.date ? tr.date.toISOString() : ""),
+						        tr.from,
+						        tr.to,
+						        tr.sum,
+						        tr.currency,
+						        tr.comment,
 						        ""].join(",");
-					})).join("\n");
+					}).join("\n"));
 
 		} catch (e) {
 			alert(e);
