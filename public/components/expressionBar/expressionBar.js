@@ -18,11 +18,14 @@ app.factory("compileExpression", function(updateIndex) {
         // just hacking it in regxy:)
 
         // not
-        expr = expr.replace(/(^|[,;(])-/g, "$1!");
+        expr = expr.replace(/(^|[,;(])\s*-/g, "$1!");
         // or
-        expr = expr.replace(/;/g, "||");
+        expr = expr.replace(/\s*;\s*/g, "||");
         // and
-        expr = expr.replace(/,/g, "&&");
+        expr = expr.replace(/\s*,\s*/g, "&&");
+        // remove spaces around parentheses
+        expr = expr.replace(/\(\s*/g, "(");
+        expr = expr.replace(/\s*\)/g, ")");
         // clean <<>>s
         expr = expr.replace(/<<|>>/g, "");
         // terms in <<>>s
@@ -52,6 +55,7 @@ app.factory("compileExpression", function(updateIndex) {
             return d.getFullYear() == year && d.getMonth()+1 == month && d.getDate() == day;
         }
             
+		console.log(expr);
         return eval("(function(tr){return " + expr + "})");
     }
 });
