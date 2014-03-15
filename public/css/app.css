@@ -111,7 +111,7 @@ section {
   background-color: #eeeeee;
 }
 
-/* .income = .success, .expense = .warning, .income.expense = .info */ 
+/* .income = .success, .expense = .warning, .internal = .info */ 
 .table > thead > tr > td.income,
 .table > tbody > tr > td.income,
 .table > tfoot > tr > td.income,
@@ -153,29 +153,29 @@ section {
   background-color: #d0e9c6;
 }
 
-.table > thead > tr > td.income.expense,
-.table > tbody > tr > td.income.expense,
-.table > tfoot > tr > td.income.expense,
-.table > thead > tr > th.income.expense,
-.table > tbody > tr > th.income.expense,
-.table > tfoot > tr > th.income.expense,
-.table > thead > tr.income.expense > td,
-.table > tbody > tr.income.expense > td,
-.table > tfoot > tr.income.expense > td,
-.table > thead > tr.income.expense > th,
-.table > tbody > tr.income.expense > th,
-.table > tfoot > tr.income.expense > th {
+.table > thead > tr > td.internal,
+.table > tbody > tr > td.internal,
+.table > tfoot > tr > td.internal,
+.table > thead > tr > th.internal,
+.table > tbody > tr > th.internal,
+.table > tfoot > tr > th.internal,
+.table > thead > tr.internal > td,
+.table > tbody > tr.internal > td,
+.table > tfoot > tr.internal > td,
+.table > thead > tr.internal > th,
+.table > tbody > tr.internal > th,
+.table > tfoot > tr.internal > th {
   background-color: #d9edf7;
 }
 
-.table-hover > tbody > tr > td.income.expense:hover,
-.table-hover > tbody > tr > th.income.expense:hover,
-.table-hover > tbody > tr.income.expense:hover > td,
-.table-hover > tbody > tr.income.expense:hover > th,
-.table-hover > tbody > tr > td.income.expense.active,
-.table-hover > tbody > tr > th.income.expense.active,
-.table-hover > tbody > tr.income.expense.active > td,
-.table-hover > tbody > tr.income.expense.active > th  {
+.table-hover > tbody > tr > td.internal:hover,
+.table-hover > tbody > tr > th.internal:hover,
+.table-hover > tbody > tr.internal:hover > td,
+.table-hover > tbody > tr.internal:hover > th,
+.table-hover > tbody > tr > td.internal.active,
+.table-hover > tbody > tr > th.internal.active,
+.table-hover > tbody > tr.internal.active > td,
+.table-hover > tbody > tr.internal.active > th  {
   background-color: #c4e3f3;
 }
 .table > thead > tr > td.expense,

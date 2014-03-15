@@ -84,7 +84,7 @@ app.directive("transaction", function() {
 					scope.$apply(scope.onFocus);
 				});
 			}
-			element.on("blur", "input", function() {
+			element.on("blur", "input,button", function() {
 				scope.$apply(function() {
 					scope.updateIndex(scope.value);
 				})
@@ -94,17 +94,17 @@ app.directive("transaction", function() {
 			$scope.myAccount = myAccount;
 			$scope.updateIndex = updateIndex;
 
-			// set classes based on expense/income
-			$scope.$watch("myAccount(value.from)", function(expense) {
-				$scope.element.toggleClass("expense", expense);
+			$scope.$watch("''+value.from+'()'+value.to+'()'+value.deleted", function() {
+				var tr=$scope.value;
+				var fromMe = myAccount(tr.from), toMe = myAccount(tr.to);
+
+				$scope.element.toggleClass("expense", fromMe && !toMe);
+				$scope.element.toggleClass("income",  toMe && !fromMe);
+				$scope.element.toggleClass("external", !fromMe && !toMe);
+				$scope.element.toggleClass("internal", fromMe && toMe);
+				$scope.element.toggleClass("deleted", !!tr.deleted);
 			});
-			$scope.$watch("myAccount(value.to)", function(income) {
-				$scope.element.toggleClass("income", income);
-			});
-			$scope.$watch("value.deleted", function(deleted) {
-				$scope.element.toggleClass("deleted", !!deleted);
-				updateIndex($scope.value);
-			});
+
 		}
 	}
 });

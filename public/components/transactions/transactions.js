@@ -39,7 +39,7 @@ app.directive("transactions", function(){
 			element.children().first().unwrap();
 			scope.element = element;
 		},
-		controller: function($scope, $firebase, $rootScope, myAccount, $timeout) {
+		controller: function($scope, $firebase, $rootScope, myAccount, $timeout, updateIndex) {
 
 			$scope.selectTransaction = function(id) {
 				$scope.activeTransaction = id;
@@ -64,6 +64,7 @@ app.directive("transactions", function(){
 			
 			$scope.addTransaction = function() {
 				var t = $scope.newTransaction;
+				updateIndex(t);
 				$scope.user.$child("transactions").$add({
 					date:t.date,
 					from:t.from,
