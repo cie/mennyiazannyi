@@ -74,8 +74,10 @@ app.directive("expressionBar", function(){
 			element.children().first().unwrap();
 		},
 		controller: function($scope, $rootScope) {
+			$scope.localExpression = $rootScope.expression;
+
 			$scope.updateExpression = function() {
-				$rootScope.expression = $scope.expression;
+				$rootScope.expression = $scope.localExpression;
 			}
 		}
 	}

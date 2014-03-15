@@ -18,19 +18,21 @@ app.factory("myAccount", function() {
 	}
 });
 
-app.filter("transactionFilter", function(compileExpression) {
+app.filter("transactionFilter", function(compileExpression, updateIndex) {
 	return function(transactions, expression) {
 		var filter = compileExpression(expression);
-		return _.filter(transactions,filter);
+		return _.filter(transactions,function(tr) {
+			if (updateIndex.outdated(tr)) {
+				updateIndex(tr);
+			}
+			return filter(tr);
+		});
 	}
 });
 
 app.filter("transactionSort", function(updateIndex) {
 	return function(transactions) {
 		return _.sortBy(transactions,function(tr){
-			if (!tr.timestamp) {
-				updateIndex(tr);
-			}
 			return tr.timestamp;
 		});
 	}

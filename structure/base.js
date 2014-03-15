@@ -44,7 +44,22 @@ app.filter("toArray", function() {
 /**
  * directives
  */
-app.directive("onEnter", func
+app.directive("onEnter", function() {
+	return {
+		scope: {
+			onEnter: "&"
+		},
+		link: function(scope, element, attrs) {
+			element.on("keypress", function(e) {
+				if (e.which == 13) {
+					scope.$apply(function(){
+						scope.onEnter();
+					});
+				}
+			});
+		}
+	}
+});
 
 /**
  * template url

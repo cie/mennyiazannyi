@@ -1,5 +1,7 @@
 app.factory("updateIndex", function() {
-    return function(tr) {
+	VERSION = 3;
+
+    function updateIndex(tr) {
         // save date as number
         tr.timestamp = +new Date(tr.date);
 
@@ -24,8 +26,17 @@ app.factory("updateIndex", function() {
 			keywordsMap[s] = true
 		});
         tr.keywords = keywordsMap;
+		tr.indexVersion = VERSION;
     }
+
+	updateIndex.outdated = function(tr) {
+		return !tr.indexVersion || tr.indexVersion < VERSION;
+	};
+
+	return updateIndex;
 });
+
+
 app.directive("transaction", function() {
 	return {
 		restrict: "A",

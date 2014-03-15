@@ -44,6 +44,27 @@ app.filter("toArray", function() {
 	}
 });
 
+
+/**
+ * directives
+ */
+app.directive("onEnter", function() {
+	return {
+		scope: {
+			onEnter: "&"
+		},
+		link: function(scope, element, attrs) {
+			element.on("keypress", function(e) {
+				if (e.which == 13) {
+					scope.$apply(function(){
+						scope.onEnter();
+					});
+				}
+			});
+		}
+	}
+});
+
 /**
  * template url
  */
@@ -235,7 +256,12 @@ app.directive("expressionBar", function(){
 		link: function(scope, element, attrs) {
 			element.children().first().unwrap();
 		},
-		controller: function($scope) {
+		controller: function($scope, $rootScope) {
+			$scope.localExpression = $rootScope.expression;
+
+			$scope.updateExpression = function() {
+				$rootScope.expression = $scope.localExpression;
+			}
 		}
 	}
 });
@@ -444,7 +470,9 @@ app.directive("page", function(){
 });
 
 app.factory("updateIndex", function() {
-    return function(tr) {
+	VERSION = 3;
+
+    function updateIndex(tr) {
         // save date as number
         tr.timestamp = +new Date(tr.date);
 
@@ -469,8 +497,17 @@ app.factory("updateIndex", function() {
 			keywordsMap[s] = true
 		});
         tr.keywords = keywordsMap;
+		tr.indexVersion = VERSION;
     }
+
+	updateIndex.outdated = function(tr) {
+		return !tr.indexVersion || tr.indexVersion < VERSION;
+	};
+
+	return updateIndex;
 });
+
+
 app.directive("transaction", function() {
 	return {
 		restrict: "A",
@@ -530,19 +567,21 @@ app.factory("myAccount", function() {
 	}
 });
 
-app.filter("transactionFilter", function(compileExpression) {
+app.filter("transactionFilter", function(compileExpression, updateIndex) {
 	return function(transactions, expression) {
 		var filter = compileExpression(expression);
-		return _.filter(transactions,filter);
+		return _.filter(transactions,function(tr) {
+			if (updateIndex.outdated(tr)) {
+				updateIndex(tr);
+			}
+			return filter(tr);
+		});
 	}
 });
 
 app.filter("transactionSort", function(updateIndex) {
 	return function(transactions) {
 		return _.sortBy(transactions,function(tr){
-			if (!tr.timestamp) {
-				updateIndex(tr);
-			}
 			return tr.timestamp;
 		});
 	}
