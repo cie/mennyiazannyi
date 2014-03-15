@@ -206,13 +206,6 @@ app.factory("compileExpression", function(updateIndex) {
 
         // just hacking it in regxy:)
 
-        // lower case
-        expr = expr.toLowerCase();
-        // sane whitespaces
-        expr = expr.replace(/\s+/g, " ");
-        // no .#$/[] a la Firebase
-        expr = expr.replace(/[.#$\/\[\]]/g, "");
-        
         // not
         expr = expr.replace(/(^|[,;(])-/g, "$1!");
         // or
@@ -229,7 +222,12 @@ app.factory("compileExpression", function(updateIndex) {
         expr = expr.replace(/<<([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})>>/g, "ymd.apply(tr,[$1,$2,$3])");
         // finalize terms (first remove quotes and backslashes)
         expr = expr.replace(/["\\]/g, "");
-        expr = expr.replace(/<<(.*?)>>/g, "term.apply(tr,[\"$1\"])");
+
+        expr = expr.replace(/<<(.*?)>>/g, function(match, term) {
+			term = updateIndex.sanitize(term);
+			term = term.replace(/[\\"]/g, "");
+			return "tr.keywords[\"" + term + "\"]";
+		});
 
         function y(year) {
             return this.date.getFullYear() == year;
@@ -241,14 +239,6 @@ app.factory("compileExpression", function(updateIndex) {
         function ymd(year, month, day) {
             var d = this.date;
             return d.getFullYear() == year && d.getMonth()+1 == month && d.getDate() == day;
-        }
-        function term(s) {
-            var keywords = this.keywords;
-            if (!this.keywords) {
-                updateIndex(this);
-                keywords = this.keywords;
-            }
-            return keywords[s];
         }
             
         return eval("(function(tr){return " + expr + "})");
@@ -497,12 +487,7 @@ app.factory("updateIndex", function() {
 			s = (""+s).trim();
 			if (!s) return;
 
-			// lower case
-			s = s.toLowerCase();
-			// sane whitespaces
-			s = s.replace(/\s+/g, " ");
-			// no .#$/[] a la Firebase
-			s = s.replace(/[.#$\/\[\]]/g, "");
+			s = updateIndex.sanitize(s);
 
 			kws[s] = true
 		});
@@ -516,6 +501,18 @@ app.factory("updateIndex", function() {
         tr.keywords = kws;
 		tr.indexVersion = VERSION;
     }
+
+	updateIndex.sanitize = function (s) {
+		// lower case
+		s = s.toLowerCase();
+		// sane whitespaces
+		s = s.replace(/\s+/g, " ");
+		// no .#$/[] a la Firebase
+		s = s.replace(/[.#$\/\[\]]/g, "");
+
+		return s;
+	}
+
 
 	updateIndex.outdated = function(tr) {
 		return !tr.indexVersion || tr.indexVersion < VERSION;

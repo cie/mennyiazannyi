@@ -17,12 +17,7 @@ app.factory("updateIndex", function() {
 			s = (""+s).trim();
 			if (!s) return;
 
-			// lower case
-			s = s.toLowerCase();
-			// sane whitespaces
-			s = s.replace(/\s+/g, " ");
-			// no .#$/[] a la Firebase
-			s = s.replace(/[.#$\/\[\]]/g, "");
+			s = updateIndex.sanitize(s);
 
 			kws[s] = true
 		});
@@ -36,6 +31,18 @@ app.factory("updateIndex", function() {
         tr.keywords = kws;
 		tr.indexVersion = VERSION;
     }
+
+	updateIndex.sanitize = function (s) {
+		// lower case
+		s = s.toLowerCase();
+		// sane whitespaces
+		s = s.replace(/\s+/g, " ");
+		// no .#$/[] a la Firebase
+		s = s.replace(/[.#$\/\[\]]/g, "");
+
+		return s;
+	}
+
 
 	updateIndex.outdated = function(tr) {
 		return !tr.indexVersion || tr.indexVersion < VERSION;
