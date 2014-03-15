@@ -1,8 +1,8 @@
-  <td><input class="form-control" on-enter="moveRight" type="date" ng-model="value.date"></td>
-  <td><input class="form-control" on-enter="moveRight" ng-model="value.from"></td>
-  <td><input class="form-control" on-enter="moveRight" ng-model="value.to"></td>
-  <td><input class="form-control" on-enter="moveRight" ng-model="value.sum"></td>
-  <td><input class="form-control" on-enter="moveRight" ng-model="value.currency"></td>
-  <td><input class="form-control" on-enter="moveRight" ng-model="value.text"></td>
-  <td><input class="form-control" on-enter="newline" ng-model="value.categories"></td>
+  <td><input class="form-control" ng-blur="commit()" type="date" ng-model="local.date"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.from"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.to"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.sum"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.currency"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.text"></td>
+  <td><input class="form-control" ng-blur="commit()" ng-model="local.categories"></td>
   <td ng-transclude></td>

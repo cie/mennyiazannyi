@@ -1,5 +1,5 @@
 app.factory("updateIndex", function() {
-	VERSION = 9;
+	VERSION = 10;
 
     function updateIndex(tr) {
         // save date as number
@@ -28,9 +28,13 @@ app.factory("updateIndex", function() {
 		
 		// add from:... fields
 		_.each(["from", "to", "currency", "text", "sum"], function(field) {
-			kws[field + ":" + updateIndex.sanitize(tr[field])] = true;
+			var s = updateIndex.sanitize(tr[field])
+			if (s) {
+				kws[field + ":" + s] = true;
+				// XXX first-word only 
+				kws[field + ":" + s.split(' ')[0]] = true;
+			}
 		});
-
 		
 		if (tr.deleted) {
 			kws.deleted = true;
@@ -86,6 +90,13 @@ app.directive("transaction", function() {
 			}
 		},
 		controller: function($rootScope, $scope, myAccount, updateIndex, $timeout) {
+
+			// lazy committing
+			$scope.local = angular.copy($scope.value);
+			$scope.commit = function() {
+				$scope.value = angular.copy($scope.local);
+			}
+
 			$scope.myAccount = myAccount;
 			$scope.updateIndex = updateIndex;
 
@@ -102,11 +113,11 @@ app.directive("transaction", function() {
 			$scope.$watch("value.active", function(value){
 				$scope.element.toggleClass("active", !!value);
 			});
-			$rootScope.$watch("filter", function(filter) {
+			/*$rootScope.$watch("filter", function(filter) {
 				$timeout(function(){
 					$scope.element.toggle(!!filter($scope.value));
 				}, 0);
-			});
+			});*/
 
 		}
 	}

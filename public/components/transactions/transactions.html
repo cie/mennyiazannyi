@@ -15,6 +15,7 @@
 		<tr transaction 
 			ng-repeat="(id,tr) in user.transactions"
 			value="tr"
+			ng-show="filter(tr)"
 			on-focus="selectTransaction(tr)"
 		>
 			<td class="actions">
