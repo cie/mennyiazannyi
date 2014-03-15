@@ -30,13 +30,6 @@ app.filter("transactionFilter", function(compileExpression, updateIndex) {
 	}
 });
 
-app.filter("transactionSort", function(updateIndex) {
-	return function(transactions) {
-		return _.sortBy(transactions,function(tr){
-			return tr.timestamp;
-		});
-	}
-});
 
 app.directive("transactions", function(){
 	return {

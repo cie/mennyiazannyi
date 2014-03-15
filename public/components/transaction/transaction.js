@@ -1,9 +1,10 @@
 app.factory("updateIndex", function() {
-	VERSION = 3;
+	VERSION = 4;
 
     function updateIndex(tr) {
         // save date as number
-        tr.timestamp = +new Date(tr.date);
+		tr.timestamp = undefined;
+        tr.$priority = +new Date(tr.date);
 
         // index keywords
         var keywords = [tr.from, tr.to, tr.currency, tr.text], keywordsMap = {};
