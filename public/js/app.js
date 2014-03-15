@@ -481,7 +481,7 @@ app.directive("page", function(){
 });
 
 app.factory("updateIndex", function() {
-	VERSION = 10;
+	VERSION = 11;
 
     function updateIndex(tr) {
         // save date as number
@@ -503,8 +503,9 @@ app.factory("updateIndex", function() {
 
 			// add type: tag
 			var m;
-			if (m = s.match(/^([^:]+):/)) {
+			if (m = s.match(/^([^:]+):(.*)$/)) {
 				kws[m[1]] = true;
+				kws[m[2]] = true;
 			}
 		});
 		
@@ -513,6 +514,7 @@ app.factory("updateIndex", function() {
 			var s = updateIndex.sanitize(tr[field])
 			if (s) {
 				kws[field + ":" + s] = true;
+
 				// XXX first-word only 
 				kws[field + ":" + s.split(' ')[0]] = true;
 			}
@@ -573,11 +575,6 @@ app.directive("transaction", function() {
 		},
 		controller: function($rootScope, $scope, myAccount, updateIndex, $timeout) {
 
-			// lazy committing
-			$scope.local = angular.copy($scope.value);
-			$scope.commit = function() {
-				$scope.value = angular.copy($scope.local);
-			}
 
 			$scope.myAccount = myAccount;
 			$scope.updateIndex = updateIndex;
