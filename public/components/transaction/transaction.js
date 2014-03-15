@@ -84,11 +84,6 @@ app.directive("transaction", function() {
 					scope.$apply(scope.onFocus);
 				});
 			}
-			element.on("blur", "input,button", function() {
-				scope.$apply(function() {
-					scope.updateIndex(scope.value);
-				})
-			});
 		},
 		controller: function($scope, myAccount, updateIndex) {
 			$scope.myAccount = myAccount;

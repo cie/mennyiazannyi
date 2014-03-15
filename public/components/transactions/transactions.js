@@ -18,18 +18,6 @@ app.factory("myAccount", function() {
 	}
 });
 
-app.filter("transactionFilter", function(compileExpression, updateIndex) {
-	return function(transactions, expression) {
-		var filter = compileExpression(expression);
-		return _.filter(transactions,function(tr) {
-			if (updateIndex.outdated(tr)) {
-				updateIndex(tr);
-			}
-			return filter(tr);
-		});
-	}
-});
-
 
 app.directive("transactions", function(){
 	return {
@@ -39,7 +27,18 @@ app.directive("transactions", function(){
 			element.children().first().unwrap();
 			scope.element = element;
 		},
-		controller: function($scope, $firebase, $rootScope, myAccount, $timeout, updateIndex) {
+		controller: function($scope, $firebase, $rootScope, myAccount, $timeout, updateIndex, compileExpression) {
+
+			$rootScope.$watch("expression", function(expression) {
+				$scope.filter = compileExpression(expression);
+			});
+
+			$scope.matchesFilter = function(tr) {
+				if (updateIndex.outdated(tr)) {
+					updateIndex(tr);
+				}
+				return $scope.filter(tr);
+			}
 
 			$scope.selectTransaction = function(id) {
 				$scope.activeTransaction = id;

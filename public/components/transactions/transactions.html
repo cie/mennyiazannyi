@@ -13,7 +13,8 @@
 	</thead>
 	<tbody>
 		<tr transaction 
-			ng-repeat="(id,tr) in user.transactions | transactionFilter:expression "
+			ng-repeat="(id,tr) in user.transactions"
+			ng-if="matchesFilter(tr)"
 			value="tr"
 			ng-class="{active: id == activeTransaction}"
 			on-focus="selectTransaction(id)"
