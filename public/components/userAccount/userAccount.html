@@ -1,32 +1,32 @@
 
 <li ng-show="0" class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	<a href="" class="dropdown-toggle" data-toggle="dropdown">
 		<span class="glyphicon glyphicon-user"></span>
 		{{t("Log in with")}}
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		<li><a href="#" ng-click="login('facebook')">Facebook</a></li>
-		<li><a href="#" ng-click="login('persona' )">Persona </a></li>
+		<li><a href="" ng-click="login('facebook')">Facebook</a></li>
+		<li><a href="" ng-click="login('persona' )">Persona </a></li>
 	</ul>
 </li>
 
 <li ng-show="!auth.user">
-	<a href="#" ng-click="login('persona')">
+	<a href="" ng-click="login('persona')">
 		<span class="glyphicon glyphicon-user"></span>
 		{{t("Log in")}}
 	</a>
 </li>
 
 <li ng-show="auth.user" class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	<a href="" class="dropdown-toggle" data-toggle="dropdown">
 		<span class="glyphicon glyphicon-user"></span>
 		{{auth.user.name||auth.user.email}}
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		<li class="disabled"><a href="#">{{t('Nothing special here yet :)')}}</a></li>
+		<li class="disabled"><a href="">{{t('Nothing special here yet :)')}}</a></li>
 		<li class="divider"></li>
-		<li><a href="#" ng-click="logout()">{{t('Log out')}}</a></li>
+		<li><a href="" ng-click="logout()">{{t('Log out')}}</a></li>
 	</ul>
 </li>

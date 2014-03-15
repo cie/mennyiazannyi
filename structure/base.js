@@ -40,6 +40,12 @@ app.filter("toArray", function() {
 	}
 });
 
+
+/**
+ * directives
+ */
+app.directive("onEnter", func
+
 /**
  * template url
  */
