@@ -33,15 +33,12 @@ app.directive("transactions", function(){
 				$scope.filter = compileExpression(expression);
 			});
 
-			$scope.matchesFilter = function(tr) {
-				if (updateIndex.outdated(tr)) {
-					updateIndex(tr);
+			$scope.selectTransaction = function(tr) {
+				if ($scope.activeTransaction) {
+					$scope.activeTransaction.active = false;
 				}
-				return $scope.filter(tr);
-			}
-
-			$scope.selectTransaction = function(id) {
-				$scope.activeTransaction = id;
+				tr.active = true;
+				$scope.activeTransaction = tr;
 			};
 		
 			$scope.newTransaction = {

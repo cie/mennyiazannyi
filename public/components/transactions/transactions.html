@@ -14,10 +14,8 @@
 	<tbody>
 		<tr transaction 
 			ng-repeat="(id,tr) in user.transactions"
-			ng-if="matchesFilter(tr)"
 			value="tr"
-			ng-class="{active: id == activeTransaction}"
-			on-focus="selectTransaction(id)"
+			on-focus="selectTransaction(tr)"
 		>
 			<td class="actions">
 				<button class="btn btn-xs danger" ng-show="!tr.deleted">

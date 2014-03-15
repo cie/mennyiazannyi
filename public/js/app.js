@@ -245,11 +245,13 @@ app.factory("compileExpression", function(updateIndex) {
         }
             
 		console.log(expr);
-        return eval("(function(tr){return " + expr + "})");
+        return eval("(function(tr){"+
+				"if (updateIndex.outdated(tr)) { updateIndex(tr) } "+
+				"return " + expr + "})");
     }
 });
 
-app.directive("expressionBar", function(){
+app.directive("expressionBar", function(compileExpression){
 	return {
 		restrict: "E",
 		templateUrl: tmpl("expressionBar"),
@@ -260,11 +262,17 @@ app.directive("expressionBar", function(){
 			$scope.localExpression = $rootScope.expression;
 
 			$scope.updateExpression = function() {
-				$rootScope.expression = $scope.localExpression;
+				var expr = $rootScope.expression = $scope.localExpression;
 			}
+
 			$scope.revertExpression = function() {
 				$scope.localExpression = $rootScope.expression;
 			}
+
+			$rootScope.$watch("expression", function(expression) {
+				$rootScope.filter = compileExpression(expression);
+			});
+
 		}
 	}
 });
@@ -559,7 +567,7 @@ app.directive("transaction", function() {
 				});
 			}
 		},
-		controller: function($scope, myAccount, updateIndex) {
+		controller: function($rootScope, $scope, myAccount, updateIndex, $timeout) {
 			$scope.myAccount = myAccount;
 			$scope.updateIndex = updateIndex;
 
@@ -572,6 +580,14 @@ app.directive("transaction", function() {
 				$scope.element.toggleClass("external", !fromMe && !toMe);
 				$scope.element.toggleClass("internal", fromMe && toMe);
 				$scope.element.toggleClass("deleted", !!tr.deleted);
+			});
+			$scope.$watch("value.active", function(value){
+				$scope.element.toggleClass("active", !!value);
+			});
+			$rootScope.$watch("filter", function(filter) {
+				$timeout(function(){
+					$scope.element.toggle(!!filter($scope.value));
+				}, 0);
 			});
 
 		}
@@ -612,15 +628,12 @@ app.directive("transactions", function(){
 				$scope.filter = compileExpression(expression);
 			});
 
-			$scope.matchesFilter = function(tr) {
-				if (updateIndex.outdated(tr)) {
-					updateIndex(tr);
+			$scope.selectTransaction = function(tr) {
+				if ($scope.activeTransaction) {
+					$scope.activeTransaction.active = false;
 				}
-				return $scope.filter(tr);
-			}
-
-			$scope.selectTransaction = function(id) {
-				$scope.activeTransaction = id;
+				tr.active = true;
+				$scope.activeTransaction = tr;
 			};
 		
 			$scope.newTransaction = {

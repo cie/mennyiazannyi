@@ -85,7 +85,7 @@ app.directive("transaction", function() {
 				});
 			}
 		},
-		controller: function($scope, myAccount, updateIndex) {
+		controller: function($rootScope, $scope, myAccount, updateIndex, $timeout) {
 			$scope.myAccount = myAccount;
 			$scope.updateIndex = updateIndex;
 
@@ -98,6 +98,14 @@ app.directive("transaction", function() {
 				$scope.element.toggleClass("external", !fromMe && !toMe);
 				$scope.element.toggleClass("internal", fromMe && toMe);
 				$scope.element.toggleClass("deleted", !!tr.deleted);
+			});
+			$scope.$watch("value.active", function(value){
+				$scope.element.toggleClass("active", !!value);
+			});
+			$rootScope.$watch("filter", function(filter) {
+				$timeout(function(){
+					$scope.element.toggle(!!filter($scope.value));
+				}, 0);
 			});
 
 		}

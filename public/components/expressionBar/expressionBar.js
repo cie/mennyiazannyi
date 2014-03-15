@@ -56,11 +56,13 @@ app.factory("compileExpression", function(updateIndex) {
         }
             
 		console.log(expr);
-        return eval("(function(tr){return " + expr + "})");
+        return eval("(function(tr){"+
+				"if (updateIndex.outdated(tr)) { updateIndex(tr) } "+
+				"return " + expr + "})");
     }
 });
 
-app.directive("expressionBar", function(){
+app.directive("expressionBar", function(compileExpression){
 	return {
 		restrict: "E",
 		templateUrl: tmpl("expressionBar"),
@@ -71,11 +73,17 @@ app.directive("expressionBar", function(){
 			$scope.localExpression = $rootScope.expression;
 
 			$scope.updateExpression = function() {
-				$rootScope.expression = $scope.localExpression;
+				var expr = $rootScope.expression = $scope.localExpression;
 			}
+
 			$scope.revertExpression = function() {
 				$scope.localExpression = $rootScope.expression;
 			}
+
+			$rootScope.$watch("expression", function(expression) {
+				$rootScope.filter = compileExpression(expression);
+			});
+
 		}
 	}
 });
