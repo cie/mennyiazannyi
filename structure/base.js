@@ -44,16 +44,22 @@ app.filter("toArray", function() {
 /**
  * directives
  */
-app.directive("onEnter", function() {
+app.directive("specialKeys", function() {
 	return {
 		scope: {
-			onEnter: "&"
+			onEnter: "&",
+			onEsc: "&"
 		},
 		link: function(scope, element, attrs) {
-			element.on("keypress", function(e) {
+			element.on("keydown", function(e) {
 				if (e.which == 13) {
 					scope.$apply(function(){
 						scope.onEnter();
+					});
+				}
+				if (e.which == 27) {
+					scope.$apply(function(){
+						scope.onEsc();
 					});
 				}
 			});

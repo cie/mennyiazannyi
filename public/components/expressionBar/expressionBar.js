@@ -79,6 +79,9 @@ app.directive("expressionBar", function(){
 			$scope.updateExpression = function() {
 				$rootScope.expression = $scope.localExpression;
 			}
+			$scope.revertExpression = function() {
+				$scope.localExpression = $rootScope.expression;
+			}
 		}
 	}
 });
