@@ -1,9 +1,8 @@
 app.factory("updateIndex", function() {
-	VERSION = 5;
+	VERSION = 9;
 
     function updateIndex(tr) {
         // save date as number
-		tr.timestamp = undefined;
         tr.$priority = +new Date(tr.date);
 
         // index keywords
@@ -14,13 +13,24 @@ app.factory("updateIndex", function() {
         _.each(keywords, function(s){ 
 
 			if (!s) return;
-			s = (""+s).trim();
-			if (!s) return;
 
 			s = updateIndex.sanitize(s);
+			if (!s) return;
 
-			kws[s] = true
+			kws[s] = true;
+
+			// add type: tag
+			var m;
+			if (m = s.match(/^([^:]+):/)) {
+				kws[m[1]] = true;
+			}
 		});
+		
+		// add from:... fields
+		_.each(["from", "to", "currency", "text", "sum"], function(field) {
+			kws[field + ":" + updateIndex.sanitize(tr[field])] = true;
+		});
+
 		
 		if (tr.deleted) {
 			kws.deleted = true;
@@ -33,12 +43,18 @@ app.factory("updateIndex", function() {
     }
 
 	updateIndex.sanitize = function (s) {
+		// convert to string
+		s = ""+s;
+		// trim
+		s = s.trim();
 		// lower case
 		s = s.toLowerCase();
 		// sane whitespaces
 		s = s.replace(/\s+/g, " ");
 		// no .#$/[] a la Firebase
 		s = s.replace(/[.#$\/\[\]]/g, "");
+		// remove space after :
+		s = s.replace(/:\s+/g, ":");
 
 		return s;
 	}
