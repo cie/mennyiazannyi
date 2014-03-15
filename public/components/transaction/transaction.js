@@ -1,5 +1,5 @@
 app.factory("updateIndex", function() {
-	VERSION = 4;
+	VERSION = 5;
 
     function updateIndex(tr) {
         // save date as number
@@ -7,7 +7,7 @@ app.factory("updateIndex", function() {
         tr.$priority = +new Date(tr.date);
 
         // index keywords
-        var keywords = [tr.from, tr.to, tr.currency, tr.text], keywordsMap = {};
+        var keywords = [tr.from, tr.to, tr.currency, tr.text], kws = {};
 		if (tr.categories) {
 			keywords = keywords.concat(tr.categories.split(","));
 		}
@@ -24,9 +24,16 @@ app.factory("updateIndex", function() {
 			// no .#$/[] a la Firebase
 			s = s.replace(/[.#$\/\[\]]/g, "");
 
-			keywordsMap[s] = true
+			kws[s] = true
 		});
-        tr.keywords = keywordsMap;
+		
+		if (tr.deleted) {
+			kws.deleted = true;
+		} else {
+			kws.all = true;
+		}
+
+        tr.keywords = kws;
 		tr.indexVersion = VERSION;
     }
 
@@ -73,6 +80,7 @@ app.directive("transaction", function() {
 			});
 			$scope.$watch("value.deleted", function(deleted) {
 				$scope.element.toggleClass("deleted", !!deleted);
+				updateIndex($scope.value);
 			});
 		}
 	}
