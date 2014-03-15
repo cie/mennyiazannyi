@@ -31,7 +31,20 @@ app.directive("import", function() {
 					});
 					return record;
 				});
-				console.log(transactions);
+                                _.each(transactions, function(tr){
+                                    
+                                    // XXX this should be in bookmarklet
+                                    tr.date = tr.date.substr(0,10);
+                                    
+                                    // XXX this also
+                                    tr.text = tr.comment;
+                                    tr.comment = undefined;
+
+                                    $rootScope.user.$child('transactions').$add(tr).then(function() {
+                                        // XXX HACK: avoid re-sorting on each addition
+                                        location.reload();
+                                    });
+                                });
 			}
 		}
 	}

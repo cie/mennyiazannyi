@@ -7,6 +7,7 @@ MY_ACCOUNT = "Me";
  */
 app.factory("myAccount", function() {
 	return function(acctName) {
+                if (!acctName) return false;
 		acctName = acctName.toLowerCase();
 		if (acctName == MY_ACCOUNT.toLowerCase()) return true;
 		for (lang in TRANSLATIONS) {

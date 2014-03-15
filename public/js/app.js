@@ -235,11 +235,25 @@ app.directive("footer", function(){
 					});
 					return record;
 				});
-				console.log(transactions);
+                                _.each(transactions, function(tr){
+                                    
+                                    // XXX this should be in bookmarklet
+                                    tr.date = tr.date.substr(0,10);
+                                    
+                                    // XXX this also
+                                    tr.text = tr.comment;
+                                    tr.comment = undefined;
+
+                                    $rootScope.user.$child('transactions').$add(tr).then(function() {
+                                        // XXX HACK: avoid re-sorting on each addition
+                                        location.reload();
+                                    });
+                                });
 			}
 		}
 	}
-});app.directive("intro", function() {
+});
+app.directive("intro", function() {
 	return {
 		restrict: "EA",
 		templateUrl: tmpl("intro"),
@@ -401,6 +415,7 @@ MY_ACCOUNT = "Me";
  */
 app.factory("myAccount", function() {
 	return function(acctName) {
+                if (!acctName) return false;
 		acctName = acctName.toLowerCase();
 		if (acctName == MY_ACCOUNT.toLowerCase()) return true;
 		for (lang in TRANSLATIONS) {
