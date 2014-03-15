@@ -34,6 +34,11 @@ app.filter("map", function() {
 		return _.map(collection, mapping);
 	}
 });
+app.filter("toArray", function() {
+	return function(collection) {
+		return _.toArray(collection);
+	}
+});
 
 /**
  * template url

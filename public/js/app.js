@@ -38,6 +38,11 @@ app.filter("map", function() {
 		return _.map(collection, mapping);
 	}
 });
+app.filter("toArray", function() {
+	return function(collection) {
+		return _.toArray(collection);
+	}
+});
 
 /**
  * template url
@@ -159,6 +164,70 @@ app.directive("currencyChooser", function(){
 	$rootScope.expression = "all";
 });
 
+app.factory("compileExpression", function(updateIndex) {
+    return function(expr) {
+        // this is too complex now...
+        /*clauses = expr.split(";").map(function(clause){
+            var terms = clause.split(',').map(function(term) {
+                if (term.charAt(0) === '-') {
+                    term = term.substr(1);
+                    return [term, false];
+                }
+                return [term, true];
+            });
+        });*/
+
+        // just hacking it in regxy:)
+
+        // lower case
+        expr = expr.toLowerCase();
+        // sane whitespaces
+        expr = expr.replace(/\s+/g, " ");
+        // no .#$/[] a la Firebase
+        expr = expr.replace(/[.#$\/\[\]]/g, "");
+        
+        // not
+        expr = expr.replace(/(^|[,;(])-/g, "$1!");
+        // or
+        expr = expr.replace(/;/g, "||");
+        // and
+        expr = expr.replace(/,/g, "&&");
+        // clean <<>>s
+        expr = expr.replace(/<<|>>/g, "");
+        // terms in <<>>s
+        expr = expr.replace(/([^|&!()]+)/g, "<<$1>>");
+        // dates
+        expr = expr.replace(/<<([0-9]{4})>>/g, "y.apply(tr,[$1])");
+        expr = expr.replace(/<<([0-9]{4})-([0-9]{1,2})>>/g, "ym.apply(tr,[$1,$2])");
+        expr = expr.replace(/<<([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})>>/g, "ymd.apply(tr,[$1,$2,$3])");
+        // finalize terms (first remove quotes and backslashes)
+        expr = expr.replace(/["\\]/g, "");
+        expr = expr.replace(/<<(.*?)>>/g, "term.apply(tr,[\"$1\"])");
+
+        function y(year) {
+            return this.date.getFullYear() == year;
+        }
+        function ym(year, month) {
+            var d = this.date;
+            return d.getFullYear() == year && d.getMonth()+1 == month;
+        }
+        function ymd(year, month, day) {
+            var d = this.date;
+            return d.getFullYear() == year && d.getMonth()+1 == month && d.getDate() == day;
+        }
+        function term(s) {
+            var keywords = this.keywords;
+            if (!this.keywords) {
+                updateIndex(this);
+                keywords = this.keywords;
+            }
+            return keywords[s];
+        }
+            
+        return eval("(function(tr){return " + expr + "})");
+    }
+});
+
 app.directive("expressionBar", function(){
 	return {
 		restrict: "E",
@@ -170,6 +239,7 @@ app.directive("expressionBar", function(){
 		}
 	}
 });
+
 VERSES = {
 		'1Tim6:17-19': {
 			'hu': "Azoknak pedig, akik e világban gazdagok, parancsold meg," +
@@ -373,7 +443,34 @@ app.directive("page", function(){
 	};
 });
 
+app.factory("updateIndex", function() {
+    return function(tr) {
+        // save date as number
+        tr.timestamp = +new Date(tr.date);
 
+        // index keywords
+        var keywords = [tr.from, tr.to, tr.currency, tr.text], keywordsMap = {};
+		if (tr.categories) {
+			keywords = keywords.concat(tr.categories.split(","));
+		}
+        _.each(keywords, function(s){ 
+
+			if (!s) return;
+			s = (""+s).trim();
+			if (!s) return;
+
+			// lower case
+			s = s.toLowerCase();
+			// sane whitespaces
+			s = s.replace(/\s+/g, " ");
+			// no .#$/[] a la Firebase
+			s = s.replace(/[.#$\/\[\]]/g, "");
+
+			keywordsMap[s] = true
+		});
+        tr.keywords = keywordsMap;
+    }
+});
 app.directive("transaction", function() {
 	return {
 		restrict: "A",
@@ -386,14 +483,20 @@ app.directive("transaction", function() {
 		link: function(scope, element, attr) {
 			scope.element = element;
 			if (scope.onFocus) {
-				element.children("td").children("input").on("focus", function() {
+				element.on("focus", "input", function() {
 					scope.$apply(scope.onFocus);
 				});
 			}
+			element.on("blur", "input", function() {
+				scope.$apply(function() {
+					scope.updateIndex(scope.value);
+				})
+			});
 		},
-		controller: function($scope, myAccount) {
+		controller: function($scope, myAccount, updateIndex) {
 			$scope.myAccount = myAccount;
-			
+			$scope.updateIndex = updateIndex;
+
 			// set classes based on expense/income
 			$scope.$watch("myAccount(value.from)", function(expense) {
 				$scope.element.toggleClass("expense", expense);
@@ -407,6 +510,7 @@ app.directive("transaction", function() {
 		}
 	}
 });
+
 
 MY_ACCOUNT = "Me";
 
@@ -426,6 +530,24 @@ app.factory("myAccount", function() {
 	}
 });
 
+app.filter("transactionFilter", function(compileExpression) {
+	return function(transactions, expression) {
+		var filter = compileExpression(expression);
+		return _.filter(transactions,filter);
+	}
+});
+
+app.filter("transactionSort", function(updateIndex) {
+	return function(transactions) {
+		return _.sortBy(transactions,function(tr){
+			if (!tr.timestamp) {
+				updateIndex(tr);
+			}
+			return tr.timestamp;
+		});
+	}
+});
+
 app.directive("transactions", function(){
 	return {
 		restrict: "E",
@@ -435,7 +557,7 @@ app.directive("transactions", function(){
 			scope.element = element;
 		},
 		controller: function($scope, $firebase, $rootScope, myAccount, $timeout) {
-			
+
 			$scope.selectTransaction = function(id) {
 				$scope.activeTransaction = id;
 			};

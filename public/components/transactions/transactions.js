@@ -18,6 +18,24 @@ app.factory("myAccount", function() {
 	}
 });
 
+app.filter("transactionFilter", function(compileExpression) {
+	return function(transactions, expression) {
+		var filter = compileExpression(expression);
+		return _.filter(transactions,filter);
+	}
+});
+
+app.filter("transactionSort", function(updateIndex) {
+	return function(transactions) {
+		return _.sortBy(transactions,function(tr){
+			if (!tr.timestamp) {
+				updateIndex(tr);
+			}
+			return tr.timestamp;
+		});
+	}
+});
+
 app.directive("transactions", function(){
 	return {
 		restrict: "E",
@@ -27,7 +45,7 @@ app.directive("transactions", function(){
 			scope.element = element;
 		},
 		controller: function($scope, $firebase, $rootScope, myAccount, $timeout) {
-			
+
 			$scope.selectTransaction = function(id) {
 				$scope.activeTransaction = id;
 			};
