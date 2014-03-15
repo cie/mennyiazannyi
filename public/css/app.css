@@ -96,6 +96,10 @@ body {
 
 .inline {
 	display: inline-block;
+}
+
+section {
+	margin: 40px 0;
 }.deleted {
 	text-decoration: line-through;
 }

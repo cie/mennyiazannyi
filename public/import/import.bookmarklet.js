@@ -223,15 +223,18 @@ javascript:(function() {
 			transactions = transactions.filter(function(tr){
 				return tr.date && tr.sum;
 			});
-			alert("OK, we are done. Copy and paste this text to Excel or whatever program you like:\n\n" +fields.join(",") + "\n"+
+			alert("OK, we are done. Copy and paste this text back to MennyiaZannyi:\n\n" 
+					+fields.join(",") + "\n"+
 					transactions.map(function(tr) {
-						return [(tr.date ? tr.date.toISOString() : ""),
+						return $.map([(tr.date ? tr.date.toISOString() : ""),
 						        tr.from,
 						        tr.to,
 						        tr.sum,
 						        tr.currency,
 						        tr.comment,
-						        ""].join(",");
+						        ""], function(f) {
+							return JSON.stringify(f);
+						}).join(",");
 					}).join("\n"));
 
 		} catch (e) {
