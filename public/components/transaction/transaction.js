@@ -1,5 +1,5 @@
 app.factory("updateIndex", function() {
-	VERSION = 11;
+	VERSION = 12;
 
     function updateIndex(tr) {
         // save date as number

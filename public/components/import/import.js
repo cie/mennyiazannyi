@@ -18,6 +18,21 @@ app.directive("import", function() {
 			});
 
 			$scope.csv = "Hello";
+			
+			$scope.export = function() {
+				var filter = $rootScope.filter;
+				var transactions = $rootScope.user.transactions;
+				var result = [];
+				_.each(transactions, function(tr) {
+					if (filter(tr)) {
+						result.push(tr);
+					}
+				});
+				var json = js_beautify(JSON.stringify(result));
+				console.log(json);
+				window.open("data:text/json,"+encodeURIComponent(json));
+			}
+
 
 			$scope.import = function() {
 				var csv = $scope.csv;
