@@ -13,9 +13,8 @@
 	</thead>
 	<tbody>
 		<tr transaction 
-			ng-repeat="(id,tr) in user.transactions"
+			ng-repeat="(id,tr) in transactions"
 			value="tr"
-			ng-show="filter(tr)"
 			on-focus="selectTransaction(tr)"
 		>
 			<td class="actions">

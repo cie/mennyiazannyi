@@ -30,8 +30,9 @@ app.directive("transactions", function(){
 		controller: function($scope, $firebase, $rootScope, myAccount, $timeout, updateIndex, compileExpression) {
 
 			$rootScope.$watch("expression", function(expression) {
-				$scope.filter = compileExpression(expression);
+				$scope.transactions = _.filter($rootScope.user.transactions, compileExpression(expression));
 			});
+
 
 			$scope.selectTransaction = function(tr) {
 				if ($scope.activeTransaction) {
