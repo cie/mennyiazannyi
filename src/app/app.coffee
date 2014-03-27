@@ -6,11 +6,9 @@ usersRef = dbRef.child("users")
 angular.module("app", [
   "firebase"
   "app.page"
+  "ui.router"
 ])
 
-
-.config ($stateProvider, $urlRouterProvider) ->
-  $urlRouterProvider.otherwise('/')
 
 .factory "tmpl", ->
   (name) ->

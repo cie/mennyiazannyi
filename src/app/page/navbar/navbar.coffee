@@ -1,4 +1,4 @@
-angular.module("navbar", [
+angular.module("app.navbar", [
   "app.currencyChooser"
   "app.expressionBar"
   "app.languageSelector"
