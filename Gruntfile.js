@@ -1,3 +1,4 @@
+// vim: sw=2
 module.exports = function ( grunt ) {
   
   /** 
@@ -16,6 +17,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-coffeelint');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-http-server');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
 
@@ -50,6 +52,22 @@ module.exports = function ( grunt ) {
         ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
         ' */\n'
     },
+
+	/**
+	 * Serves the build
+	 */
+	'http-server': {
+	  'dev': {
+		root: 'build',
+		port: 8000,
+		host: "127.0.0.1",
+		showDir: true,
+		autoIndex: true,
+		defaultExt: "html",
+		runInBackground: false
+	  }
+	},
+
 
     /**
      * Creates a changelog on a new version.
@@ -536,7 +554,7 @@ module.exports = function ( grunt ) {
           livereload: false
         }
       }
-    }
+	}
   };
 
   grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
@@ -550,6 +568,12 @@ module.exports = function ( grunt ) {
    */
   grunt.renameTask( 'watch', 'delta' );
   grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
+
+
+  /**
+   * The task to serve as a server
+   */
+  grunt.registerTask( 'server', [ 'http-server:dev' ] );
 
   /**
    * The default task is to build and compile.
