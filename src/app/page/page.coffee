@@ -6,7 +6,7 @@ angular.module("app.page", [
 
 .directive "page", ->
   restrict: "E"
-  templateUrl: "page/page.tpl.html"
+  templateUrl: "page"
   controller: ($scope) ->
 
 

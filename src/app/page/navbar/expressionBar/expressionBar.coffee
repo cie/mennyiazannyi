@@ -49,7 +49,7 @@ angular.module("app.expressionBar",[])
       "tr.keywords[\"" + term + "\"]"
     )
     console.log expr
-    eval_ "(function(tr){" +
+    eval "(function(tr){" +
       "if (updateIndex.outdated(tr)) { updateIndex(tr) } " +
       "return " + expr +
       "})"
