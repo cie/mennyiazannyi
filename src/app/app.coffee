@@ -7,17 +7,12 @@ angular.module("app", [
   "firebase"
   "app.page"
   "ui.router"
+  "ui.bootstrap"
   "templates-app"
 ])
 
 
 
-.filter "map", ->
-  (collection, mapping) ->
-    unless mapping
-      mapping = (x) ->
-        x
-    _.map collection, mapping
 
 .filter "toArray", ->
   (collection) ->

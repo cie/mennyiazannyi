@@ -2,8 +2,8 @@
 
 <div class="container">
 	<intro />
-	<transactions ng-if="user" />
-	<import ng-if="user" />
+	<transactions ng-if="auth.user.uid" />
+	<import ng-if="auth.user.uid" />
 </div>
 
 <footer></footer>

@@ -1,4 +1,6 @@
-angular.module("app.expressionBar",[])
+angular.module("app.expressionBar",[
+  "bootstrap-tagsinput"
+])
 
 .run ($rootScope) ->
   $rootScope.expression = "all"
@@ -7,34 +9,7 @@ angular.module("app.expressionBar",[])
 .factory "compileExpression", (updateIndex) ->
   (expr) ->
     
-    # this is too complex now...
-    #clauses = expr.split(";").map(function(clause){
-    #            var terms = clause.split(',').map(function(term) {
-    #                if (term.charAt(0) === '-') {
-    #                    term = term.substr(1);
-    #                    return [term, false];
-    #                }
-    #                return [term, true];
-    #            });
-    #        });
     
-    # just hacking it in regxy:)
-    
-    # not
-    
-    # or
-    
-    # and
-    
-    # remove spaces around parentheses
-    
-    # clean <<>>s
-    
-    # terms in <<>>s
-    
-    # dates
-    
-    # finalize terms (first remove quotes and backslashes)
     expr = expr.replace(/(^|[,;(])\s*-/g, "$1!")
     expr = expr.replace(/\s*;\s*/g, "||")
     expr = expr.replace(/\s*,\s*/g, "&&")
@@ -48,7 +23,6 @@ angular.module("app.expressionBar",[])
       term = term.replace(/[\\"]/g, "")
       "tr.keywords[\"" + term + "\"]"
     )
-    console.log expr
     eval "(function(tr){" +
       "if (updateIndex.outdated(tr)) { updateIndex(tr) } " +
       "return " + expr +
@@ -60,14 +34,26 @@ angular.module("app.expressionBar",[])
   link: (scope, element, attrs) ->
     element.children().first().unwrap()
 
-  controller: ($scope, $rootScope) ->
-    $scope.localExpression = $rootScope.expression
-    $scope.updateExpression = ->
-      expr = $rootScope.expression = $scope.localExpression
+  controller: ($scope, $rootScope, $timeout) ->
+    $scope.tags = []
 
-    $scope.revertExpression = ->
-      $scope.localExpression = $rootScope.expression
+    $scope.getTagClass = (tag) ->
+      "tag-"+tag.replace(/[ ]/g , "_")
+
+    $scope.typeahead = (query) ->
+      return [query, "-"+query]
 
     $rootScope.$watch "expression", (expression) ->
       $rootScope.filter = compileExpression(expression)
+
+    $scope.addTag = ->
+      $scope.tags.push($scope.newTag)
+      $scope.newTag = ""
+
+    $scope.removeTag = (t) ->
+      $scope.tags = _.without($scope.tags, t)
+      $timeout ->
+        $(".tagsinput").focus()
+      ,0
+      
 
