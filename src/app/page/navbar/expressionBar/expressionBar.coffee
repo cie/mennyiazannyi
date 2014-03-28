@@ -56,7 +56,7 @@ angular.module("app.expressionBar",[])
 
 .directive "expressionBar", (compileExpression) ->
   restrict: "E"
-  templateUrl: tmpl("expressionBar")
+  templateUrl: "expressionBar"
   link: (scope, element, attrs) ->
     element.children().first().unwrap()
 

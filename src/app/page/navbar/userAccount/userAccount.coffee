@@ -2,7 +2,7 @@ angular.module("app.userAccount", [])
 
 .directive "userAccount", ->
   restrict: "EA"
-  templateUrl: tmpl("userAccount")
+  templateUrl: "userAccount"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
     return

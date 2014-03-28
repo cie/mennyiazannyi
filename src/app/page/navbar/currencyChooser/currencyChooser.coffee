@@ -39,7 +39,7 @@ angular.module("app.currencyChooser",[])
     element.children().first().unwrap()
     return
 
-  templateUrl: tmpl("currencyChooser")
+  templateUrl: "currencyChooser"
   controller: ($scope, $rootScope) ->
     $scope.currencies = CURRENCIES
     $scope.chooseCurrency = (currency) ->

@@ -7,7 +7,7 @@ angular.module("app.navbar", [
 
 .directive "navbar", ->
   restrict: "E"
-  templateUrl: tmpl("navbar")
+  templateUrl: "navbar"
   controller: ($scope) ->
     $scope.tabs =
       transactions:

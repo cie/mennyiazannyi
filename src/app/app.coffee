@@ -7,12 +7,9 @@ angular.module("app", [
   "firebase"
   "app.page"
   "ui.router"
+  "templates-app"
 ])
 
-
-.factory "tmpl", ->
-  (name) ->
-    "components/" + name + "/" + name + ".html"
 
 
 .filter "map", ->

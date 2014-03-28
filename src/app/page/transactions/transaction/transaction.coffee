@@ -87,7 +87,7 @@ angular.module("app.transaction", [
     onFocus: "&onFocus"
 
   transclude: true
-  templateUrl: tmpl("transaction")
+  templateUrl: "transaction"
   link: (scope, element, attr) ->
     scope.element = element
     if scope.onFocus

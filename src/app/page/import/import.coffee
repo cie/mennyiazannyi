@@ -2,7 +2,7 @@ angular.module("app.import", [])
 
 .directive "import", ->
   restrict: "E"
-  templateUrl: tmpl("import")
+  templateUrl: "import"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
 

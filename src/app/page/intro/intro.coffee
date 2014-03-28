@@ -2,7 +2,7 @@ angular.module("app.intro",[])
 
 .directive "intro", ->
   restrict: "EA"
-  templateUrl: tmpl("intro")
+  templateUrl: "intro"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
     return

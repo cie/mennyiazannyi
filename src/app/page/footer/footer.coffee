@@ -22,7 +22,7 @@ angular.module("app.footer", [])
   
 .directive "footer", ->
   restrict: "E"
-  templateUrl: tmpl("footer")
+  templateUrl: "footer"
   controller: ($scope) ->
     
     # choose a random verse

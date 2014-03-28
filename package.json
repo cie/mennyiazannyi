@@ -15,6 +15,7 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.2",
+	"underscore": "~1.6.0",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-jshint": "~0.4.3",

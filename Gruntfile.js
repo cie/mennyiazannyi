@@ -25,6 +25,8 @@ module.exports = function ( grunt ) {
    * Load in our build configuration file.
    */
   var userConfig = require( './build.config.js' );
+  var _ = require("underscore");
+  var path = require("path");
 
   /**
    * This is the configuration object Grunt uses to give each plugin its 
@@ -337,7 +339,10 @@ module.exports = function ( grunt ) {
        */
       app: {
         options: {
-          base: 'src/app'
+          base: 'src/app',
+          rename: function(moduleName) {
+            return path.basename(moduleName, ".tpl.html");
+          }
         },
         src: [ '<%= app_files.atpl %>' ],
         dest: '<%= build_dir %>/templates-app.js'
@@ -348,7 +353,10 @@ module.exports = function ( grunt ) {
        */
       common: {
         options: {
-          base: 'src/common'
+          base: 'src/common',
+          rename: function(moduleName) {
+            return path.basename(moduleName, ".html");
+          }
         },
         src: [ '<%= app_files.ctpl %>' ],
         dest: '<%= build_dir %>/templates-common.js'
@@ -549,7 +557,7 @@ module.exports = function ( grunt ) {
     }
   };
 
-  grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
+  grunt.initConfig( _.extend( taskConfig, userConfig ) );
 
   /**
    * In order to make it safe to just compile or copy *only* what was changed,

@@ -62,7 +62,7 @@ angular.module("app.languageSelector", [])
 
 .directive "languageSelector", ->
   restrict: "E"
-  templateUrl: tmpl("languageSelector")
+  templateUrl: "languageSelector"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
 

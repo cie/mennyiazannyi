@@ -17,7 +17,7 @@ angular.module("app.transactions", [
 
 .directive "transactions", ->
   restrict: "E"
-  templateUrl: tmpl("transactions")
+  templateUrl: "transactions"
   link: (scope, element, attrs) ->
     element.children().first().unwrap()
     scope.element = element
