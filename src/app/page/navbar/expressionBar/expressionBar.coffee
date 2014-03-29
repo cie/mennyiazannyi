@@ -2,10 +2,6 @@ angular.module("app.expressionBar",[
   "bootstrap-tagsinput"
 ])
 
-.run ($rootScope) ->
-  $rootScope.expression = "all"
-  return
-
 .factory "compileExpression", (updateIndex) ->
   (expr) ->
     
@@ -47,7 +43,7 @@ angular.module("app.expressionBar",[
 
   controller: ($scope, $rootScope, $timeout, $filter,
                getKeywords, updateIndex, updateKeywordCache) ->
-    $scope.tags = []
+    $rootScope.tags = []
 
     $scope.getColor = (tag) ->
       tag
@@ -69,7 +65,7 @@ angular.module("app.expressionBar",[
 
     $scope.addTag = ->
       newTag = $scope.newTag
-      tags = $scope.tags
+      tags = $rootScope.tags
 
       i = _.indexOf(tags, newTag)
       if i<0
@@ -81,7 +77,7 @@ angular.module("app.expressionBar",[
           $scope.newTag = ""
 
     $scope.removeTag = (t) ->
-      $scope.tags = _.without($scope.tags, t)
+      $rootScope.tags = _.without($rootScope.tags, t)
       $scope.focus()
 
     $scope.click = (event) ->
@@ -93,10 +89,10 @@ angular.module("app.expressionBar",[
           $scope.newTag = ""
         when 8 # bksp
           if $scope.newTag is ""
-            $scope.tags.pop()
+            $rootScope.tags.pop()
         when 13 # enter
           if $scope.newTag isnt ""
-            $scope.tags.push($scope.newTag)
+            $rootScope.tags.push($scope.newTag)
             $scope.newTag = ""
 
 

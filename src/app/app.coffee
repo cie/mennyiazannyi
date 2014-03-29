@@ -12,8 +12,6 @@ angular.module("app", [
 ])
 
 
-
-
 .filter "toArray", ->
   (collection) ->
     _.toArray collection

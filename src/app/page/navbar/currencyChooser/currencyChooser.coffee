@@ -20,6 +20,13 @@ CURRENCIES =
     format: (x) ->
       "$ " + x.toFixed(2)
 
+  GBP:
+    sign: "£"
+    value: 1.21
+    name: "British Pound"
+    format: (x) ->
+      "£ " + x.toFixed(2)
+
 angular.module("app.currencyChooser",[])
 
 # redefine currency filter
