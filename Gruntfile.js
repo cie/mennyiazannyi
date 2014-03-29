@@ -169,7 +169,9 @@ module.exports = function ( grunt ) {
           }
         ]
       }
+	  }
     },
+	},
 
     /**
      * `grunt concat` concatenates multiple source files into a single file.
@@ -414,7 +416,7 @@ module.exports = function ( grunt ) {
         src: [
           '<%= concat.compile_js.dest %>',
           '<%= vendor_files.css %>',
-          '<%= less.compile.dest %>'
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
     },

@@ -8,6 +8,7 @@ module.exports = {
    * completely built.
    */
   build_dir: 'build',
+  deploy_dir: '/home/cie/Dropbox/Apps/Brace/mennyiazannyi.brace.io',
   compile_dir: 'bin',
 
   /**
