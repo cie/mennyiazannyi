@@ -5,7 +5,7 @@ angular.module("app.transaction", [
 .factory "updateIndex", ->
   updateIndex = (tr) ->
     # save date as number
-    tr.$priority = +new Date(tr.date)
+    tr.$priority = -new Date(tr.date)
 
     # no keywords for deleted
     if tr.deleted
@@ -57,7 +57,7 @@ angular.module("app.transaction", [
     tr.keywords = kws
     tr.indexVersion = VERSION
     return
-  VERSION = 13
+  VERSION = 14
   updateIndex.sanitize = (s) ->
     
     # convert to string

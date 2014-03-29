@@ -21,9 +21,10 @@ angular.module("app.transactions", [
 
 .factory "getTransactions", ($rootScope) ->
   () ->
-    if $rootScope.user and $rootScope.filter then _.filter(
+    res = if $rootScope.user and $rootScope.filter then _.filter(
       $rootScope.user.transactions, $rootScope.filter
     ) else []
+    res = _.sortBy(res, (tr) -> tr.$priority)
 
 .directive "transactions", ->
   restrict: "E"
@@ -35,7 +36,7 @@ angular.module("app.transactions", [
 
   controller: ($scope, $firebase, $rootScope,
                myAccount, $timeout, updateIndex,
-               getTransactions, getKeywords) ->
+               getTransactions, updateKeywordCache) ->
 
     updateTransactions = ->
       $scope.allTransactions = getTransactions()
@@ -72,18 +73,20 @@ angular.module("app.transactions", [
         $scope.newTransaction.currency = currency
 
     $scope.addTransaction = ->
-      t = $scope.newTransaction
-      updateIndex t
+      tr = $scope.newTransaction
+      updateIndex tr
+      updateKeywordCache()
+      
       
       # enable decimal comma, avoid NaNs
       $scope.user.$child("transactions").$add(
-        date: t.date
-        from: t.from
-        to: t.to
-        sum: +("" + t.sum).replace(",", ".") or 0
-        currency: t.currency
-        text: t.text
-        categories: t.categories
+        date: tr.date
+        from: tr.from
+        to: tr.to
+        sum: +("" + tr.sum).replace(",", ".") or 0
+        currency: tr.currency
+        text: tr.text
+        categories: tr.categories
       ).then (id) ->
         
         # select new transaction
@@ -96,8 +99,8 @@ angular.module("app.transactions", [
       
       # keep date as it is
       #this.set('newTransaction.date', new Date().toDateString());
-      $scope.newTransaction.from = ""  unless myAccount(t.from)
-      $scope.newTransaction.to = ""  unless myAccount(t.to)
+      $scope.newTransaction.from = ""  unless myAccount(tr.from)
+      $scope.newTransaction.to = ""  unless myAccount(tr.to)
       $scope.newTransaction.sum = ""
       $scope.newTransaction.currency = $rootScope.currency
       $scope.newTransaction.text = ""

@@ -28,6 +28,15 @@ angular.module("app.expressionBar",[
       "return " + expr +
       "})"
 
+.factory "updateKeywordCache", ($rootScope, getKeywords) ->
+  () ->
+    if $rootScope.user and $rootScope.user.transactions
+      # XXX can optimize by not creating this array
+      transactions = _.toArray($rootScope.user.transactions)
+      $rootScope.allKeywords = getKeywords(transactions)
+    else
+      $rootScope.allKeywords = []
+
 .directive "expressionBar", (compileExpression) ->
   restrict: "E"
   templateUrl: "expressionBar"
@@ -37,7 +46,7 @@ angular.module("app.expressionBar",[
     scope.input = $(".tagsinput", scope.element)
 
   controller: ($scope, $rootScope, $timeout, $filter,
-               getKeywords, updateIndex) ->
+               getKeywords, updateIndex, updateKeywordCache) ->
     $scope.tags = []
 
     $scope.getColor = (tag) ->
@@ -50,15 +59,8 @@ angular.module("app.expressionBar",[
       query = updateIndex.sanitize(query)
       _.filter($rootScope.allKeywords, (k)->k.indexOf(query) != -1)
       
-    updateAllKeywords = () ->
-      if $rootScope.user and $rootScope.user.transactions
-        # XXX can optimize by not creating this array
-        transactions = _.toArray($rootScope.user.transactions)
-        $rootScope.allKeywords = getKeywords(transactions)
-      else
-        $rootScope.allKeywords = []
-    $rootScope.$watch("user", updateAllKeywords)
-    $rootScope.$watch("user.transactions", updateAllKeywords)
+    $rootScope.$watch("user", updateKeywordCache)
+    $rootScope.$watch("user.transactions", updateKeywordCache)
 
     $scope.$watch "tags.join(';')", (expression) ->
       if !expression
