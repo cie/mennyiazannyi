@@ -4,9 +4,15 @@ angular.module("app.transaction", [
 
 .factory "updateIndex", ->
   updateIndex = (tr) ->
-    
     # save date as number
     tr.$priority = +new Date(tr.date)
+
+    # no keywords for deleted
+    if tr.deleted
+      tr.keywords = {deleted: true}
+      tr.indexVersion = VERSION
+      return
+    
     
     # index keywords
     keywords = [
@@ -47,14 +53,11 @@ angular.module("app.transaction", [
         kws[field + ":" + s.split(" ")[0]] = true
       return
 
-    if tr.deleted
-      kws.deleted = true
-    else
-      kws.all = true
+    kws.all = true
     tr.keywords = kws
     tr.indexVersion = VERSION
     return
-  VERSION = 12
+  VERSION = 13
   updateIndex.sanitize = (s) ->
     
     # convert to string
@@ -88,7 +91,7 @@ angular.module("app.transaction", [
     for tr in transactions
       for k of tr.keywords
         # XXX hack: skip these from search (no need)
-        unless k.match /^(to|from|text):/
+        unless k.match /^(to|from|text|sum):/
           keywords[k] = true
 
     result = []
