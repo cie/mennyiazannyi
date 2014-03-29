@@ -112,10 +112,12 @@ angular.module("app.transactions", [
 
     $scope.deleteTransaction = (tr) ->
       tr.deleted = true
+      updateIndex(tr)
       return
 
     $scope.restoreTransaction = (tr) ->
       tr.deleted = false
+      updateIndex(tr)
       return
 
     return

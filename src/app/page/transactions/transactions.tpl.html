@@ -6,9 +6,9 @@
 		</tr>
 		<tr transaction value="newTransaction" class="newTransaction">
 			<td class="actions">
-				<button class="btn btn-xs btn-success" href="">
-					<span class="glyphicon glyphicon-ok" ng-click="addTransaction()"></span>
-				</button>
+				<button class="btn btn-xs btn-success" href=""
+					ng-click="addTransaction()"
+					><i class="fa fa-plus"></i></button>
 
 			</td>
 		</tr>
@@ -30,11 +30,13 @@
 			class="transaction"
 		>
 			<td class="actions">
-				<button class="btn btn-xs btn-warning" ng-show="!tr.deleted">
-					<span class="glyphicon glyphicon-remove" ng-click="deleteTransaction(tr)"></span>
+				<button class="btn btn-xs btn-warning" ng-show="!tr.deleted"  
+					ng-click="deleteTransaction(tr)">
+					<i class="fa fa-trash-o"></i>
 				</button>
-				<button class="btn btn-xs btn-warning" ng-show="tr.deleted">
-					<span class="glyphicon glyphicon-ok" ng-click="restoreTransaction(tr)"></span>
+				<button class="btn btn-xs btn-warning" ng-show="tr.deleted"
+					ng-click="restoreTransaction(tr)">
+					<i class="fa fa-undo"></i>
 				</button>
 			</td>
 		</tr>
