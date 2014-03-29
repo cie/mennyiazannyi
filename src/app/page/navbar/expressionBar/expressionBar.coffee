@@ -49,6 +49,8 @@ angular.module("app.expressionBar",[
       return [query, "-"+query]
 
     $scope.$watch "tags.join(';')", (expression) ->
+      if !expression
+        expression = "all"
       $rootScope.filter = compileExpression(expression)
 
     $scope.addTag = ->

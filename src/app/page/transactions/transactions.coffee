@@ -30,11 +30,15 @@ angular.module("app.transactions", [
   controller: ($scope, $firebase, $rootScope,
                myAccount, $timeout, updateIndex) ->
 
-    $rootScope.$watch "filter", (filter) ->
+    updateTransactions = ->
       $scope.allTransactions = if $rootScope.user then _.filter(
-        $rootScope.user.transactions, filter
+        $rootScope.user.transactions, $rootScope.filter
       ) else []
       $scope.transactions = $scope.allTransactions.slice(0, INITIAL_BATCH_SIZE)
+
+
+    $rootScope.$watch "filter", updateTransactions
+    $rootScope.$watch "user", updateTransactions
 
     $scope.loadMore = () ->
       n = $scope.transactions.length
