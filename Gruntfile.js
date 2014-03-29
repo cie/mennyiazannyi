@@ -168,10 +168,18 @@ module.exports = function ( grunt ) {
             expand: true
           }
         ]
+      },
+      deploy: {
+        files: [
+          {
+            src: [ '**' ],
+            dest: '<%= deploy_dir %>',
+            cwd: '<%= compile_dir %>',
+            expand: true
+          }
+        ]
       }
-	  }
     },
-	},
 
     /**
      * `grunt concat` concatenates multiple source files into a single file.
@@ -607,6 +615,11 @@ module.exports = function ( grunt ) {
    */
   grunt.registerTask( 'compile', [
     'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+  ]);
+
+  // deploy to server
+  grunt.registerTask( 'deploy', [
+    'compile', 'copy:deploy'
   ]);
 
   /**
