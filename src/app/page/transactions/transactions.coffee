@@ -19,6 +19,12 @@ angular.module("app.transactions", [
       return true  if translation and translation.toLowerCase() is acctName
     false
 
+.factory "getTransactions", ($rootScope) ->
+  () ->
+    if $rootScope.user and $rootScope.filter then _.filter(
+      $rootScope.user.transactions, $rootScope.filter
+    ) else []
+
 .directive "transactions", ->
   restrict: "E"
   templateUrl: "transactions"
@@ -28,14 +34,12 @@ angular.module("app.transactions", [
     return
 
   controller: ($scope, $firebase, $rootScope,
-               myAccount, $timeout, updateIndex) ->
+               myAccount, $timeout, updateIndex,
+               getTransactions, getKeywords) ->
 
     updateTransactions = ->
-      $scope.allTransactions = if $rootScope.user then _.filter(
-        $rootScope.user.transactions, $rootScope.filter
-      ) else []
+      $scope.allTransactions = getTransactions()
       $scope.transactions = $scope.allTransactions.slice(0, INITIAL_BATCH_SIZE)
-
 
     $rootScope.$watch "filter", updateTransactions
     $rootScope.$watch "user", updateTransactions

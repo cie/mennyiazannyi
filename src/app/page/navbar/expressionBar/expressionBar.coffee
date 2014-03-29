@@ -36,7 +36,8 @@ angular.module("app.expressionBar",[
     scope.element.unwrap() # unwrap for correct bootstrap styling
     scope.input = $(".tagsinput", scope.element)
 
-  controller: ($scope, $rootScope, $timeout) ->
+  controller: ($scope, $rootScope, $timeout, $filter,
+               getKeywords, updateIndex) ->
     $scope.tags = []
 
     $scope.getColor = (tag) ->
@@ -46,7 +47,18 @@ angular.module("app.expressionBar",[
       "tag-"+tag.replace(/[ ]/g , "_")
 
     $scope.typeahead = (query) ->
-      return [query, "-"+query]
+      query = updateIndex.sanitize(query)
+      _.filter($rootScope.allKeywords, (k)->k.indexOf(query) != -1)
+      
+    updateAllKeywords = () ->
+      if $rootScope.user and $rootScope.user.transactions
+        # XXX can optimize by not creating this array
+        transactions = _.toArray($rootScope.user.transactions)
+        $rootScope.allKeywords = getKeywords(transactions)
+      else
+        $rootScope.allKeywords = []
+    $rootScope.$watch("user", updateAllKeywords)
+    $rootScope.$watch("user.transactions", updateAllKeywords)
 
     $scope.$watch "tags.join(';')", (expression) ->
       if !expression
@@ -74,11 +86,17 @@ angular.module("app.expressionBar",[
       $scope.focus()
 
     $scope.keydown = (event) ->
-      if event.which is 27 # esc
-        $scope.newTag = ""
-      if event.which is 8 # bksp
-        if $scope.newTag is ""
-          $scope.tags.pop()
+      switch event.which
+        when 27 # esc
+          $scope.newTag = ""
+        when 8 # bksp
+          if $scope.newTag is ""
+            $scope.tags.pop()
+        when 13 # enter
+          if $scope.newTag isnt ""
+            $scope.tags.push($scope.newTag)
+            $scope.newTag = ""
+
 
 
       

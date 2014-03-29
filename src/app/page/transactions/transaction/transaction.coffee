@@ -1,3 +1,4 @@
+
 angular.module("app.transaction", [
 ])
 
@@ -79,6 +80,23 @@ angular.module("app.transaction", [
     not tr.indexVersion or tr.indexVersion < VERSION
 
   updateIndex
+
+.factory "getKeywords", ->
+  (transactions) ->
+    keywords = {}
+
+    for tr in transactions
+      for k of tr.keywords
+        # XXX hack: skip these from search (no need)
+        unless k.match /^(to|from|text):/
+          keywords[k] = true
+
+    result = []
+    for k of keywords
+      result.push(k)
+
+    result
+
 
 .directive "transaction", ->
   restrict: "A"
