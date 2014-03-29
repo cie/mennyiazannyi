@@ -1,24 +1,14 @@
 
-<form class="navbar-form navbar-left expressionBar">
+<form class="navbar-form navbar-left expressionBar" ng-click="click($event)">
 	<div class="form-group">
         <div class="bootstrap-tagsinput">
-            <span ng-repeat="t in tags" class="tag badge badge-success">
-                <a class="close" ng-click="removeTag(t)"><sup>×</sup></a>
+            <span ng-repeat="t in tags" class="tag badge badge-success" style="background-color: {{getColor(t)}}" ng-class="getTagClass(t)">
+                <a class="close" ng-click="removeTag(t)">×</a>
                 <span ng-bind="t"></span>
             </span>
-            <input class="tagsinput" size="4" type="text" ng-model="newTag" typeahead="s for s in typeahead($viewValue)" typeahead-on-select="addTag()">
+			<input class="tagsinput" size="8" type="text" ng-model="newTag" typeahead="s for s in typeahead($viewValue)" typeahead-on-select="addTag()" ng-keydown="keydown($event)">
         </div>
 		
-		<a href="" class="expressionHelpButton"><small>
-			<span class="inline"><span class="hidden-xs">
-				<span class="glyphicon glyphicon-question-sign"></span>
-			</span></span>
-			<span class="visible-xs">
-				<span class="glyphicon glyphicon-question-sign"></span>
-				{{t("Query help")}}
-			</span>
-			</small>
-		</a>
 	</div>
 </form>
 

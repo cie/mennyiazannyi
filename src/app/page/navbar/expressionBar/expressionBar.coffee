@@ -32,10 +32,15 @@ angular.module("app.expressionBar",[
   restrict: "E"
   templateUrl: "expressionBar"
   link: (scope, element, attrs) ->
-    element.children().first().unwrap()
+    scope.element = element.first() # XXX only one root-level tag is allowed
+    scope.element.unwrap() # unwrap for correct bootstrap styling
+    scope.input = $(".tagsinput", scope.element)
 
   controller: ($scope, $rootScope, $timeout) ->
     $scope.tags = []
+
+    $scope.getColor = (tag) ->
+      tag
 
     $scope.getTagClass = (tag) ->
       "tag-"+tag.replace(/[ ]/g , "_")
@@ -43,17 +48,41 @@ angular.module("app.expressionBar",[
     $scope.typeahead = (query) ->
       return [query, "-"+query]
 
-    $rootScope.$watch "expression", (expression) ->
+    $scope.$watch "tags.join(';')", (expression) ->
       $rootScope.filter = compileExpression(expression)
 
     $scope.addTag = ->
-      $scope.tags.push($scope.newTag)
-      $scope.newTag = ""
+      newTag = $scope.newTag
+      tags = $scope.tags
+
+      i = _.indexOf(tags, newTag)
+      if i<0
+        tags.push($scope.newTag)
+        $scope.newTag = ""
+      else
+        $timeout ->
+          $("."+$scope.getTagClass(newTag), $scope.element).hide().fadeIn()
+          $scope.newTag = ""
 
     $scope.removeTag = (t) ->
       $scope.tags = _.without($scope.tags, t)
-      $timeout ->
-        $(".tagsinput").focus()
-      ,0
+      $scope.focus()
+
+    $scope.click = (event) ->
+      $scope.focus()
+
+    $scope.keydown = (event) ->
+      if event.which is 27 # esc
+        $scope.newTag = ""
+      if event.which is 8 # bksp
+        if $scope.newTag is ""
+          $scope.tags.pop()
+
+
       
+    $scope.focus = () ->
+      $timeout ->
+        $(".tagsinput", $scope.element).focus()
+      ,0
+
 

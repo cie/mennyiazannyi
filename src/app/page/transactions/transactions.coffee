@@ -25,9 +25,9 @@ angular.module("app.transactions", [
 
   controller: ($scope, $firebase, $rootScope,
                myAccount, $timeout, updateIndex, compileExpression) ->
-    $rootScope.$watch "expression", (expression) ->
+    $rootScope.$watch "filter", (filter) ->
       $scope.transactions = if $rootScope.user then _.filter(
-        $rootScope.user.transactions, compileExpression(expression)
+        $rootScope.user.transactions, filter
       )
 
     $scope.selectTransaction = (tr) ->
