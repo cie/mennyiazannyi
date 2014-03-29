@@ -1,7 +1,11 @@
 MY_ACCOUNT = "Me"
+INITIAL_BATCH_SIZE = 10
+BATCH_SIZE = 3
+
 
 angular.module("app.transactions", [
   "app.transaction"
+  "infinite-scroll"
 ])
 
 # Tell if an account is owned by the user.
@@ -24,11 +28,19 @@ angular.module("app.transactions", [
     return
 
   controller: ($scope, $firebase, $rootScope,
-               myAccount, $timeout, updateIndex, compileExpression) ->
+               myAccount, $timeout, updateIndex) ->
+
     $rootScope.$watch "filter", (filter) ->
-      $scope.transactions = if $rootScope.user then _.filter(
+      $scope.allTransactions = if $rootScope.user then _.filter(
         $rootScope.user.transactions, filter
-      )
+      ) else []
+      $scope.transactions = $scope.allTransactions.slice(0, INITIAL_BATCH_SIZE)
+
+    $scope.loadMore = () ->
+      n = $scope.transactions.length
+      for i in [n...Math.min(n+BATCH_SIZE, $scope.allTransactions.length)]
+        $scope.transactions.push($scope.allTransactions[i])
+
 
     $scope.selectTransaction = (tr) ->
       if $scope.activeTransaction
