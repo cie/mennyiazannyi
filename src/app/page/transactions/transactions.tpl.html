@@ -2,7 +2,7 @@
 <table class="table table-striped table-hover ">
 	<thead>
 		<tr>
-			<th colspan="8">{{t('Add a new transaction')}}</th>
+			<th colspan="7">{{t('Add a new transaction')}}</th>
 		</tr>
 		<tr transaction value="newTransaction" class="newTransaction">
 			<td class="actions">
@@ -17,7 +17,6 @@
 			<th>{{t('From')}}</th>
 			<th>{{t('To')}}</th>
 			<th>{{t('Sum')}}</th>
-			<th>{{t('Currency')}}</th>
 			<th>{{t('Comment')}}</th>
 			<th>{{t('Categories')}}</th>
 		</tr>
@@ -41,7 +40,7 @@
 			</td>
 		</tr>
 		<tr class="loadingTransactions" ng-if="transactions.length < allTransactions.length">
-			<td colspan="8">
+			<td colspan="7">
 				…
 			</td>
 		</tr>

@@ -29,6 +29,18 @@ CURRENCIES =
 
 angular.module("app.currencyChooser",[])
 
+.factory "currencies", () ->
+  CURRENCIES
+.factory "formatSum", ($rootScope, currencies) ->
+  formatSum = (tr) ->
+    if tr.currency is $rootScope.currency
+      $rootScope.currency.format(tr.sum)
+    else
+      "#{currencies[tr.currency].format(tr.sum)} (#{$rootScope.currency.format(tr.sum)})"
+
+    
+  formatSum
+
 # redefine currency filter
 .filter "currency", ($rootScope) ->
   (amount) ->
