@@ -21,13 +21,16 @@
 				<user-account></user-account>
 			</ul>
 			
-			<expression-bar></expression-bar>
+			<expression-bar ng-if="user"></expression-bar>
+			<!-- filter buttons -->
+			<ul class="nav navbar-nav" ng-if="user">
+				<li><a href="" ng-click="$root.tags = $root.tags.join(';') == 'deleted' ? [] : ['deleted']">
+					<i class="fa fa-trash-o"></i>
+				</a></li>
+			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-                <li><a href="" ng-click="$root.tags = ['deleted']">
-                    <i class="fa fa-trash-o"></i>
-                </a></li>
-				<currency-chooser></currency-chooser>
+				<currency-chooser ng-if="user"></currency-chooser>
 				<language-selector></language-selector>
 			</ul>
 		</div>
