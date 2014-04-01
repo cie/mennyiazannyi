@@ -1,4 +1,4 @@
-<section>
+<section ng-if="false">
 	<h1>Import</h1>
 
 	<p>
@@ -18,7 +18,6 @@
 </section>
 
 <section>
-<h1>Export</h1>
-<p>You can export the data shown above by pressing this button:</p>
-<p><button class="btn btn-primary" ng-click="export()">Export</button></p>
+<h1>{{t('Export')}}</h1>
+<p><button class="btn btn-primary" ng-click="export()">Export transactions</button></p>
 </section>
