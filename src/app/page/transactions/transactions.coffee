@@ -26,13 +26,23 @@ angular.module("app.transactions", [
     ) else []
     res = _.sortBy(res, (tr) -> tr.$priority)
 
-.directive "transactions", ->
+.directive "transactions", ($window)->
   restrict: "E"
   templateUrl: "transactions"
   link: (scope, element, attrs) ->
-    element.children().first().unwrap()
     scope.element = element
-    return
+    $window = angular.element($window)
+    wrapper = scope.wrapper = $(">.transactions", element)
+
+    # code from ng-infinite-scroller
+    handler = (e) ->
+      scope.$apply scope.scroll
+    wrapper.on("scroll", handler)
+    $window.on("scroll", handler)
+    scope.on "$destroy", ->
+      $window.off("scroll", handler)
+    
+
 
   controller: ($scope, $firebase, $rootScope,
                myAccount, $timeout, updateIndex,
@@ -49,6 +59,25 @@ angular.module("app.transactions", [
       n = $scope.transactions.length
       for i in [n...Math.min(n+BATCH_SIZE, $scope.allTransactions.length)]
         $scope.transactions.push($scope.allTransactions[i])
+
+    $scope.scroll = ->
+      wrapper = $scope.wrapper
+      elem = $(">table", wrapper)
+      scrollDistance = 0.3
+
+      # code from ng-infinite-scroller
+      windowBottom = wrapper.height() + wrapper.scrollTop()
+      elementBottom = elem.offset().top + elem.height()
+      remaining = elementBottom - windowBottom
+      shouldScroll = remaining <= wrapper.height() * scrollDistance
+
+      $scope.loadMore() if shouldScroll
+
+    
+
+      
+
+
 
 
     $scope.selectTransaction = (tr) ->
