@@ -4,6 +4,7 @@ BATCH_SIZE = 3
 
 
 angular.module("app.transactions", [
+  "app.importExport"
   "app.transaction"
   "infinite-scroll"
 ])

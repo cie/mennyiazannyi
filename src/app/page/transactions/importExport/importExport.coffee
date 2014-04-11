@@ -1,8 +1,8 @@
 angular.module("app.importExport", [])
 
-.directive "importExport", ->
+.directive "importExportButtons", ->
   restrict: "E"
-  templateUrl: "importExport"
+  templateUrl: "importExportButtons"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
 
