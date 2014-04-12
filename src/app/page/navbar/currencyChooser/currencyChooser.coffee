@@ -39,10 +39,10 @@ angular.module("app.currencyChooser",[])
   (amount) ->
     "<currency> " + $rootScope.currency
 
-.run ($rootScope) ->
+.run ($rootScope, $cookies) ->
   
   # default to HUF
-  $rootScope.currency = "HUF"
+  $rootScope.currency = $cookies.currency || "HUF"
   return
 
 .directive "currencyChooser", ->
@@ -51,9 +51,9 @@ angular.module("app.currencyChooser",[])
     element.children().first().unwrap()
 
   templateUrl: "currencyChooser"
-  controller: ($scope, $rootScope) ->
+  controller: ($scope, $rootScope, $cookies) ->
     $scope.currencies = CURRENCIES
     $scope.chooseCurrency = (currency) ->
-      $rootScope.currency = currency
+      $cookies.currency = $rootScope.currency = currency
 
 
