@@ -68,6 +68,7 @@ module.exports = {
       'vendor/jquery/dist/jquery.js',
       'vendor/angular/angular.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+	  'vendor/angular-cookies/angular-cookies.js',
       'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput-angular.js',
       'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
 	  'vendor/ng-infinite-scroller/build/ng-infinite-scroll.js',
@@ -79,7 +80,6 @@ module.exports = {
 	  'vendor/angularfire/angularfire.js',
 	  'vendor/underscore/underscore.js',
 	  'vendor/js-beautify/js/lib/beautify.js',
-	  'vendor/jquery-cookie/jquery.cookie.js',
 	  'vendor/angular-gettext/dist/angular-gettext.js'
     ],
     css: [
