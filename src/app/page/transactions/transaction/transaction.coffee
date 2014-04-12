@@ -136,6 +136,12 @@ angular.module("app.transaction", [
       $scope.element.toggleClass "active", !!value
       return
 
-    return
-
+    $scope.currencies = CURRENCIES
+    $scope.sameCurrency = (t) ->
+      t.currency == $rootScope.currency
+    $scope.converted = (t) ->
+      source = CURRENCIES[t.currency]
+      target = CURRENCIES[$rootScope.currency]
+      sum = t.sum * source.value / target.value
+      target.format(sum)
 

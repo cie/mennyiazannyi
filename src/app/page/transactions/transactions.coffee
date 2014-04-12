@@ -77,6 +77,7 @@ angular.module("app.transactions", [
 
       
 
+    $scope.currencies = CURRENCIES
 
 
 

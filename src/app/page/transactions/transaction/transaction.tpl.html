@@ -1,8 +1,16 @@
   <td><input class="form-control" type="date" ng-model="value.date"></td>
   <td><input class="form-control" ng-model="value.from"></td>
   <td><input class="form-control" ng-model="value.to"></td>
-  <td><input class="form-control" ng-model="value.sum"></td>
-  <td><input class="form-control" ng-model="value.currency"></td>
+  <td>
+	  <div class="form-control">
+		  <span ng-if="!currencies[value.currency].postfix">{{currencies[value.currency].sign}}</span>
+		  <input ng-model="value.sum" size=6>
+		  <span ng-if="currencies[value.currency].postfix">{{currencies[value.currency].sign}}</span>
+		  <small ng-if="!sameCurrency(value)">
+			  ({{converted(value)}})
+		  </small>
+	  </div>
+  </td>
   <td><input class="form-control" ng-model="value.text"></td>
   <td><input class="form-control" ng-model="value.categories"></td>
   <td ng-transclude></td>

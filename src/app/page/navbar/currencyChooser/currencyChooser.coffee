@@ -12,6 +12,7 @@ CURRENCIES =
     name: "Hungarian Forint"
     format: (x) ->
       x.toFixed(0) + " Ft"
+    postfix: true
 
   USD:
     sign: "$"
@@ -44,15 +45,11 @@ angular.module("app.currencyChooser",[])
   restrict: "E"
   link: (scope, element, attr) ->
     element.children().first().unwrap()
-    return
 
   templateUrl: "currencyChooser"
   controller: ($scope, $rootScope) ->
     $scope.currencies = CURRENCIES
     $scope.chooseCurrency = (currency) ->
       $rootScope.currency = currency
-      return
-
-    return
 
 
