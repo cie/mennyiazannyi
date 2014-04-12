@@ -15,9 +15,8 @@ angular.module("app.transactions", [
     return false  unless acctName
     acctName = acctName.toLowerCase()
     return true  if acctName is MY_ACCOUNT.toLowerCase()
-    for lang of TRANSLATIONS
-      translation = TRANSLATIONS[lang][MY_ACCOUNT]
-      return true  if translation and translation.toLowerCase() is acctName
+    # XXX a better way needed:
+    return true if acctName is "én" # hu
     false
 
 .factory "getTransactions", ($rootScope) ->
@@ -40,7 +39,7 @@ angular.module("app.transactions", [
       scope.$apply scope.scroll
     wrapper.on("scroll", handler)
     $window.on("scroll", handler)
-    scope.on "$destroy", ->
+    scope.$on "$destroy", ->
       $window.off("scroll", handler)
     
 

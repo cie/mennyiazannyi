@@ -1,16 +1,88 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: MennyiaZannyi\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=1; plural = 0;\n"
-"Language: hu\n"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Add a new transaction"
+msgstr "Új tranzakció felvétele"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Categories"
+msgstr "Kategóriák"
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+msgid "Close"
+msgstr "Bezárás"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Comment"
+msgstr ""
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+msgid ""
+"Copy this code (Ctrl+C) and paste it to your spreadsheet program (Excel, "
+"Calc, etc.) (Ctrl+V). Then press OK in the window that appears."
+msgstr ""
+
+#: src/app/page/navbar/currencyChooser/currencyChooser.tpl.html
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Currency"
+msgstr "Pénznem"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Date"
+msgstr "Dátum"
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+#: src/app/page/transactions/importExport/importExportButtons.tpl.html
+msgid "Export"
+msgstr "Exportálás"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "From"
+msgstr "Kitől"
+
+#: src/app/page/transactions/importExport/importExportButtons.tpl.html
+msgid "Import"
+msgstr "Importálás"
+
+#: src/app/page/navbar/languageSelector/languageSelector.tpl.html
+msgid "Language"
+msgstr "Nyelv"
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log in"
+msgstr "Bejelentkezés"
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log in with"
+msgstr "Bejelentkezés"
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log out"
+msgstr "Kijelentkezés"
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Nothing special here yet :)"
+msgstr "Még nincs itt semmi érdekes :)"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Sum"
+msgstr "Összeg"
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "To"
+msgstr "Kinek"
 
 #: src/app/page/transactions/transactions.tpl.html
 msgid "Transactions"

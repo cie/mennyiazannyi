@@ -6,7 +6,7 @@
                 <a class="close" ng-click="removeTag(t)">×</a>
                 <span ng-bind="t"></span>
             </span>
-			<input class="tagsinput" size="8" type="text" ng-model="newTag" typeahead="s for s in typeahead($viewValue)" typeahead-on-select="addTag()" ng-keydown="keydown($event)" placeholder="{{tags.length ? '' : t('Search')}}">
+			<input class="tagsinput" size="8" type="text" ng-model="newTag" typeahead="s for s in typeahead($viewValue)" typeahead-on-select="addTag()" ng-keydown="keydown($event)" placeholder="{{tags.length ? '' : 'Search' | translate}}">
         </div>
 		
 	</div>

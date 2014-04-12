@@ -4,5 +4,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/app/page/transactions/transactions.tpl.html
+msgid "Add a new transaction"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Categories"
+msgstr ""
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+msgid "Close"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Comment"
+msgstr ""
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+msgid "Copy this code (Ctrl+C) and paste it to your spreadsheet program (Excel, Calc, etc.) (Ctrl+V). Then press OK in the window that appears."
+msgstr ""
+
+#: src/app/page/navbar/currencyChooser/currencyChooser.tpl.html
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Currency"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Date"
+msgstr ""
+
+#: src/app/page/transactions/importExport/exportDialog.tpl.html
+#: src/app/page/transactions/importExport/importExportButtons.tpl.html
+msgid "Export"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "From"
+msgstr ""
+
+#: src/app/page/transactions/importExport/importExportButtons.tpl.html
+msgid "Import"
+msgstr ""
+
+#: src/app/page/navbar/languageSelector/languageSelector.tpl.html
+msgid "Language"
+msgstr ""
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log in"
+msgstr ""
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log in with"
+msgstr ""
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Log out"
+msgstr ""
+
+#: src/app/page/navbar/userAccount/userAccount.tpl.html
+msgid "Nothing special here yet :)"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "Sum"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
+msgid "To"
+msgstr ""
+
+#: src/app/page/transactions/transactions.tpl.html
 msgid "Transactions"
 msgstr ""

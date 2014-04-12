@@ -6,48 +6,12 @@ getLang = ->
     # try to find out the user's language
     lang = navigator.language or navigator.userLanguage
     m = lang.match(/([a-z]+)(-[A-Z]+)?/)
-    return m[1]  if m and TRANSLATIONS[m[1]]
+    return m[1]  if m and LANGS[m[1]]
   
     # default to English
     return "en"
   lang
 
-
-TRANSLATIONS =
-  hu:
-    Hello: "Helló"
-    "Log in": "Bejelentkezés"
-    "Log in with": "Bejelentkezés"
-    transactions: "Tranzakciók"
-    budget: "Büdzsé"
-    flow: "Pénzfolyam"
-    love: "Szeretet"
-    Language: "Nyelv"
-    "Query help": "Segítség a lekérdezésekhez"
-    "Log out": "Kijelentkezés"
-    Settings: "Beállítások"
-    "Nothing special here yet :)": "Még nincs itt semmi érdekes :)"
-    Date: "Dátum"
-    From: "Kitől"
-    To: "Kinek"
-    Sum: "Összeg"
-    Currency: "Pénznem"
-    Text: "Szöveg"
-    Comment: "Megjegyzés"
-    Categories: "Kategóriák"
-    "Hungarian Forint": "Forint"
-    Euro: "Euró"
-    "U.S. Dollar": "USA Dollár"
-    Me: "Én"
-    LAST: ""
-
-  en:
-    transactions: "Transactions"
-    budget: "Budget"
-    flow: "Money flow"
-    love: "Love"
-    "Query help": "Help for queries"
-    LAST: ""
 
 LANGS =
   hu:
@@ -61,9 +25,7 @@ LANGS =
 angular.module("app.languageSelector", [])
 
 .run ($rootScope, gettextCatalog) ->
-  gettextCatalog.currentLanguage = getLang()
-  $rootScope.t = (term) ->
-    TRANSLATIONS[gettextCatalog.currentLanguage][term] or term
+  $rootScope.lang = gettextCatalog.currentLanguage = getLang()
 
 .directive "languageSelector", ->
   restrict: "E"
@@ -74,5 +36,7 @@ angular.module("app.languageSelector", [])
   controller: ($scope, $rootScope, gettextCatalog) ->
     $scope.langs = LANGS
     $scope.selectLanguage = (lang) ->
-      gettextCatalog.currentLanguage = lang
+      $rootScope.lang = gettextCatalog.currentLanguage = lang
+    $scope.currentLang = () ->
+      gettextCatalog.currentLanguage
 

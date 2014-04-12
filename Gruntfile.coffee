@@ -29,7 +29,7 @@ module.exports = (grunt) ->
     nggettext_extract:
       pot:
         files:
-          'po/template.pot': ['src/**/*.html']
+          'po/template.pot': ['src/**/*.html', 'src/**/*.coffee']
     nggettext_compile:
       all:
         files:

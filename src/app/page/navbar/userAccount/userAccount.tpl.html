@@ -2,7 +2,7 @@
 <li ng-show="0" class="dropdown">
 	<a href="" class="dropdown-toggle" data-toggle="dropdown">
 		<span class="glyphicon glyphicon-user"></span>
-		{{t("Log in with")}}
+		<span translate>Log in with</span>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
@@ -14,7 +14,7 @@
 <li ng-show="!auth.user">
 	<a href="" ng-click="login('persona')">
 		<span class="glyphicon glyphicon-user"></span>
-		{{t("Log in")}}
+		<span translate>Log in</span>
 	</a>
 </li>
 
@@ -25,8 +25,8 @@
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		<li class="disabled"><a href="">{{t('Nothing special here yet :)')}}</a></li>
+		<li class="disabled"><a href="" translate>Nothing special here yet :)</a></li>
 		<li class="divider"></li>
-		<li><a href="" ng-click="logout()">{{t('Log out')}}</a></li>
+		<li><a href="" ng-click="logout()" translate>Log out</a></li>
 	</ul>
 </li>

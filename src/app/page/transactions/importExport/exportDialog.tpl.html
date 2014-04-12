@@ -1,9 +1,9 @@
 <div class="modal-header">
-	<h3>{{t('Export')}}</h3>
+	<h3 translate>Export</h3>
 </div>
 
 <div class="modal-body">
-	<p>{{t('Copy this code (Ctrl+C) and paste it to your spreadsheet program (Excel, Calc, etc.) (Ctrl+V). Then press OK in the window that appears.')}}</p>
+	<p translate>Copy this code (Ctrl+C) and paste it to your spreadsheet program (Excel, Calc, etc.) (Ctrl+V). Then press OK in the window that appears.</p>
 
 	<p>
 	<textarea class="form-control" ng-model="exported" readonly ng-click="selectAll($event)" rows="5"></textarea>
@@ -11,7 +11,7 @@
 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="close()">{{t('Close')}}</button>
+	<button class="btn btn-primary" ng-click="close()" translate>Close</button>
 </div>
 
 
