@@ -125,7 +125,8 @@
 	border-color: rgba(204,204,204,1);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.table > tbody > tr > td .form-control:focus {
+.table > tbody > tr > td .form-control:focus,
+.table > tbody > tr > td .form-control.focus {
 	background-color: rgba(255,255,255,1);
 	border-color: #66afe9;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -143,4 +144,19 @@
 	&:hover {
 		.btn { visibility: visible; }
 	}
+}
+
+.amountInput {
+	width: 110px;
+	input {
+		width: 60px;
+		text-align: right;
+	}
+}
+.amountCell {
+	text-align: right;
+}
+
+.convertedValue {
+	color: @gray-light;
 }

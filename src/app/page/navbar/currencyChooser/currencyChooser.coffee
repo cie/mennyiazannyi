@@ -3,6 +3,7 @@ CURRENCIES =
     sign: "€"
     value: 1
     name: "Euro"
+    precision: 2
     format: (x) ->
       "€ " + x.toFixed(2)
 
@@ -10,6 +11,7 @@ CURRENCIES =
     sign: "Ft"
     value: 1 / 309
     name: "Hungarian Forint"
+    precision: 0
     format: (x) ->
       x.toFixed(0) + " Ft"
     postfix: true
@@ -18,6 +20,7 @@ CURRENCIES =
     sign: "$"
     value: 1 / 1.39
     name: "U.S. Dollar"
+    precision: 2
     format: (x) ->
       "$ " + x.toFixed(2)
 
@@ -25,6 +28,7 @@ CURRENCIES =
     sign: "£"
     value: 1.21
     name: "British Pound"
+    precision: 2
     format: (x) ->
       "£ " + x.toFixed(2)
 

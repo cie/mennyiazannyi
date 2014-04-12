@@ -1,5 +1,6 @@
 
 angular.module("app.transaction", [
+  "customInput"
 ])
 
 .factory "updateIndex", ->
@@ -131,6 +132,8 @@ angular.module("app.transaction", [
       $scope.element.toggleClass "internal", fromMe and toMe
       $scope.element.toggleClass "deleted", !!tr.deleted
       return
+
+
 
     $scope.$watch "value.active", (value) ->
       $scope.element.toggleClass "active", !!value
