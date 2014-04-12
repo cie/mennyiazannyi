@@ -16,7 +16,9 @@
 		  </ul>
 		  <input ng-model="value.sum" ng-if="!postfix()">
 	  </custom-input>
-	  <small class="convertedValue" ng-if="!sameCurrency(value)">
+  </td>
+  <td class="convertedValueCell">
+	  <small class="convertedValue">
 		  ({{converted(value)}})
 	  </small>
   </td>

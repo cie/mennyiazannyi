@@ -171,8 +171,14 @@
 		visibility: visible;
 	}
 }
-.amountCell {
-	text-align: right;
+.table {
+	&>tbody, &>thead, &>tfoot {
+		&>tr>td.convertedValueCell {
+			text-align: right;
+			white-space: nowrap;
+			vertical-align: middle;
+		}
+	}
 }
 
 .convertedValue {
