@@ -359,6 +359,7 @@ module.exports = (grunt) ->
     "index:compile"
   ]
   grunt.registerTask "deploy", [
+    "push"
     "compile"
     "copy:deploy"
   ]
