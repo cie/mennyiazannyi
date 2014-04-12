@@ -1,13 +1,18 @@
 
 getLang = ->
+  #lang = $.cookie("lang")
+
+  unless lang
+    # try to find out the user's language
+    lang = navigator.language or navigator.userLanguage
+    m = lang.match(/([a-z]+)(-[A-Z]+)?/)
+    return m[1]  if m and TRANSLATIONS[m[1]]
   
-  # try to find out the user's language
-  lang = navigator.language or navigator.userLanguage
-  m = lang.match(/([a-z]+)(-[A-Z]+)?/)
-  return m[1]  if TRANSLATIONS[m[1]]  if m
-  
-  # default to English
-  "en"
+    # default to English
+    return "en"
+  lang
+
+
 TRANSLATIONS =
   hu:
     Hello: "Helló"
@@ -55,10 +60,10 @@ LANGS =
 
 angular.module("app.languageSelector", [])
 
-.run ($rootScope) ->
-  $rootScope.lang = getLang()
+.run ($rootScope, gettextCatalog) ->
+  gettextCatalog.currentLanguage = getLang()
   $rootScope.t = (term) ->
-    TRANSLATIONS[$rootScope.lang][term] or term
+    TRANSLATIONS[gettextCatalog.currentLanguage][term] or term
 
 .directive "languageSelector", ->
   restrict: "E"
@@ -66,8 +71,8 @@ angular.module("app.languageSelector", [])
   link: (scope, element, attr) ->
     element.children().first().unwrap()
 
-  controller: ($scope, $rootScope) ->
+  controller: ($scope, $rootScope, gettextCatalog) ->
     $scope.langs = LANGS
     $scope.selectLanguage = (lang) ->
-      $rootScope.lang = lang
+      gettextCatalog.currentLanguage = lang
 

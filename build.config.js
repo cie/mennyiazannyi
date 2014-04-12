@@ -31,7 +31,9 @@ module.exports = {
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
     html: [ 'src/index.html' ],
-    less: 'src/less/main.less'
+    less: 'src/less/main.less',
+
+	po: [ 'po/*.po' ]
   },
 
   /**
@@ -76,7 +78,9 @@ module.exports = {
 	  'vendor/firebase-simple-login/firebase-simple-login.js',
 	  'vendor/angularfire/angularfire.js',
 	  'vendor/underscore/underscore.js',
-	  'vendor/js-beautify/js/lib/beautify.js'
+	  'vendor/js-beautify/js/lib/beautify.js',
+	  'vendor/jquery-cookie/jquery.cookie.js',
+	  'vendor/angular-gettext/dist/angular-gettext.js'
     ],
     css: [
     ],

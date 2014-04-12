@@ -19,12 +19,21 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-http-server"
   grunt.loadNpmTasks "grunt-ngmin"
   grunt.loadNpmTasks "grunt-html2js"
+  grunt.loadNpmTasks 'grunt-angular-gettext'
 
   _ = require("underscore")
   path = require("path")
 
   taskConfig =
     pkg: grunt.file.readJSON("package.json")
+    nggettext_extract:
+      pot:
+        files:
+          'po/template.pot': ['src/**/*.html']
+    nggettext_compile:
+      all:
+        files:
+          '<%= build_dir %>/src/app/translations.js': ["<%= app_files.po %>"]
     meta:
       banner: "/**\n" + " * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today(\"yyyy-mm-dd\") %>\n" + " * <%= pkg.homepage %>\n" + " *\n" + " * Copyright (c) <%= grunt.template.today(\"yyyy\") %> <%= pkg.author %>\n" + " * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n" + " */\n"
     "http-server":
@@ -304,6 +313,7 @@ module.exports = (grunt) ->
     "jshint"
     "coffeelint"
     "coffee"
+    "nggettext_compile"
     "less:build"
     "concat:build_css"
     "copy:build_app_assets"
