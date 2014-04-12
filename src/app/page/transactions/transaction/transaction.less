@@ -147,10 +147,28 @@
 }
 
 .amountInput {
-	width: 110px;
+	width: 120px;
 	input {
 		width: 60px;
 		text-align: right;
+	}
+	.dropdown-menu {
+		text-align: left;
+	}
+	&>a {
+		&.pull-right{ margin-left: 0.5ex; }
+		color: @gray;
+		&:hover,&:focus { 
+			color: @gray-dark; 
+			text-decoration: none; 
+			&>.caret { visibility: visible; }
+		}
+		border: 1px dotted transparent;
+		&:focus { border-color: @gray-dark; }
+		&>.caret { visibility: hidden; }
+	}
+	&:hover>a>.caret {
+		visibility: visible;
 	}
 }
 .amountCell {

@@ -6,7 +6,7 @@
 	</a>
 	<ul class="dropdown-menu">
 		<li ng-repeat="(id,c) in currencies">
-			<a href="" ng-click="chooseCurrency(id)">
+			<a href="" ng-click="chooseCurrency(id)" class="currency">
 				{{c.name | translate}} ({{c.sign}})
 			</a>
 		</li>

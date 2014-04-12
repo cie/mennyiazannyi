@@ -9,7 +9,7 @@ CURRENCIES =
 
   HUF:
     sign: "Ft"
-    value: 1 / 309
+    value: 1 / 306
     name: "Hungarian Forint"
     precision: 0
     format: (x) ->
@@ -26,7 +26,7 @@ CURRENCIES =
 
   GBP:
     sign: "£"
-    value: 1.21
+    value: 1/0.83
     name: "British Pound"
     precision: 2
     format: (x) ->

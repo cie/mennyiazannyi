@@ -147,4 +147,11 @@ angular.module("app.transaction", [
       target = CURRENCIES[$rootScope.currency]
       sum = t.sum * source.value / target.value
       target.format(sum)
+    $scope.postfix = ->
+      CURRENCIES[$scope.value.currency].postfix
+    $scope.setCurrency = (c) ->
+      $scope.value.currency = c
+      $timeout ->
+        $(".amountInput>input", $scope.element).focus()[0].select()
+      ,0
 

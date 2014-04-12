@@ -2,10 +2,19 @@
   <td><input class="form-control" ng-model="value.from"></td>
   <td><input class="form-control" ng-model="value.to"></td>
   <td class="amountCell">
-	  <custom-input class="form-control amountInput">
-		  <span ng-if="!currencies[value.currency].postfix">{{currencies[value.currency].sign}}</span>
-		  <input ng-model="value.sum">
-		  <span ng-if="currencies[value.currency].postfix">{{currencies[value.currency].sign}}</span>
+	  <custom-input class="form-control amountInput dropdown">
+		  <input ng-model="value.sum" ng-if="postfix()">
+		  <a href="" class="dropdown-toggle">{{currencies[value.currency].sign}}
+			  <b class="caret"></b>
+		  </a>
+		  <ul class="dropdown-menu">
+			  <li ng-repeat="(id, c) in currencies">
+				  <a href="" ng-click="setCurrency(id)">
+					  {{c.sign}} {{c.name | translate}} 
+				  </a>
+			  </li>
+		  </ul>
+		  <input ng-model="value.sum" ng-if="!postfix()">
 	  </custom-input>
 	  <small class="convertedValue" ng-if="!sameCurrency(value)">
 		  ({{converted(value)}})
