@@ -14,6 +14,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-conventional-changelog"
   grunt.loadNpmTasks "grunt-bump"
+  grunt.loadNpmTasks "grunt-git"
   grunt.loadNpmTasks "grunt-coffeelint"
   grunt.loadNpmTasks "grunt-karma"
   grunt.loadNpmTasks "grunt-http-server"
@@ -26,6 +27,24 @@ module.exports = (grunt) ->
 
   taskConfig =
     pkg: grunt.file.readJSON("package.json")
+
+    gitpush:
+      all:
+        options:
+          remote: "origin"
+          all: true
+    gitmerge:
+      devel:
+        options:
+          branch: "devel"
+    gitcheckout:
+      devel:
+        options:
+          branch: "devel"
+      master:
+        options:
+          branch: "master"
+
     nggettext_extract:
       pot:
         files:
@@ -299,6 +318,13 @@ module.exports = (grunt) ->
     "build"
     "karma:unit"
     "delta"
+  ]
+
+  grunt.registerTask "push", [
+    "gitcheckout:master"
+    "gitmerge:devel"
+    "gitcheckout:devel"
+    "gitpush:all"
   ]
 
   grunt.registerTask "server", ["http-server:dev"]
